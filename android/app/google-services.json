@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "903059244415",
+    "firebase_url": "https://ondamenu-3dc99-default-rtdb.firebaseio.com",
+    "project_id": "ondamenu-3dc99",
+    "storage_bucket": "ondamenu-3dc99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903059244415:android:f90757593fed8a910d464a",
+        "android_client_info": {
+          "package_name": "com.ondamenu.odg.ondago"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTY2xHnynDXGTYcTOOacO9xi2D-PdX124"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903059244415:android:a1f26dd4f697c1bc0d464a",
+        "android_client_info": {
+          "package_name": "com.ondamenu.ondamenu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTY2xHnynDXGTYcTOOacO9xi2D-PdX124"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

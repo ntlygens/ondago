@@ -1,0 +1,52 @@
+name: ondago
+description: A client side consumer dietary application for finding nearby restuurants and lounges.
+publish_to: 'none'
+version: 1.0.0+1
+# version: 0.1.0
+
+environment:
+  sdk: '>=3.1.3 <4.0.0'
+
+dependencies:
+  firebase_core: ^2.19.0
+  flutter:
+    sdk: flutter
+
+  # firebase_auth
+  firebase_auth: ^4.9.0
+
+  # firebase_auth_web
+  firebase_auth_web: ^5.8.0
+
+  # cloud_firestore
+  cloud_firestore: ^4.9.1
+
+  # BLoC Data Separation
+  flutter_bloc: ^8.0.0
+
+  # http
+  http: ^1.1.0
+  http_parser: ^4.0.0
+
+  # google fonts
+  google_fonts: ^6.1.0
+
+  # flutter_svg
+  flutter_svg: ^2.0.7
+  fl_chart: ^0.63.0
+  provider: ^6.0.3
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
