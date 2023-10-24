@@ -211,7 +211,7 @@ class _HomeTabState extends State<HomeTab> {
 
                                         print("HomeTab-Srvc-Data-Name: ${_srvcDataList[index]['name']} \n");
                                         print("HomeTab-Srvc-Data-ID: ${_srvcDataList[index].id}");
-                                        print("HomeTab-Srvc-Data-Type: ${_srvcDataList[index]['srvcType']}");
+                                        // print("HomeTab-Srvc-Data-Type: ${_srvcDataList[index]['srvcType']}");
                                         Navigator.push(context, MaterialPageRoute(
                                             builder: (context) =>
                                                 const Text("this is iit")
