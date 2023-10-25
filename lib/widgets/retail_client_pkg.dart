@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:ondago/screens/service_products_page.dart';
 import 'package:ondago/services/firebase_services.dart';
 
-class CategoryTypes extends StatefulWidget {
+class RetailClientPkg extends StatefulWidget {
   final List categoryTypeList;
   final String serviceCategoryName;
   final String serviceCategoryID;
   final String serviceCategoryType;
   final Function(String)? onSelected;
-  const CategoryTypes({
+  const RetailClientPkg({
     required this.categoryTypeList,
     this.onSelected,
     required this.serviceCategoryName,
@@ -21,7 +21,7 @@ class CategoryTypes extends StatefulWidget {
   _CategoryTypesState createState() => _CategoryTypesState();
 }
 
-class _CategoryTypesState extends State<CategoryTypes> {
+class _CategoryTypesState extends State<RetailClientPkg> {
   final String _selectedProductName = "selected-product-name";
   String? _selectedSellerName = "selected-product-name";
   final String _selectedProductID = "selected-product-id";
@@ -134,11 +134,13 @@ class _CategoryTypesState extends State<CategoryTypes> {
 
   // Check if service type for product or customer before requesting data
   Future _checkServiceType() async {
-    _isCustomerService = false;
+    // _isCustomerService = false;
 
     if( widget.serviceCategoryType == "customer") {
       _isCustomerService = true;
       print('${widget.serviceCategoryName} is a customer servcice');
+    } else {
+      _isCustomerService = false;
     }
     print('${widget.serviceCategoryName} is a ${widget.serviceCategoryType} servcice');
 
@@ -165,7 +167,7 @@ class _CategoryTypesState extends State<CategoryTypes> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 400,
+              maxCrossAxisExtent: 350,
               childAspectRatio: 2 / 1,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10),
@@ -197,7 +199,7 @@ class _CategoryTypesState extends State<CategoryTypes> {
                   if(sellerSnap.hasData) {
 
                     // print("list item = ${widget.categoryTypeList[index]}");
-                    print("ID: ${sellerSnap.data.id} \n Name: ${sellerSnap.data!['name']}");
+                    print("ID: ${sellerSnap.data.id} -- Name: ${sellerSnap.data!['name']}");
                     return GestureDetector(
                       onTap: () async {
                         _selectedSellerName = "${sellerSnap.data!['name']}";
@@ -213,7 +215,7 @@ class _CategoryTypesState extends State<CategoryTypes> {
                         // print("datentime: ${_firebaseServices.setDayAndTime()}");
 
                         // await _isProductSelected(sellerSnap.data.id);
-                        await _selectServiceProduct();
+                        // await _selectServiceProduct();
                         // await _setProductIsSelected(_selectedProductID);
 
                         Navigator.push(context, MaterialPageRoute(
@@ -223,18 +225,32 @@ class _CategoryTypesState extends State<CategoryTypes> {
                               ),
                         ));
                       },
-                      child: Card(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
+                        child:
+                        _isCustomerService ?
+                        Image.network("${sellerSnap.data!['images'][0]}")
+                            : Image.network("${sellerSnap.data!['logo']}"
+                        ),
+                      ),
+                      /*child: Card(
                         elevation: 4,
-                        margin: const EdgeInsets.symmetric(
-                          // 8
-                          vertical: 11,
-                          horizontal: 27,
+                        margin: EdgeInsets.symmetric(
+                          // 0
+                          vertical: 24,
+                          horizontal: 0,
                         ),
                         clipBehavior: Clip.antiAlias,
                         child: Stack(
+                          alignment: AlignmentDirectional.bottomEnd,
+                          fit: StackFit.loose,
                           children: [
                             Container(
-                              alignment: Alignment.center,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 0,
+                                horizontal: 0
+                              ),
+                              // alignment: Alignment.topRight,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(6),
                                 child:
@@ -244,9 +260,12 @@ class _CategoryTypesState extends State<CategoryTypes> {
                                   ),
                               ),
                             ),
+                            Text("${sellerSnap.data!['phone']}"),
+                            Text("${sellerSnap.data!['rating']}"),
+                            Text("${sellerSnap.data!['phone']}"),
                           ],
                         ),
-                      ),
+                      ),*/
                     );
                   }
 

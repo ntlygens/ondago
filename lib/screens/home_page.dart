@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /// *** Original Body *** ///
       body: Column (
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
                     _selectedTab = num;
                   });
                 },
-                children: const [
+                children: [
                   HomeTab(),
                   ProfileTab(),
                   // SearchTab(),
@@ -51,6 +52,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+          /*BottomNavigationBar(items: items)*/
           BottomTabs(
             selectedTab: _selectedTab,
             tabClicked: (num) {
@@ -64,6 +66,7 @@ class _HomePageState extends State<HomePage> {
 
         ],
       ),
+      /// ********************* ///
 
     );
   }

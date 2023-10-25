@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ondago/screens/service_products_page.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:ondago/widgets/action_bar.dart';
-import 'package:ondago/widgets/category_types.dart';
+import 'package:ondago/widgets/retail_client_pkg.dart';
 import 'package:ondago/widgets/image_swipe.dart';
 
 import '../constants.dart';
@@ -204,9 +204,12 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                                 /// Catagory Types Row ///
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 20
+                                      horizontal: 10
                                   ),
-                                  child: CategoryTypes(
+                                  /*child: Text (
+                                    "${snapshot.data['type'][0]}"
+                                  ),*/
+                                  child: RetailClientPkg(
                                     categoryTypeList: docs,
                                     serviceCategoryName: snapshot.data['name'],
                                     serviceCategoryID: snapshot.data.id,
@@ -295,7 +298,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                 }
             ),
             ActionBar(
-              title: widget.serviceID,
+              title: "OnDa[Go]Menu",
               hasTitle: true,
               hasBackArrow: true,
             ),

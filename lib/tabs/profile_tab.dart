@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ondago/services/firebase_services.dart';
-import 'package:ondago/services/merchantDB_services.dart';
 import 'package:ondago/widgets/action_bar.dart';
 
 class ProfileTab extends StatefulWidget {
@@ -14,7 +13,6 @@ class ProfileTab extends StatefulWidget {
 
 class _ProfileTabState extends State<ProfileTab> {
   final FirebaseServices _firebaseServices = FirebaseServices();
-  final MerchantDBServices _firebasePOsServices = MerchantDBServices();
 
   late List _srvcDataList;
   @override
