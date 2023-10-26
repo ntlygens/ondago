@@ -5,8 +5,9 @@ import 'package:ondago/widgets/product_viewer.dart';
 import 'package:ondago/widgets/action_bar.dart';
 
 class RetailClientProductsLst extends StatefulWidget {
+  final String? sellerID;
   final Function? onPressed;
-  RetailClientProductsLst({super.key,  this.onPressed});
+  RetailClientProductsLst({super.key,  this.onPressed, required this.sellerID});
 
   @override
   _RetailClientProductsLstState createState() => _RetailClientProductsLstState();
@@ -24,7 +25,8 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
           StreamBuilder<QuerySnapshot>(
             // get all selected documents from SelectedService
             stream: _firebaseServices.productsRef
-                .orderBy("name", descending: true)
+            .where("retailerID", isEqualTo: widget.sellerID)
+                // .orderBy("name", descending: true)
                 .snapshots(),
             builder: (context, AsyncSnapshot snapshot) {
               if( snapshot.hasError) {
@@ -38,35 +40,35 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
               if(snapshot.connectionState == ConnectionState.active) {
                 if(snapshot.hasData){
                     _prodData = snapshot.data!.docs;
-                    // print("prodID: ${prodData[0]['name']}");
+                    print("prodID: ${_prodData[0]['name']}");
                     // Collect Selected docs into array / ListView
                     // display data in listview
                     return ListView.builder (
                       itemCount: _prodData.length,
                         itemBuilder: (BuildContext context, int index) {
-                        print("client product name = ${_prodData[index]['name']}");
-                          return Container(
+                        // print("client product name = ${_prodData[index]['name']}");
+                          return Column(
                               /*padding : EdgeInsets.only(
                                 top: 10,
                                 bottom: 20,
                               ),*/
                               // children: [
-                              // children: _prodData.map((prodData, index) =>
+                              // children: _prodData.map((_prodData, index) =>
                               ///// for (var i = 0; i < _prodData.length; i++)
                                 // seperate array into individual documents
-                            child: Text(
+                            /*child: Text(
                               "thisiis retail client product list page"
-                            ),
+                            ),*/
 
-                              /*child: ProductViewer(
-                                  isSelected: index == 0,
-                                  prodID: prodData[index]['prodID'],
-                                  prodName: prodData[index]['prodName'],
-                                  prodSrvcID: prodData[index]['srvcCtgryID'],
-                                  prodSrvcName: prodData[index]['srvcCtgry'],
-                                  // prodSellers: [''],
-                                  srvcProdID: prodData[index].id,
-                                )*/
+                              children: [
+                                  ProductViewer(
+                                    // isSelected: index == 0,
+                                    prodPID: _prodData[index]['prodID'],
+                                    prodName: _prodData[index]['name'],
+                                    // prodSellers: [''],
+                                    srvcProdID: _prodData[index].id,
+                                  ),
+                                ]
                             // ]
                           );
                         },

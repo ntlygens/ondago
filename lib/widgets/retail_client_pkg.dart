@@ -175,7 +175,7 @@ class _CategoryTypesState extends State<RetailClientPkg> {
                   if(sellerSnap.hasData) {
 
                     // print("list item = ${widget.retailClientList[index]}");
-                    print("ID: ${sellerSnap.data.id} -- Name: ${sellerSnap.data!['name']}");
+                    print("ID: ${sellerSnap.data!['sellerID']} -- Name: ${sellerSnap.data!['name']}");
                     return GestureDetector(
                       onTap: () async {
                         _selectedSellerName = "${sellerSnap.data!['name']}";
@@ -198,7 +198,10 @@ class _CategoryTypesState extends State<RetailClientPkg> {
 
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) =>
-                              RetailClientProductsLst(),
+                              // Text("this is itext")
+                              RetailClientProductsLst(
+                                sellerID: "${sellerSnap.data!['sellerID']}",
+                              ),
                         ));
                       },
                       child: ClipRRect(

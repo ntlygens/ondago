@@ -203,9 +203,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10
                                   ),
-                                  child: _isCustomerSrvc ?
-                                    const Text("replacement")
-                                      : RetailClientPkg(
+                                  child: RetailClientPkg(
                                         retailClientList: docs,
                                         serviceCategoryName: snapshot.data['name'],
                                         serviceCategoryID: snapshot.data.id,
@@ -245,10 +243,12 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                                               ScaffoldMessenger.of(context).showSnackBar(_snackBar);
                                             }
 
-                                            Navigator.push(context, MaterialPageRoute(
+                                            /*Navigator.push(context, MaterialPageRoute(
                                               builder: (context) =>
-                                                  RetailClientProductsLst(),
-                                            ));
+                                                  RetailClientProductsLst(
+                                                    sellerID: ,
+                                                  ),
+                                            ));*/
                                           },
                                           child: Container(
                                             height: 65,

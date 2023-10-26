@@ -7,7 +7,7 @@ import 'package:ondago/widgets/prod_n_price.dart';
 import 'package:ondago/widgets/product_wndw.dart';
 
 class ProductViewer extends StatefulWidget {
-  final String? prodID;
+  final String? prodPID;
   final String? prodName;
   final String? prodSrvcName;
   final String? prodSrvcID;
@@ -16,7 +16,7 @@ class ProductViewer extends StatefulWidget {
   final bool? isSelected;
   final List? prodSellers;
   const ProductViewer({
-    this.prodID,
+    this.prodPID,
     this.isSelected,
     this.prodName,
     this.prodSrvcName,
@@ -33,7 +33,7 @@ class ProductViewer extends StatefulWidget {
 class _ProductViewerState extends State<ProductViewer> {
   final FirebaseServices _firebaseServices = FirebaseServices();
 
-  Future _removeServiceProduct(value) async {
+  /*Future _removeServiceProduct(value) async {
     return _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
         .collection("SelectedService")
@@ -67,20 +67,20 @@ class _ProductViewerState extends State<ProductViewer> {
         });
 
   }
-
-  Future _getProductSellers() async {
+*/
+/*  Future _getProductSellers() async {
     return _firebaseServices.productsRef
         .doc(widget.prodID)
         .snapshots().where((event) => event['type']);
         // .get();
         // .then((value) => value['type']);
-  }
+  }*/
 
 /*Future _getAltProduct() async {
-    // late List dList = [];
-    var bList = [];
+    late List dList = [];
+    // var bList = [];
     return _firebaseServices.productsRef
-      .doc(widget.prodID)
+      .doc(widget.prodPID)
       .snapshots();
       // .where("name",
         // isNull: true,
@@ -106,7 +106,7 @@ class _ProductViewerState extends State<ProductViewer> {
   @override
   void initState() {
      // _getAltProduct();
-    _getProductSellers();
+    // _getProductSellers();
     // TODO: implement initState
     super.initState();
   }
@@ -120,13 +120,13 @@ class _ProductViewerState extends State<ProductViewer> {
         if(isSelected)
           Column(
             children: [
-              ProdNPrice(
+              /*ProdNPrice(
                 prodName: "${widget.prodName}",
                 altProds: const ['tea', 'eel', 'urchin'],
-              ),
+              ),*/
 
               /// selected product NAME
-Container(
+              Container(
                 decoration: const BoxDecoration(
                   color: Colors.white70,
                   border: Border(
@@ -152,7 +152,7 @@ Container(
 
 
               /// lowest product PRICE
-Container(
+              Container(
                 decoration: const BoxDecoration(
                   color: Colors.transparent,
                   border: Border(
@@ -181,14 +181,14 @@ Container(
 
 
               /// seller GRID
-              Container(
+              /*Container(
                 // height: 400,
                 // margin: EdgeInsets.only(top: 0),
                 padding: const EdgeInsets.all(16),
                 child: StreamBuilder(
                   // future: _getProductSellers(),
                   stream:_firebaseServices.productsRef
-                  .doc(widget.prodID)
+                  .doc(widget.prodPID)
                   .snapshots(),
                   builder: (context, AsyncSnapshot prodSellerSnap) {
                     if (prodSellerSnap.hasError){
@@ -229,7 +229,7 @@ Container(
                                         sellerName: "${sellerSnap.data['name']}",
                                         sellerLogo: "${sellerSnap.data['logo']}",
                                         prodQty: "${sellerSnap.data['inStockQty']}",
-                                        prodID: "${widget.prodID}",
+                                        prodID: "${widget.prodPID}",
                                         prodName: "${widget.prodName}",
                                         isSelected: sellerSnap.data['hasItem'],
                                       );
@@ -257,17 +257,17 @@ Container(
                     );
                   },
                 ),
-              ),
+              ),*/
 
               /// return to service BUTTON
-GestureDetector(
+              /*GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) =>
                         const Text("this is it")
-                      /*SelectedServicePage(
+                      *//*SelectedServicePage(
                         serviceID: "${widget.prodSrvcID}",
-                      )*/
+                      )*//*
                     )
                   );
                 },
@@ -293,11 +293,11 @@ GestureDetector(
                     ),
                   ),
                 )
-              ),
+              ),*/
 
 
               /// recently viewed BANNER
-              Container(
+              /*Container(
                 decoration: const BoxDecoration(
                   color: Colors.white70,
                   border: Border(
@@ -317,7 +317,7 @@ GestureDetector(
                   'Recently Viewed',
                   style: TextStyle(fontSize: 16),
                 ),
-              ),
+              ),*/
             ]
           )
         else
@@ -374,7 +374,7 @@ Navigator.push(context, MaterialPageRoute(
                     ),
                   ),
                 ),
-                GestureDetector(
+                /*GestureDetector(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
@@ -405,8 +405,8 @@ Navigator.push(context, MaterialPageRoute(
                       ),
                     ),
                   ),
-                ),
-                Container(
+                ),*/
+               /* Container(
                   height: isSelected ? 65 : 50,
                   margin: EdgeInsets.only(
                     right: isSelected ? 12 : 24,
@@ -417,13 +417,13 @@ Navigator.push(context, MaterialPageRoute(
                     dText: "Remove",
                     outlineBtn: false,
                     onPressed: () {
-                      _resetProductIsSelected(widget.prodID);
+                      // _resetProductIsSelected(widget.prodPID);
                       // print("Remove doc: ${widget.prodID}");
                       // _removeServiceProduct(widget.srvcProdID);
 
                     },
                   ),
-                )
+                )*/
               ],
             ),
           )
