@@ -88,7 +88,7 @@ class _ProductWndwState extends State<ProductWndw> {
           // margin: EdgeInsets.all(10),
           alignment: Alignment.bottomCenter,
           child: Text(
-            // "${widget.categoryTypeList[index]}",
+            // "${widget.retailClientList[index]}",
             widget.isSelected
                 ? ""
                 : "${widget.sellerName}",

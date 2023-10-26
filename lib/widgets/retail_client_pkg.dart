@@ -1,20 +1,18 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ondago/screens/service_products_page.dart';
+import 'package:ondago/screens/retail_client_products_lst.dart';
 import 'package:ondago/services/firebase_services.dart';
 
 class RetailClientPkg extends StatefulWidget {
-  final List categoryTypeList;
+  final List retailClientList;
   final String serviceCategoryName;
   final String serviceCategoryID;
-  final String serviceCategoryType;
   final Function(String)? onSelected;
   const RetailClientPkg({
-    required this.categoryTypeList,
+    required this.retailClientList,
     this.onSelected,
     required this.serviceCategoryName,
     required this.serviceCategoryID,
-    required this.serviceCategoryType,
   });
 
   @override
@@ -32,7 +30,6 @@ class _CategoryTypesState extends State<RetailClientPkg> {
   final String _selectedSrvcCtgryType = "selected-service-type";
 
   late bool _isCustomerService;
-  late var _slctdSrvc;
   late Image _cardBckgrnd;
 
   final FirebaseServices _firebaseServices = FirebaseServices();
@@ -133,32 +130,17 @@ class _CategoryTypesState extends State<RetailClientPkg> {
   }
 
   // Check if service type for product or customer before requesting data
-  Future _checkServiceType() async {
-    // _isCustomerService = false;
-
-    if( widget.serviceCategoryType == "customer") {
-      _isCustomerService = true;
-      print('${widget.serviceCategoryName} is a customer servcice');
-    } else {
-      _isCustomerService = false;
-    }
-    print('${widget.serviceCategoryName} is a ${widget.serviceCategoryType} servcice');
-
-
-  }
 
   @override
   void initState() {
     // _isCustomerService = "AnnNjTT8vmYSAEpT0rPg";
-    print("${widget.serviceCategoryType} is the srvcCatType");
-    _checkServiceType();
     super.initState();
   }
 
 
   @override
   Widget build(BuildContext context) {
-    // print("amt: ${widget.categoryTypeList.length}");
+    // print("amt: ${widget.retailClientList.length}");
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 8,
@@ -171,18 +153,12 @@ class _CategoryTypesState extends State<RetailClientPkg> {
               childAspectRatio: 2 / 1,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10),
-          itemCount: widget.categoryTypeList.length,
+          itemCount: widget.retailClientList.length,
           itemBuilder: (BuildContext ctx, index) {
-            if(_isCustomerService) {
-              _slctdSrvc = _firebaseServices.customerSrvcsRef;
-            } else {
-              _slctdSrvc = _firebaseServices.sellersRef;
-            }
-
             // ** Sellers StreamBuilder being Build ** //
             return StreamBuilder(
-              stream: _slctdSrvc
-                  .doc("${widget.categoryTypeList[index]}")
+              stream: _firebaseServices.sellersRef
+                  .doc("${widget.retailClientList[index]}")
                   .snapshots(),
               builder: (context, AsyncSnapshot sellerSnap) {
                 if(sellerSnap.hasError) {
@@ -198,7 +174,7 @@ class _CategoryTypesState extends State<RetailClientPkg> {
                 if(sellerSnap.connectionState == ConnectionState.active) {
                   if(sellerSnap.hasData) {
 
-                    // print("list item = ${widget.categoryTypeList[index]}");
+                    // print("list item = ${widget.retailClientList[index]}");
                     print("ID: ${sellerSnap.data.id} -- Name: ${sellerSnap.data!['name']}");
                     return GestureDetector(
                       onTap: () async {
@@ -212,6 +188,8 @@ class _CategoryTypesState extends State<RetailClientPkg> {
                           // _isSelected = index;
                         });
 
+
+
                         // print("datentime: ${_firebaseServices.setDayAndTime()}");
 
                         // await _isProductSelected(sellerSnap.data.id);
@@ -220,17 +198,29 @@ class _CategoryTypesState extends State<RetailClientPkg> {
 
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) =>
-                              ServiceProductsPage(
-                                isCstmrSrvc: _isCustomerService
-                              ),
+                              RetailClientProductsLst(),
                         ));
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(6),
-                        child:
-                        _isCustomerService ?
-                        Image.network("${sellerSnap.data!['images'][0]}")
-                            : Image.network("${sellerSnap.data!['logo']}"
+                        child: Stack(
+                            children: [
+                              Image.network("${sellerSnap.data!['logo']}"),
+                              Padding(
+                                  padding: EdgeInsets.all(
+                                    15
+                                    // vertical: 15,
+                                    // horizontal: 5
+                                  ),
+                                  child: Text("dt: ${sellerSnap.data!['phone']}"),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.all(
+                                    5
+                                  ),
+                                  child: Text("et: ${sellerSnap.data!['cuisine']}"),
+                              ),
+                            ]
                         ),
                       ),
                       /*child: Card(

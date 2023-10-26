@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ondago/screens/service_products_page.dart';
+import 'package:ondago/screens/retail_client_products_lst.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:ondago/widgets/action_bar.dart';
 import 'package:ondago/widgets/retail_client_pkg.dart';
@@ -148,9 +148,6 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
 
                   if (snapshot.connectionState == ConnectionState.done) {
                     List docs = snapshot.data!['type'];
-                    String srvc = widget.serviceType;
-                    // String _srvc = snapshot.data!['srvcType'];
-                    // print("service types are: snnapshotData = ${_srvc} annd widgetServiceType = ${widget.serviceType}");
                     return ListView(
                         padding: const EdgeInsets.all(0),
                         children: [
@@ -206,16 +203,13 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10
                                   ),
-                                  /*child: Text (
-                                    "${snapshot.data['type'][0]}"
-                                  ),*/
-                                  child: RetailClientPkg(
-                                    categoryTypeList: docs,
-                                    serviceCategoryName: snapshot.data['name'],
-                                    serviceCategoryID: snapshot.data.id,
-                                    serviceCategoryType: srvc,
-
-                                  ),
+                                  child: _isCustomerSrvc ?
+                                    const Text("replacement")
+                                      : RetailClientPkg(
+                                        retailClientList: docs,
+                                        serviceCategoryName: snapshot.data['name'],
+                                        serviceCategoryID: snapshot.data.id,
+                                      ),
                                 ),
                                 /// View Btn and Delete Slctd Row ///
                                 Padding(
@@ -253,9 +247,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
 
                                             Navigator.push(context, MaterialPageRoute(
                                               builder: (context) =>
-                                                  ServiceProductsPage(
-                                                    isCstmrSrvc: _isCustomerSrvc,
-                                                  ),
+                                                  RetailClientProductsLst(),
                                             ));
                                           },
                                           child: Container(

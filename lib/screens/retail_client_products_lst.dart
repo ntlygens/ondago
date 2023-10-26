@@ -4,17 +4,17 @@ import 'package:ondago/services/firebase_services.dart';
 import 'package:ondago/widgets/product_viewer.dart';
 import 'package:ondago/widgets/action_bar.dart';
 
-class ServiceProductsPage extends StatefulWidget {
+class RetailClientProductsLst extends StatefulWidget {
   final Function? onPressed;
-  final bool isCstmrSrvc;
-  const ServiceProductsPage({ this.onPressed, required this.isCstmrSrvc});
+  RetailClientProductsLst({super.key,  this.onPressed});
 
   @override
-  _ServiceProductsPageState createState() => _ServiceProductsPageState();
+  _RetailClientProductsLstState createState() => _RetailClientProductsLstState();
 }
 
-class _ServiceProductsPageState extends State<ServiceProductsPage> {
+class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
   final FirebaseServices _firebaseServices = FirebaseServices();
+  late List _prodData;
 
   @override
   Widget build(BuildContext context) {
@@ -23,29 +23,28 @@ class _ServiceProductsPageState extends State<ServiceProductsPage> {
         children: [
           StreamBuilder<QuerySnapshot>(
             // get all selected documents from SelectedService
-            stream: _firebaseServices.usersRef
-                .doc(_firebaseServices.getUserID())
-                .collection("SelectedService")
-                .orderBy("date", descending: true)
+            stream: _firebaseServices.productsRef
+                .orderBy("name", descending: true)
                 .snapshots(),
             builder: (context, AsyncSnapshot snapshot) {
               if( snapshot.hasError) {
                 return Scaffold(
                   body: Center(
-                    child: Text("ServiceProductPageError: ${snapshot.error}"),
+                    child: Text("RetailClientProductsPage-Error: ${snapshot.error}"),
                   ),
                 );
               }
 
               if(snapshot.connectionState == ConnectionState.active) {
                 if(snapshot.hasData){
-                    List prodData = snapshot.data.docs;
-                    // print("prodID: ${_prodData[0].id}");
+                    _prodData = snapshot.data!.docs;
+                    // print("prodID: ${prodData[0]['name']}");
                     // Collect Selected docs into array / ListView
                     // display data in listview
                     return ListView.builder (
-                      itemCount: prodData.length,
+                      itemCount: _prodData.length,
                         itemBuilder: (BuildContext context, int index) {
+                        print("client product name = ${_prodData[index]['name']}");
                           return Container(
                               /*padding : EdgeInsets.only(
                                 top: 10,
@@ -55,7 +54,11 @@ class _ServiceProductsPageState extends State<ServiceProductsPage> {
                               // children: _prodData.map((prodData, index) =>
                               ///// for (var i = 0; i < _prodData.length; i++)
                                 // seperate array into individual documents
-                              child: ProductViewer(
+                            child: Text(
+                              "thisiis retail client product list page"
+                            ),
+
+                              /*child: ProductViewer(
                                   isSelected: index == 0,
                                   prodID: prodData[index]['prodID'],
                                   prodName: prodData[index]['prodName'],
@@ -63,7 +66,7 @@ class _ServiceProductsPageState extends State<ServiceProductsPage> {
                                   prodSrvcName: prodData[index]['srvcCtgry'],
                                   // prodSellers: [''],
                                   srvcProdID: prodData[index].id,
-                                )
+                                )*/
                             // ]
                           );
                         },

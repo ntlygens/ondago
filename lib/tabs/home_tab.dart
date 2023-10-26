@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ondago/screens/selected_service_page.dart';
-// import 'package:ondago/screens/service_products_page.dart';
+// import 'package:ondago/screens/retail_client_products_lst.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:ondago/widgets/action_bar.dart';
 
@@ -176,7 +176,7 @@ class _HomeTabState extends State<HomeTab> {
                                                   serviceID: "${_srvcData}",
                                                   serviceType: "${_srvcDataType}",
                                                 )
-                                              // ServiceProductsPage(),
+                                              // RetailClientProductsLst(),
                                             ));
                                           },
                                           child: Card(
