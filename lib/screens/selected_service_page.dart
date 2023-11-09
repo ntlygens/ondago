@@ -11,8 +11,10 @@ import '../constants.dart';
 class SelectedServicePage extends StatefulWidget {
   final String serviceID;
   final String serviceType;
+  final String? headerImg;
+  final String? headerName;
 
-  const SelectedServicePage({required this.serviceID, required this.serviceType});
+  const SelectedServicePage({required this.serviceID, required this.serviceType, this.headerImg, this.headerName});
 
   @override
   _SelectedServicePageState createState() => _SelectedServicePageState();
@@ -23,6 +25,8 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
 
   final _snackBar = const SnackBar(content: Text("Product added to Cart"));
   late bool _isCustomerSrvc;
+  late String? _headerImage;
+  late String? _headerName;
 
   Future _checkSrvcType<String>() async {
     _isCustomerSrvc = false;
@@ -120,6 +124,8 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   @override
   void initState() {
     _checkSrvcType();
+    _headerImage = widget.headerImg;
+    _headerName = widget.headerName;
     super.initState();
   }
 
@@ -154,7 +160,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                           Column(
                               children: [
                                 /// Icon Viewer Row ///
-                                ImageSwipe(imageList: snapshot.data!['images']),
+                                // ImageSwipe(imageList: snapshot.data!['images']),
                                 /// Slctd Ctgry Name Row ///
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -290,9 +296,11 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                 }
             ),
             ActionBar(
-              title: "OnDa[Go]Menu",
+              title: _headerName,
               hasTitle: true,
               hasBackArrow: true,
+              hasHdrImg: true,
+              headerImage: _headerImage,
             ),
           ],
         )

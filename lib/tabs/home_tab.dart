@@ -17,6 +17,8 @@ class _HomeTabState extends State<HomeTab> {
 
   // HomeTab({});
   late List _srvcDataList;
+  late String? _hdrBnnrImg;
+  late String? _hdrBnnrName;
   late PageController _pageController;
   final int _selectedPage = 0;
 
@@ -31,24 +33,29 @@ class _HomeTabState extends State<HomeTab> {
   // var _srvcData;
 
   Future _getSelectedSrvc<String>() async {
-    var myVar = _firebaseServices.servicesRef
+    _firebaseServices.servicesRef
         .get()
-        .then((value) => value.docs
+        .then((value) => {
+          for (DocumentSnapshot ds in value.docs) {
+            _srvcData = ds.reference.id,
+                }
+        }
+      /*value.docs
         .forEach((element) {
             var docRef = element['isSelected'];
 
             if (docRef == true) {
               _srvcData = element.id;
               print("Srvc: [${element['name']}] with Id: [$_srvcData] is Selected");
-            } /*else {
+            } else {
               print("Not textVar exists");
-            }*/
+            }
 
             // docRef.collection('sid');
             // docRef.update({'isSelected': true});
 
-          },
-        ));
+          },*/
+        );
     return _srvcData;
   }
 
@@ -123,7 +130,7 @@ class _HomeTabState extends State<HomeTab> {
                         if(snapshot.connectionState == ConnectionState.active){
                           if(snapshot.hasData){
                             _srvcDataList = snapshot.data!.docs;
-                            // print('serviceDataLngth: ${_srvcDataList.length}');
+                            // print('serviceDataLngth: ${_hdrBnnrName}');
                             return Container(
                               alignment: Alignment.topCenter,
                               width: screenWidth,
@@ -162,11 +169,14 @@ class _HomeTabState extends State<HomeTab> {
                                           onTap: () {
                                             setState(() {
                                               _srvcData = _srvcDataList[index].id;
+                                              _hdrBnnrImg = _srvcDataList[index]['images'][0];
+                                              _hdrBnnrName = _srvcDataList[index]['name'];
                                               _srvcDataType = _srvcDataList[index]['srvcType'];
                                             });
 
                                             print("HomeTab-Srvc-Data-Name: ${_srvcDataList[index]['name']} \n");
                                             print("HomeTab-Srvc-Data-ID: ${_srvcDataList[index].id}");
+                                            print("data ID: ${_srvcData} and first image: ${_hdrBnnrImg}");
                                             // print("HomeTab-Srvc-Data-Type: ${_srvcDataList[index]['srvcType']}");
                                             Navigator.push(context, MaterialPageRoute(
                                                 maintainState: true,
@@ -175,6 +185,8 @@ class _HomeTabState extends State<HomeTab> {
                                                 SelectedServicePage(
                                                   serviceID: "${_srvcData}",
                                                   serviceType: "${_srvcDataType}",
+                                                  headerImg: _hdrBnnrImg,
+                                                  headerName: _hdrBnnrName
                                                 )
                                               // RetailClientProductsLst(),
                                             ));

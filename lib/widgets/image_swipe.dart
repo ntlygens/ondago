@@ -13,6 +13,7 @@ class _ImageSwipeState extends State<ImageSwipe> {
 
   @override
   Widget build(BuildContext context) {
+    print("bnnrListLngthfromImageSwipe: ${widget.imageList.length}");
     return Container(
       alignment: Alignment.topCenter,
       height: 150,
