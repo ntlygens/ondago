@@ -157,131 +157,123 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                     return ListView(
                         padding: const EdgeInsets.all(0),
                         children: [
-                          Column(
-                              children: [
-                                /// Icon Viewer Row ///
-                                // ImageSwipe(imageList: snapshot.data!['images']),
-                                /// Slctd Ctgry Name Row ///
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 24
-                                  ),
-                                  child: Text(
-                                    "${snapshot.data['name']}",
-                                    style: Constants.boldHeading,
-                                  ),
-                                ),
-                                /// Description Row ///
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 24
-                                  ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8,
+                                horizontal: 14
+                            ),
+                            child: Text(
+                              "${snapshot.data['name']}",
+                              style: Constants.boldHeading,
+                            ),
+                          ),
+                          /// Description Row ///
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 24
+                            ),
 
-                                  child: Text(
-                                    "${snapshot.data['desc']}",
-                                    style: const TextStyle(
-                                      fontSize: 16,
+                            child: Text(
+                              "${snapshot.data['desc']}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          /// Catagories Label Row ///
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                                top: 24,
+                                bottom: 0
+                            ),
+                            child: Text(
+                              _isCustomerSrvc ?
+                              "${snapshot.data!['name']} Categories" : "",
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFFFF1E80)
+                                )
+                            ),
+                          ),
+                          /// Retail Clients Row ///
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8
+                            ),
+                            child: RetailClientPkg(
+                                  retailClientList: docs,
+                                  serviceCategoryName: snapshot.data['name'],
+                                  serviceCategoryID: snapshot.data.id,
+                                ),
+                          ),
+                          /// View Btn and Delete Slctd Row ///
+                          Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 90,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xFFDCDCDC),
+                                      borderRadius: BorderRadius.circular(12)
+                                  ),
+                                  alignment: Alignment.center,
+                                  /// ** // Reset DB Button Below IMPORTANT!!! //
+                                  child: IconButton(
+                                    onPressed: () {
+                                      _unselectAllIcons(snapshot.data!.id);
+                                      _removeAllServiceProducts();
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      size: 32.0,
                                     ),
                                   ),
-                                ),
-                                /// Catagories Label Row ///
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20,
-                                      right: 20,
-                                      top: 24,
-                                      bottom: 0
-                                  ),
-                                  child: Text(
-                                    _isCustomerSrvc ?
-                                    "${snapshot.data!['name']} Categories" : "",
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xFFFF1E80)
-                                      )
-                                  ),
-                                ),
-                                /// Catagory Types Row ///
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10
-                                  ),
-                                  child: RetailClientPkg(
-                                        retailClientList: docs,
-                                        serviceCategoryName: snapshot.data['name'],
-                                        serviceCategoryID: snapshot.data.id,
-                                      ),
-                                ),
-                                /// View Btn and Delete Slctd Row ///
-                                Padding(
-                                  padding: const EdgeInsets.all(24.0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 90,
-                                        height: 60,
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xFFDCDCDC),
-                                            borderRadius: BorderRadius.circular(12)
-                                        ),
-                                        alignment: Alignment.center,
-                                        /// ** // Reset DB Button Below IMPORTANT!!! //
-                                        child: IconButton(
-                                          onPressed: () {
-                                            _unselectAllIcons(snapshot.data!.id);
-                                            _removeAllServiceProducts();
-                                          },
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            size: 32.0,
-                                          ),
-                                        ),
 
-                                      ),
-                                      Expanded(
-                                        child: GestureDetector(
-                                          onTap: () async {
-                                            // await _addToCart();
-                                            if(alreadySelected == false) {
-                                              ScaffoldMessenger.of(context).showSnackBar(_snackBar);
-                                            }
+                                ),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      // await _addToCart();
+                                      if(alreadySelected == false) {
+                                        ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+                                      }
 
-                                            /*Navigator.push(context, MaterialPageRoute(
-                                              builder: (context) =>
-                                                  RetailClientProductsLst(
-                                                    sellerID: ,
-                                                  ),
-                                            ));*/
-                                          },
-                                          child: Container(
-                                            height: 65,
-                                            margin: const EdgeInsets.only(
-                                                left: 16
+                                      /*Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) =>
+                                            RetailClientProductsLst(
+                                              sellerID: ,
                                             ),
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              borderRadius: BorderRadius.circular(12),
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: const Text(
-                                              "View Selected",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600
-                                              ),
-                                            ),
-                                          ),
+                                      ));*/
+                                    },
+                                    child: Container(
+                                      height: 65,
+                                      margin: const EdgeInsets.only(
+                                          left: 16
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: const Text(
+                                        "View Selected",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600
                                         ),
-                                      )
-                                    ],
+                                      ),
+                                    ),
                                   ),
                                 )
-
-                              ]
+                              ],
+                            ),
                           )
                         ]
                     );

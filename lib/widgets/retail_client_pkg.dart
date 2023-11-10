@@ -5,6 +5,7 @@ import 'package:ondago/services/firebase_services.dart';
 import 'package:ondago/widgets/product_viewer.dart';
 import 'package:ondago/widgets/action_bar.dart';
 import 'package:ondago/constants.dart';
+import 'package:ondago/widgets/retail_client_card.dart';
 
 
 class RetailClientPkg extends StatefulWidget {
@@ -169,8 +170,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
     // print("amt: ${widget.retailClientList.length}");
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 4,
-        vertical: 0
+        horizontal: 8,
+        vertical: 8
       ),
       child: GridView.builder(
           shrinkWrap: true,
@@ -202,121 +203,136 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                   if(sellerSnap.hasData) {
                     // print("list item = ${widget.retailClientList[index]}");
                     // print("ID: ${sellerSnap.data!['sellerID']} -- Name: ${sellerSnap.data!['name']}");
-                    return GestureDetector(
-                      onTap: () async {
-                        _selectedSellerName = "${sellerSnap.data!['name']}";
-                        _selectedSellerID = "${sellerSnap.data!.id}";
-                        _selectedSrvcCtgryName = widget.serviceCategoryName;
-                        _selectedSrvcCtgryID = widget.serviceCategoryID;
-                        // _prodSelected = true;
-                        setState(() {
-                          // _isSelected = index;
-                        });
+                    return Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 5
+                      ),
+                      // height: 100,
+                      child: GestureDetector(
+                        onTap: () async {
+                          _selectedSellerName = "${sellerSnap.data!['name']}";
+                          _selectedSellerID = "${sellerSnap.data!.id}";
+                          _selectedSrvcCtgryName = widget.serviceCategoryName;
+                          _selectedSrvcCtgryID = widget.serviceCategoryID;
+                          // _prodSelected = true;
+                          setState(() {
+                            // _isSelected = index;
+                          });
 
-                        // print("datentime: ${_firebaseServices.setDayAndTime()}");
+                          // print("datentime: ${_firebaseServices.setDayAndTime()}");
 
-                        // await _isProductSelected(sellerSnap.data.id);
-                        // await _selectServiceProduct();
-                        // await _setProductIsSelected(_selectedProductID);
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) =>
-                              // Text("this is itext")
-                              RetailClientProductsLst(
-                                sellerID: "${sellerSnap.data!['sellerID']}",
-                              ),
-                        ));
-                      },
-                      /*child: ClipRRect(
-                        borderRadius: BorderRadius.circular(6),
-                        child: Stack(
+                          // await _isProductSelected(sellerSnap.data.id);
+                          // await _selectServiceProduct();
+                          // await _setProductIsSelected(_selectedProductID);
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) =>
+                                // Text("this is itext")
+                                RetailClientProductsLst(
+                                  sellerID: "${sellerSnap.data!['sellerID']}",
+                                ),
+                          ));
+                        },
+                        /*child: ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: Stack(
+                              children: [
+                                Image.network("${sellerSnap.data!['logo']}"),
+                                Padding(
+                                    padding: EdgeInsets.all(
+                                      15
+                                      // vertical: 15,
+                                      // horizontal: 5
+                                    ),
+                                    child: Text("dt: ${sellerSnap.data!['phone']}"),
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.all(
+                                      5
+                                    ),
+                                    child: Text("et: ${sellerSnap.data!['cuisine']}"),
+                                ),
+                              ]
+                          ),
+                        ),*/
+                        child: RetailClientCard(
+                          retailClientBnr: "${sellerSnap.data!['logo']}",
+                          retailClientName: "${sellerSnap.data!['name']}",
+                          retailClientRating: "${sellerSnap.data!['rating']}",
+                        )
+
+                        /// *** Currently Working *** ///
+                        /*child: Card(
+                          elevation: 4,
+                          margin: const EdgeInsets.symmetric(
+                            // 8
+                            vertical: 12,
+                            horizontal: 8,
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: Stack(
+                            alignment: Alignment.topLeft,
                             children: [
-                              Image.network("${sellerSnap.data!['logo']}"),
-                              Padding(
-                                  padding: EdgeInsets.all(
-                                    15
-                                    // vertical: 15,
-                                    // horizontal: 5
+                              Container(
+                                alignment: Alignment.center,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: Image.network(
+                                    "${sellerSnap.data!['logo']}",
+                                    fit: BoxFit.contain,
                                   ),
-                                  child: Text("dt: ${sellerSnap.data!['phone']}"),
-                              ),
-                              Padding(
-                                  padding: EdgeInsets.all(
-                                    5
-                                  ),
-                                  child: Text("et: ${sellerSnap.data!['cuisine']}"),
-                              ),
-                            ]
-                        ),
-                      ),*/
-                      child: Card(
-                        elevation: 4,
-                        margin: const EdgeInsets.symmetric(
-                          // 8
-                          vertical: 12,
-                          horizontal: 8,
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: Stack(
-                          alignment: Alignment.topLeft,
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(6),
-                                child: Image.network(
-                                  "${sellerSnap.data!['logo']}",
-                                  fit: BoxFit.contain,
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 12,
-                                horizontal: 8
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 8
+                                ),
+                                child: Text (
+                                    "${sellerSnap.data['name']}",
+                                  style: Constants.boldHeading,
+                                ),
                               ),
-                              child: Text (
-                                  "${sellerSnap.data['name']}",
-                                style: Constants.boldHeading,
-                              ),
-                            ),
 
-                            Text ("${sellerSnap.data!['rating']}"),
-                          ],
-                        ),
+                              Text ("${sellerSnap.data!['rating']}"),
+                            ],
+                          ),
+                        ),*/
+                        /// ************************* ///
+
+                        /*child: Card(
+                          elevation: 4,
+                          margin: EdgeInsets.symmetric(
+                            // 0
+                            vertical: 24,
+                            horizontal: 0,
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: Stack(
+                            alignment: AlignmentDirectional.bottomEnd,
+                            fit: StackFit.loose,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 0,
+                                  horizontal: 0
+                                ),
+                                // alignment: Alignment.topRight,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child:
+                                    _isCustomerService ?
+                                    Image.network("${sellerSnap.data!['images'][0]}")
+                                        : Image.network("${sellerSnap.data!['logo']}"
+                                    ),
+                                ),
+                              ),
+                              Text("${sellerSnap.data!['phone']}"),
+                              Text("${sellerSnap.data!['rating']}"),
+                              Text("${sellerSnap.data!['phone']}"),
+                            ],
+                          ),
+                        ),*/
                       ),
-                      /*child: Card(
-                        elevation: 4,
-                        margin: EdgeInsets.symmetric(
-                          // 0
-                          vertical: 24,
-                          horizontal: 0,
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: Stack(
-                          alignment: AlignmentDirectional.bottomEnd,
-                          fit: StackFit.loose,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 0,
-                                horizontal: 0
-                              ),
-                              // alignment: Alignment.topRight,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(6),
-                                child:
-                                  _isCustomerService ?
-                                  Image.network("${sellerSnap.data!['images'][0]}")
-                                      : Image.network("${sellerSnap.data!['logo']}"
-                                  ),
-                              ),
-                            ),
-                            Text("${sellerSnap.data!['phone']}"),
-                            Text("${sellerSnap.data!['rating']}"),
-                            Text("${sellerSnap.data!['phone']}"),
-                          ],
-                        ),
-                      ),*/
                     );
                   }
 
