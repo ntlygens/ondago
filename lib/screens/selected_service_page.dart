@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ondago/screens/retail_client_products_lst.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:ondago/widgets/action_bar.dart';
+import 'package:ondago/widgets/app_bar_search.dart';
 import 'package:ondago/widgets/retail_client_pkg.dart';
 import 'package:ondago/widgets/image_swipe.dart';
 
@@ -139,162 +140,171 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
     bool alreadySelected = true;
 
     return Scaffold(
-        body: Stack(
-          children: [
-            FutureBuilder<DocumentSnapshot>(
-                future: _firebaseServices.servicesRef.doc(widget.serviceID).get(),
-                builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasError) {
-                    return Scaffold(
-                      body: Center(
-                        child: Text("SlctdSrvcPg-SrvcsRef-DataError: ${snapshot.error}"),
-                      ),
-                    );
-                  }
-
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    List docs = snapshot.data!['type'];
-                    return ListView(
-                        padding: const EdgeInsets.all(0),
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                                horizontal: 14
-                            ),
-                            child: Text(
-                              "${snapshot.data['name']}",
-                              style: Constants.boldHeading,
-                            ),
-                          ),
-                          /// Description Row ///
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10,
-                                horizontal: 24
-                            ),
-
-                            child: Text(
-                              "${snapshot.data['desc']}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                          /// Catagories Label Row ///
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                                top: 24,
-                                bottom: 0
-                            ),
-                            child: Text(
-                              _isCustomerSrvc ?
-                              "${snapshot.data!['name']} Categories" : "",
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFFFF1E80)
-                                )
-                            ),
-                          ),
-                          /// Retail Clients Row ///
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8
-                            ),
-                            child: RetailClientPkg(
-                                  retailClientList: docs,
-                                  serviceCategoryName: snapshot.data['name'],
-                                  serviceCategoryID: snapshot.data.id,
-                                ),
-                          ),
-                          /// View Btn and Delete Slctd Row ///
-                          Padding(
-                            padding: const EdgeInsets.all(24.0),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 90,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xFFDCDCDC),
-                                      borderRadius: BorderRadius.circular(12)
-                                  ),
-                                  alignment: Alignment.center,
-                                  /// ** // Reset DB Button Below IMPORTANT!!! //
-                                  child: IconButton(
-                                    onPressed: () {
-                                      _unselectAllIcons(snapshot.data!.id);
-                                      _removeAllServiceProducts();
-                                    },
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      size: 32.0,
-                                    ),
-                                  ),
-
-                                ),
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      // await _addToCart();
-                                      if(alreadySelected == false) {
-                                        ScaffoldMessenger.of(context).showSnackBar(_snackBar);
-                                      }
-
-                                      /*Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) =>
-                                            RetailClientProductsLst(
-                                              sellerID: ,
-                                            ),
-                                      ));*/
-                                    },
-                                    child: Container(
-                                      height: 65,
-                                      margin: const EdgeInsets.only(
-                                          left: 16
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: const Text(
-                                        "View Selected",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ]
-                    );
-                  }
-
-                  return const Scaffold(
-                    body: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-
-                }
-            ),
-            ActionBar(
-              title: _headerName,
-              hasTitle: true,
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Home"),
+          actions: [
+            IconButton(
+                onPressed: () => Navigator.of(context)
+                    .push(
+                    MaterialPageRoute(
+                      builder: (context) => AppBarSesrch(),
+                    )),
+                icon: const Icon(Icons.search)
+            )
+          ],
+          // toolbarHeight: 100,
+          /*hasTitle: true,
               hasBackArrow: true,
               hasHdrImg: true,
-              headerImage: _headerImage,
-            ),
-          ],
+              headerImage: _headerImage,*/
+        ),
+
+        body: FutureBuilder<DocumentSnapshot>(
+            future: _firebaseServices.servicesRef.doc(widget.serviceID).get(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasError) {
+                return Scaffold(
+                  body: Center(
+                    child: Text("SlctdSrvcPg-SrvcsRef-DataError: ${snapshot.error}"),
+                  ),
+                );
+              }
+
+              if (snapshot.connectionState == ConnectionState.done) {
+                List docs = snapshot.data!['type'];
+                return ListView(
+                    padding: const EdgeInsets.all(0),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8,
+                            horizontal: 14
+                        ),
+                        child: Text(
+                          "${snapshot.data['name']}",
+                          style: Constants.boldHeading,
+                        ),
+                      ),
+                      /// Description Row ///
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 24
+                        ),
+
+                        child: Text(
+                          "${snapshot.data['desc']}",
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      /// Catagories Label Row ///
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20,
+                            right: 20,
+                            top: 24,
+                            bottom: 0
+                        ),
+                        child: Text(
+                          _isCustomerSrvc ?
+                          "${snapshot.data!['name']} Categories" : "",
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFFFF1E80)
+                            )
+                        ),
+                      ),
+                      /// Retail Clients Row ///
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8
+                        ),
+                        child: RetailClientPkg(
+                              retailClientList: docs,
+                              serviceCategoryName: snapshot.data['name'],
+                              serviceCategoryID: snapshot.data.id,
+                            ),
+                      ),
+                      /// View Btn and Delete Slctd Row ///
+                      Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 90,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFFDCDCDC),
+                                  borderRadius: BorderRadius.circular(12)
+                              ),
+                              alignment: Alignment.center,
+                              /// ** // Reset DB Button Below IMPORTANT!!! //
+                              child: IconButton(
+                                onPressed: () {
+                                  _unselectAllIcons(snapshot.data!.id);
+                                  _removeAllServiceProducts();
+                                },
+                                icon: const Icon(
+                                  Icons.delete,
+                                  size: 32.0,
+                                ),
+                              ),
+
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () async {
+                                  // await _addToCart();
+                                  if(alreadySelected == false) {
+                                    ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+                                  }
+
+                                  /*Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) =>
+                                        RetailClientProductsLst(
+                                          sellerID: ,
+                                        ),
+                                  ));*/
+                                },
+                                child: Container(
+                                  height: 65,
+                                  margin: const EdgeInsets.only(
+                                      left: 16
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    "View Selected",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ]
+                );
+              }
+
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+
+            }
         )
     );
   }
