@@ -39,6 +39,15 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   String _clientStore = "";
   late List _clientList;
 
+  late Icon _rcOpenNow;
+  late Icon _rcNearBy;
+  late Icon _rcHasItem;
+  late Icon _rcDelivery;
+  final List _rcOpenNowLst = [];
+  final List _rcNearByLst = [];
+  final List _rcHasItemLst = [];
+  final List _rcDeliveryLst = [];
+
 
   final FirebaseServices _firebaseServices = FirebaseServices();
 
@@ -62,6 +71,50 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
     // return prod;
       // print("${snapshot.}product unselected!")
   }*/
+
+  Future _getRetailClientSrvcs() async {
+    late String _client;
+    return _firebaseServices.sellersRef
+        .get()
+        .then((dRetailClients) => {
+          for (DocumentSnapshot dRc in dRetailClients.docs) {
+            if(dRc['openNow'] == true){
+              _rcOpenNow = Icon(Icons.meeting_room),
+              // print("${dRc.id} = $_rcOpenNow")
+            } else {
+              _rcOpenNow = Icon(Icons.no_meeting_room),
+            },
+
+            if(dRc['delivery'] == true){
+              _rcDelivery = Icon(Icons.delivery_dining)
+            } else {
+              _rcDelivery = Icon(Icons.delivery_dining_outlined)
+            },
+
+            if(dRc['hasItem'] == true){
+              _rcHasItem = Icon(Icons.add_shopping_cart)
+            } else {
+              _rcHasItem = Icon(Icons.production_quantity_limits)
+            },
+
+            if(dRc['nearBy'] == true){
+              _rcNearBy = Icon(Icons.near_me),
+              // print("${dRc.id} = $_rcNearBy")
+            } else {
+              _rcNearBy = Icon(Icons.nearby_off)
+            },
+
+            _rcOpenNowLst.add(_rcOpenNow),
+            _rcDeliveryLst.add(_rcDelivery),
+            _rcHasItemLst.add(_rcHasItem),
+            _rcNearByLst.add(_rcNearBy)
+
+            // _client = dRc['hasItem'],
+            // print ('client: $_client')
+          }
+    });
+  }
+
   Future _selectRetailClients<String>() async {
     late List _clientList;
     _firebaseServices.sellersRef
@@ -155,7 +208,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   void initState() {
     // TODO: Set this state top be MenuClosed State, Button State
     // _isCustomerService = "AnnNjTT8vmYSAEpT0rPg";
-    _selectRetailClients();
+    _getRetailClientSrvcs();
     super.initState();
   }
 
@@ -183,7 +236,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
               mainAxisSpacing: 10),
           itemCount: widget.retailClientList.length,
           itemBuilder: (BuildContext ctx, index) {
-            // ** Sellers StreamBuilder being Build ** //
+            // ** Sellers Builder being Build ** //
             return FutureBuilder(
               future: _firebaseServices.sellersRef
                   .doc("${widget.retailClientList[index]}")
@@ -203,6 +256,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                   if(sellerSnap.hasData) {
                     // print("list item = ${widget.retailClientList[index]}");
                     // print("ID: ${sellerSnap.data!['sellerID']} -- Name: ${sellerSnap.data!['name']}");
+                    // print('hasItem: ${_rcHasItemLst[0]}, amd ${_rcDeliveryLst[1]}');
                     return Container(
                       padding: EdgeInsets.symmetric(
                         vertical: 5
@@ -258,6 +312,12 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                           retailClientBnr: "${sellerSnap.data!['logo']}",
                           retailClientName: "${sellerSnap.data!['name']}",
                           retailClientRating: "${sellerSnap.data!['rating']}",
+                          retailClientSrvcs: [
+                            _rcOpenNowLst[index],
+                            _rcDeliveryLst[index],
+                            _rcHasItemLst[index],
+                            _rcNearByLst[index],
+                          ],
                         )
 
                         /// *** Currently Working *** ///

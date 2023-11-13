@@ -9,11 +9,13 @@ class RetailClientCard extends StatelessWidget{
   final String retailClientBnr;
   final String retailClientName;
   final String retailClientRating;
+  final List retailClientSrvcs;
   const RetailClientCard({
     // required this.imageList,
     required this.retailClientBnr,
     required this.retailClientName,
-    required this.retailClientRating
+    required this.retailClientRating,
+    required this.retailClientSrvcs
   });
 
   @override
@@ -21,6 +23,7 @@ class RetailClientCard extends StatelessWidget{
     late String _retailClientBnr = retailClientBnr;
     late String _retailClientName = retailClientName;
     late String _retailClientRating = retailClientRating;
+    late List _retailClientSrvcs = retailClientSrvcs;
     late Int _fontSize;
 
     // TODO: implement build
@@ -49,10 +52,11 @@ class RetailClientCard extends StatelessWidget{
         /// *** Services container *** ///
         Positioned(
           left: 20,
-          top: 45,
-          width: 200,
+          top: 44,
+          width: 92,
           height: 92,
           child: Container(
+            padding: EdgeInsets.all(6),
             // color: Colors.lightGreenAccent,
             decoration: BoxDecoration(
               color: Colors.lightGreenAccent,
@@ -72,6 +76,40 @@ class RetailClientCard extends StatelessWidget{
                 ),
                 // BoxShadow(color: Colors.deepOrange, spreadRadius: 3),
               ],
+            ),
+            child: GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 40,
+                  childAspectRatio: 1 / 1,
+                  mainAxisSpacing: 6,
+                  crossAxisSpacing: 6
+                ),
+                itemCount: _retailClientSrvcs.length,
+                itemBuilder: (BuildContext context, int index){
+                  return Container(
+                    // width: 30,
+                    // height: 30,
+                    alignment: Alignment.center,
+                    // margin: EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        border: const Border(
+                          top: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
+                          right: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
+                          bottom: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
+                          left: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
+
+                        ),
+                        borderRadius: BorderRadius.circular(4)
+                    ),
+                    child: Stack(
+                        children: [
+                          _retailClientSrvcs[index],
+                        ]
+                    ),
+                  );
+                }
             ),
           ),
         ),
@@ -101,7 +139,7 @@ class RetailClientCard extends StatelessWidget{
                     blurRadius: 4,
                     offset: Offset(0, 0), // changes position of shadow
                   ),
-                  // BoxShadow(color: Colors.deepOrange, spreadRadius: 3),
+                  // BoxShadow(color: Colors.deepOrange, sprea`dRadius: 3),
                 ],
               ),
               child: Image.network(
