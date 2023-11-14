@@ -125,11 +125,11 @@ class RetailClientCard extends StatelessWidget{
                 0, 0, 0, 0
               ),
               decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.deepOrange, width: 3, style: BorderStyle.solid),
-                  right: BorderSide(color: Colors.deepOrange, width: 3, style: BorderStyle.solid),
-                  bottom: BorderSide(color: Colors.deepOrange, width: 3, style: BorderStyle.solid),
-                  left: BorderSide(color: Colors.deepOrange, width: 3, style: BorderStyle.solid),
+                border: Border.all(
+                    color: Colors.deepOrange,
+                    width: 3,
+                    style: BorderStyle.solid,
+                    strokeAlign: BorderSide.strokeAlignCenter
                 ),
                 borderRadius: BorderRadius.circular(6),
                 // color: Colors.deepOrange,
@@ -175,12 +175,11 @@ class RetailClientCard extends StatelessWidget{
             // margin: EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: Colors.grey[300],
-              border: Border(
-                top: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
-                right: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
-                bottom: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
-                left: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
-
+              border: Border.all(
+                  color: Colors.black,
+                  width: 1,
+                  style: BorderStyle.solid,
+                  strokeAlign: BorderSide.strokeAlignOutside
               ),
               borderRadius: BorderRadius.circular(4)
             ),
@@ -206,6 +205,70 @@ class RetailClientCard extends StatelessWidget{
                   ),
                 ),
               ]
+            ),
+          ),
+        ),
+        /// *** Cuisine container *** ///
+        Positioned(
+          right: 32,
+          bottom: 12,
+          width: 150,
+          height: 40,
+          child: Container(
+            padding: EdgeInsets.all(4),
+            // color: Colors.lightGreenAccent,
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              border: Border.all(
+                  color: Colors.black54,
+                  width: 1,
+                  style: BorderStyle.solid,
+                  strokeAlign: BorderSide.strokeAlignOutside
+              ),
+              borderRadius: BorderRadius.circular(6),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black54.withOpacity(0.45),
+                  spreadRadius: 1,
+                  blurRadius: 2,
+                  offset: Offset(0, 0), // changes position of shadow
+                ),
+                // BoxShadow(color: Colors.deepOrange, spreadRadius: 3),
+              ],
+            ),
+            child: GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 40,
+                    childAspectRatio: 1 / 1,
+                    mainAxisSpacing: 6,
+                    crossAxisSpacing: 6
+                ),
+                itemCount: _retailClientSrvcs.length,
+                itemBuilder: (BuildContext context, int index){
+                  return Container(
+                    // width: 30,
+                    // height: 30,
+                    alignment: Alignment.center,
+                    // margin: EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        border: Border.all(
+                            color: Colors.black54,
+                            width: 1,
+                            style: BorderStyle.solid,
+                            strokeAlign: BorderSide.strokeAlignOutside
+                        ),
+                        borderRadius: BorderRadius.circular(4)
+                    ),
+                    child: Stack(
+                        children: [
+                          // Solid text as fill.
+                          _retailClientSrvcs[index],
+                        ]
+                    ),
+                  );
+                }
             ),
           ),
         ),

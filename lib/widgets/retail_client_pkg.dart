@@ -78,14 +78,14 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
         .then((dRetailClients) => {
           for (DocumentSnapshot dRc in dRetailClients.docs) {
             if(dRc['openNow'] == true){
-              _rcOpenNow = Icon(Icons.meeting_room),
+              _rcOpenNow = Icon(Icons.meeting_room, color: Colors.deepOrangeAccent,),
               // print("${dRc.id} = $_rcOpenNow")
             } else {
               _rcOpenNow = Icon(Icons.no_meeting_room),
             },
 
             if(dRc['delivery'] == true){
-              _rcDelivery = Icon(Icons.delivery_dining)
+              _rcDelivery = Icon(Icons.delivery_dining, color: Colors.green,)
             } else {
               _rcDelivery = Icon(Icons.delivery_dining_outlined)
             },
@@ -97,7 +97,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
             },
 
             if(dRc['nearBy'] == true){
-              _rcNearBy = Icon(Icons.near_me),
+              _rcNearBy = Icon(Icons.near_me, color: Colors.blue,),
               // print("${dRc.id} = $_rcNearBy")
             } else {
               _rcNearBy = Icon(Icons.nearby_off)
