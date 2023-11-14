@@ -105,6 +105,7 @@ class RetailClientCard extends StatelessWidget{
                     ),
                     child: Stack(
                         children: [
+                          // Solid text as fill.
                           _retailClientSrvcs[index],
                         ]
                     ),

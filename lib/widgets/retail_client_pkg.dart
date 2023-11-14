@@ -73,7 +73,6 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   }*/
 
   Future _getRetailClientSrvcs() async {
-    late String _client;
     return _firebaseServices.sellersRef
         .get()
         .then((dRetailClients) => {
@@ -256,7 +255,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                   if(sellerSnap.hasData) {
                     // print("list item = ${widget.retailClientList[index]}");
                     // print("ID: ${sellerSnap.data!['sellerID']} -- Name: ${sellerSnap.data!['name']}");
-                    // print('hasItem: ${_rcHasItemLst[0]}, amd ${_rcDeliveryLst[1]}');
+                    // print('hasItem: ${_rcHasItemLst[index]}, amd ${_rcDeliveryLst[index]}');
                     return Container(
                       padding: EdgeInsets.symmetric(
                         vertical: 5
