@@ -30,4 +30,7 @@ class FirebaseServices {
   final CollectionReference usersRef =
       FirebaseFirestore.instance.collection("Users");
 
+  final Query<Map<String, dynamic>> foodTypesGroupRef =
+      FirebaseFirestore.instance.collectionGroup('foodType');
+
 }

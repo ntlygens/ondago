@@ -43,11 +43,35 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   late Icon _rcNearBy;
   late Icon _rcHasItem;
   late Icon _rcDelivery;
+  late Icon _rcFtVegan;
+  late Icon _rcFtVegetarian;
+  late Icon _rcFtPescatarian;
+  late Icon _rcFtHalal;
+  late Icon _rcFtKosher;
+  late Icon _rcFtOmnivore;
   final List _rcOpenNowLst = [];
   final List _rcNearByLst = [];
   final List _rcHasItemLst = [];
   final List _rcDeliveryLst = [];
+  final List _rcFtVeganLst = [];
+  final List _rcFtVegetarianLst = [];
+  final List _rcFtPescatarianLst = [];
+  final List _rcFtHalalLst = [];
+  final List _rcFtKosherLst = [];
+  final List _rcFtOmnivoreLst = [];
 
+  final List _rcFoodTypeLst = [];
+
+  late String _rcID;
+  late bool _vegan;
+  late bool _vegetarian;
+  late bool _pescatarian;
+  late bool _halal;
+  late bool _kosher;
+  late bool _omnivore;
+
+
+  // late String _rcFT = "";
 
   final FirebaseServices _firebaseServices = FirebaseServices();
 
@@ -73,10 +97,14 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   }*/
 
   Future _getRetailClientSrvcs() async {
-    return _firebaseServices.sellersRef
+    late CollectionReference _rcFTypesRef;
+    late String ty;
+    // late List _rcFtVeganLst = [];
+    return await _firebaseServices.sellersRef
         .get()
         .then((dRetailClients) => {
           for (DocumentSnapshot dRc in dRetailClients.docs) {
+            _rcID = dRc.reference.id,
             if(dRc['openNow'] == true){
               _rcOpenNow = Icon(Icons.meeting_room, color: Colors.deepOrangeAccent,),
               // print("${dRc.id} = $_rcOpenNow")
@@ -106,12 +134,47 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
             _rcOpenNowLst.add(_rcOpenNow),
             _rcDeliveryLst.add(_rcDelivery),
             _rcHasItemLst.add(_rcHasItem),
-            _rcNearByLst.add(_rcNearBy)
+            _rcNearByLst.add(_rcNearBy),
 
             // _client = dRc['hasItem'],
-            // print ('client: $_client')
+            // print ('client: $_rcHasItemLst')
+          },
+
+          for(DocumentSnapshot dDoc in dRetailClients.docs){
+            _rcID = dDoc.reference.id,
+            _rcFTypesRef = _firebaseServices.sellersRef.doc(_rcID).collection('foodType'),
+            _rcFTypesRef.get()
+                .then((value) => {
+                  for (DocumentSnapshot ds in value.docs) {
+                    // print("dddsss: ${ds['vegan']}"),
+                    if(ds['vegan'] == true)
+                      _rcFtVegan = Icon(Icons.grass, color: Colors.green, )
+                    else
+                      _rcFtVegan = Icon(Icons.grass_outlined),
+
+                    print("doc: ${_rcID}, val: vegan = ${ds['vegan']}, icon: $_rcFtVegan"),
+
+                    _rcFtVeganLst.add(_rcFtVegan)
+                  }
+                }
+                /*.then((value) => value.docs
+                  .forEach((element) {
+                    // var rcFTData = element.data();
+                    var docRef = element.id;
+                    // _vegan = element['vegan'];
+                    if(element['vegan'] == true)
+                      _rcFtVegan = Icon(Icons.grass, color: Colors.green, );
+                    else
+                      _rcFtVegan = Icon(Icons.grass_outlined);
+
+                    print("doc: ${docRef}, val: vegan = ${element['vegan']}, icon: $_rcFtVegan");
+
+                    _rcFtVeganLst.add(_rcFtVegan);
+                    // print("veganList: ${_rcFtVeganLst}");
+                  })*/
+                ),
           }
-    });
+        });
   }
 
   Future _selectRetailClients<String>() async {
@@ -218,7 +281,6 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
   @override
   Widget build(BuildContext context) {
-    print("clientStore = ${_clientStore}");
     // print("amt: ${widget.retailClientList.length}");
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -236,6 +298,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
           itemCount: widget.retailClientList.length,
           itemBuilder: (BuildContext ctx, index) {
             // ** Sellers Builder being Build ** //
+            // print("indesList: ${_rcHasItemLst}");
             return FutureBuilder(
               future: _firebaseServices.sellersRef
                   .doc("${widget.retailClientList[index]}")
@@ -256,6 +319,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                     // print("list item = ${widget.retailClientList[index]}");
                     // print("ID: ${sellerSnap.data!['sellerID']} -- Name: ${sellerSnap.data!['name']}");
                     // print('hasItem: ${_rcHasItemLst[index]}, amd ${_rcDeliveryLst[index]}');
+                    // print("veganList: ${_rcFtVeganLst[index]}");
                     return Container(
                       padding: EdgeInsets.symmetric(
                         vertical: 5
@@ -316,6 +380,9 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                             _rcDeliveryLst[index],
                             _rcHasItemLst[index],
                             _rcNearByLst[index],
+                          ],
+                          retailClientStatus: [
+                            _rcFtVeganLst,
                           ],
                         )
 

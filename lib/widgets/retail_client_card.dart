@@ -1,8 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:ondago/constants.dart';
+import 'dart:ffi';
 
 class RetailClientCard extends StatelessWidget{
   // final List imageList;
@@ -10,12 +9,14 @@ class RetailClientCard extends StatelessWidget{
   final String retailClientName;
   final String retailClientRating;
   final List retailClientSrvcs;
+  final List retailClientStatus;
   const RetailClientCard({
     // required this.imageList,
     required this.retailClientBnr,
     required this.retailClientName,
     required this.retailClientRating,
-    required this.retailClientSrvcs
+    required this.retailClientSrvcs,
+    required this.retailClientStatus
   });
 
   @override
@@ -24,8 +25,10 @@ class RetailClientCard extends StatelessWidget{
     late String _retailClientName = retailClientName;
     late String _retailClientRating = retailClientRating;
     late List _retailClientSrvcs = retailClientSrvcs;
-    late Int _fontSize;
+    late List _retailClientStatus = retailClientStatus;
 
+    // double rcStatW = (40 * _retailClientStatus.length);
+    // print("object: ${_retailClientStatus}");
     // TODO: implement build
     return Stack(
       // alignment: Alignment.topLeft,
@@ -94,12 +97,11 @@ class RetailClientCard extends StatelessWidget{
                     // margin: EdgeInsets.all(2),
                     decoration: BoxDecoration(
                         color: Colors.grey[300],
-                        border: const Border(
-                          top: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
-                          right: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
-                          bottom: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
-                          left: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
-
+                        border: Border.all(
+                            color: Colors.black,
+                            width: 1,
+                            style: BorderStyle.solid,
+                            strokeAlign: BorderSide.strokeAlignOutside
                         ),
                         borderRadius: BorderRadius.circular(4)
                     ),
@@ -212,7 +214,7 @@ class RetailClientCard extends StatelessWidget{
         Positioned(
           right: 32,
           bottom: 12,
-          width: 150,
+          width: 40,
           height: 40,
           child: Container(
             padding: EdgeInsets.all(4),
@@ -244,7 +246,7 @@ class RetailClientCard extends StatelessWidget{
                     mainAxisSpacing: 6,
                     crossAxisSpacing: 6
                 ),
-                itemCount: _retailClientSrvcs.length,
+                itemCount: _retailClientStatus.length,
                 itemBuilder: (BuildContext context, int index){
                   return Container(
                     // width: 30,
@@ -264,7 +266,7 @@ class RetailClientCard extends StatelessWidget{
                     child: Stack(
                         children: [
                           // Solid text as fill.
-                          _retailClientSrvcs[index],
+                          _retailClientStatus[0],
                         ]
                     ),
                   );
