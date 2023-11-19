@@ -63,6 +63,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   final List _rcFoodTypeLst = [];
 
   late String _rcID;
+  late String _dsID;
   late bool _vegan;
   late bool _vegetarian;
   late bool _pescatarian;
@@ -70,36 +71,12 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   late bool _kosher;
   late bool _omnivore;
 
-
-  // late String _rcFT = "";
-
   final FirebaseServices _firebaseServices = FirebaseServices();
-
-  /*Future _isProductSelected(prodID) {
-    return _firebaseServices.usersRef
-        .doc(_firebaseServices.getUserID())
-        .collection("SelectedService")
-        .where('prodID', isEqualTo: prodID)
-        .get()
-        .then((snapshot) => {
-          for (DocumentSnapshot ds in snapshot.docs){
-            if(ds.reference.id == prodID ) {
-              print("${ds.reference.id } product!")
-            } else {
-              _selectServiceProduct()
-            }
-            // ds.reference.update({'isSelected': false})
-          },
-        });
-
-    // return prod;
-      // print("${snapshot.}product unselected!")
-  }*/
 
   Future _getRetailClientSrvcs() async {
     late CollectionReference _rcFTypesRef;
-    late String ty;
-    // late List _rcFtVeganLst = [];
+    late String? _dsSID;
+    late List _rcFtVeganInnerList = [];
     return await _firebaseServices.sellersRef
         .get()
         .then((dRetailClients) => {
@@ -131,16 +108,47 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
               _rcNearBy = Icon(Icons.nearby_off)
             },
 
+            // print("RCID: ${_rcID}"),
+    // _rcFTypesRef = _firebaseServices.sellersRef.doc(_rcID).collection('foodType'),
+            _rcFTypesRef = dRc.reference.collection('foodType'),
+            _rcFTypesRef.get()
+                .then((value) => {
+              for (DocumentSnapshot ds in value.docs) {
+                // print("dddsss: ${ds['vegan']}"),
+                _dsID = ds.reference.id,
+                _dsSID = ds.reference.parent.parent?.id,
+
+                // _dsID = ds.reference.id,
+                // print('dsID: $_dsID, dsSID: $_dsSID'),
+                if(ds['vegan'] == true){
+                  // if(value.docs.contains('vegan') == true)
+                  _rcFtVegan = Icon(Icons.grass, color: Colors.green,),
+                  print("doc: ${_dsSID}, val: vegan = ${ds['vegan']}, icon: $_rcFtVegan"),
+                } else {
+                    _rcFtVegan = Icon(Icons.grass_outlined),
+                    },
+                // print("doc: ${_rcID}, val: vegan = '', icon: $_rcFtVegan"),
+                _rcFtVeganInnerList.add(_rcFtVegan),
+                // _rcFtVeganLst.add(_rcFtVegan),
+
+              },
+              // _rcFtVeganLst.add(_rcFtVegan),
+              print('veganLse: ${_rcFtVeganInnerList.length}'),
+
+            }),
+            // _rcFtVeganInnerList.add(_rcFtVegan),
+
+
+            // _rcFtVeganLst.add(_rcFtVegan),
+            print('veganLse2: ${_rcFtVeganInnerList.length}'),
             _rcOpenNowLst.add(_rcOpenNow),
             _rcDeliveryLst.add(_rcDelivery),
             _rcHasItemLst.add(_rcHasItem),
             _rcNearByLst.add(_rcNearBy),
 
-            // _client = dRc['hasItem'],
-            // print ('client: $_rcHasItemLst')
           },
 
-          for(DocumentSnapshot dDoc in dRetailClients.docs){
+          /*for(DocumentSnapshot dDoc in dRetailClients.docs){
             _rcID = dDoc.reference.id,
             _rcFTypesRef = _firebaseServices.sellersRef.doc(_rcID).collection('foodType'),
             _rcFTypesRef.get()
@@ -156,24 +164,9 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
                     _rcFtVeganLst.add(_rcFtVegan)
                   }
-                }
-                /*.then((value) => value.docs
-                  .forEach((element) {
-                    // var rcFTData = element.data();
-                    var docRef = element.id;
-                    // _vegan = element['vegan'];
-                    if(element['vegan'] == true)
-                      _rcFtVegan = Icon(Icons.grass, color: Colors.green, );
-                    else
-                      _rcFtVegan = Icon(Icons.grass_outlined);
+                }),
+          }*/
 
-                    print("doc: ${docRef}, val: vegan = ${element['vegan']}, icon: $_rcFtVegan");
-
-                    _rcFtVeganLst.add(_rcFtVegan);
-                    // print("veganList: ${_rcFtVeganLst}");
-                  })*/
-                ),
-          }
         });
   }
 
@@ -281,7 +274,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
   @override
   Widget build(BuildContext context) {
-    // print("amt: ${widget.retailClientList.length}");
+    // print("amt: ${_rcFtVeganLst.length}");
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 8,
@@ -316,10 +309,6 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
                 if(sellerSnap.connectionState == ConnectionState.done) {
                   if(sellerSnap.hasData) {
-                    // print("list item = ${widget.retailClientList[index]}");
-                    // print("ID: ${sellerSnap.data!['sellerID']} -- Name: ${sellerSnap.data!['name']}");
-                    // print('hasItem: ${_rcHasItemLst[index]}, amd ${_rcDeliveryLst[index]}');
-                    // print("veganList: ${_rcFtVeganLst[index]}");
                     return Container(
                       padding: EdgeInsets.symmetric(
                         vertical: 5
@@ -336,11 +325,6 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                             // _isSelected = index;
                           });
 
-                          // print("datentime: ${_firebaseServices.setDayAndTime()}");
-
-                          // await _isProductSelected(sellerSnap.data.id);
-                          // await _selectServiceProduct();
-                          // await _setProductIsSelected(_selectedProductID);
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) =>
                                 // Text("this is itext")
@@ -349,28 +333,6 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                                 ),
                           ));
                         },
-                        /*child: ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
-                          child: Stack(
-                              children: [
-                                Image.network("${sellerSnap.data!['logo']}"),
-                                Padding(
-                                    padding: EdgeInsets.all(
-                                      15
-                                      // vertical: 15,
-                                      // horizontal: 5
-                                    ),
-                                    child: Text("dt: ${sellerSnap.data!['phone']}"),
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.all(
-                                      5
-                                    ),
-                                    child: Text("et: ${sellerSnap.data!['cuisine']}"),
-                                ),
-                              ]
-                          ),
-                        ),*/
                         child: RetailClientCard(
                           retailClientBnr: "${sellerSnap.data!['logo']}",
                           retailClientName: "${sellerSnap.data!['name']}",
@@ -386,78 +348,6 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                           ],
                         )
 
-                        /// *** Currently Working *** ///
-                        /*child: Card(
-                          elevation: 4,
-                          margin: const EdgeInsets.symmetric(
-                            // 8
-                            vertical: 12,
-                            horizontal: 8,
-                          ),
-                          clipBehavior: Clip.antiAlias,
-                          child: Stack(
-                            alignment: Alignment.topLeft,
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(6),
-                                  child: Image.network(
-                                    "${sellerSnap.data!['logo']}",
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 12,
-                                  horizontal: 8
-                                ),
-                                child: Text (
-                                    "${sellerSnap.data['name']}",
-                                  style: Constants.boldHeading,
-                                ),
-                              ),
-
-                              Text ("${sellerSnap.data!['rating']}"),
-                            ],
-                          ),
-                        ),*/
-                        /// ************************* ///
-
-                        /*child: Card(
-                          elevation: 4,
-                          margin: EdgeInsets.symmetric(
-                            // 0
-                            vertical: 24,
-                            horizontal: 0,
-                          ),
-                          clipBehavior: Clip.antiAlias,
-                          child: Stack(
-                            alignment: AlignmentDirectional.bottomEnd,
-                            fit: StackFit.loose,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 0,
-                                  horizontal: 0
-                                ),
-                                // alignment: Alignment.topRight,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(6),
-                                  child:
-                                    _isCustomerService ?
-                                    Image.network("${sellerSnap.data!['images'][0]}")
-                                        : Image.network("${sellerSnap.data!['logo']}"
-                                    ),
-                                ),
-                              ),
-                              Text("${sellerSnap.data!['phone']}"),
-                              Text("${sellerSnap.data!['rating']}"),
-                              Text("${sellerSnap.data!['phone']}"),
-                            ],
-                          ),
-                        ),*/
                       ),
                     );
                   }
