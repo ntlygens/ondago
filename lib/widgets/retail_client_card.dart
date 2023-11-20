@@ -9,14 +9,14 @@ class RetailClientCard extends StatelessWidget{
   final String retailClientName;
   final String retailClientRating;
   final List retailClientSrvcs;
-  final List retailClientStatus;
+  final List? retailClientStatus;
   const RetailClientCard({
     // required this.imageList,
     required this.retailClientBnr,
     required this.retailClientName,
     required this.retailClientRating,
     required this.retailClientSrvcs,
-    required this.retailClientStatus
+    this.retailClientStatus
   });
 
   @override
@@ -25,7 +25,7 @@ class RetailClientCard extends StatelessWidget{
     late String _retailClientName = retailClientName;
     late String _retailClientRating = retailClientRating;
     late List _retailClientSrvcs = retailClientSrvcs;
-    late List _retailClientStatus = retailClientStatus;
+    late List? _retailClientStatus = retailClientStatus;
 
     // double rcStatW = (40 * _retailClientStatus.length);
     // print("object: ${_retailClientStatus}");
@@ -214,7 +214,7 @@ class RetailClientCard extends StatelessWidget{
         Positioned(
           right: 32,
           bottom: 12,
-          width: 40,
+          width: 80,
           height: 40,
           child: Container(
             padding: EdgeInsets.all(4),
@@ -246,7 +246,7 @@ class RetailClientCard extends StatelessWidget{
                     mainAxisSpacing: 6,
                     crossAxisSpacing: 6
                 ),
-                itemCount: _retailClientStatus.length,
+                itemCount: _retailClientStatus!.length,
                 itemBuilder: (BuildContext context, int index){
                   return Container(
                     // width: 30,
@@ -266,7 +266,7 @@ class RetailClientCard extends StatelessWidget{
                     child: Stack(
                         children: [
                           // Solid text as fill.
-                          _retailClientStatus[0],
+                          _retailClientStatus[index],
                         ]
                     ),
                   );

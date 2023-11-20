@@ -62,8 +62,10 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
   final List _rcFoodTypeLst = [];
 
+  late CollectionReference _rcFTypesRef;
   late String _rcID;
   late String _dsID;
+  late String _dsOptID;
   late bool _vegan;
   late bool _vegetarian;
   late bool _pescatarian;
@@ -74,9 +76,6 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   final FirebaseServices _firebaseServices = FirebaseServices();
 
   Future _getRetailClientSrvcs() async {
-    late CollectionReference _rcFTypesRef;
-    late String? _dsSID;
-    late List _rcFtVeganInnerList = [];
     return await _firebaseServices.sellersRef
         .get()
         .then((dRetailClients) => {
@@ -84,7 +83,6 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
             _rcID = dRc.reference.id,
             if(dRc['openNow'] == true){
               _rcOpenNow = Icon(Icons.meeting_room, color: Colors.deepOrangeAccent,),
-              // print("${dRc.id} = $_rcOpenNow")
             } else {
               _rcOpenNow = Icon(Icons.no_meeting_room),
             },
@@ -103,44 +101,10 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
             if(dRc['nearBy'] == true){
               _rcNearBy = Icon(Icons.near_me, color: Colors.blue,),
-              // print("${dRc.id} = $_rcNearBy")
             } else {
               _rcNearBy = Icon(Icons.nearby_off)
             },
 
-            // print("RCID: ${_rcID}"),
-    // _rcFTypesRef = _firebaseServices.sellersRef.doc(_rcID).collection('foodType'),
-            _rcFTypesRef = dRc.reference.collection('foodType'),
-            _rcFTypesRef.get()
-                .then((value) => {
-              for (DocumentSnapshot ds in value.docs) {
-                // print("dddsss: ${ds['vegan']}"),
-                _dsID = ds.reference.id,
-                _dsSID = ds.reference.parent.parent?.id,
-
-                // _dsID = ds.reference.id,
-                // print('dsID: $_dsID, dsSID: $_dsSID'),
-                if(ds['vegan'] == true){
-                  // if(value.docs.contains('vegan') == true)
-                  _rcFtVegan = Icon(Icons.grass, color: Colors.green,),
-                  print("doc: ${_dsSID}, val: vegan = ${ds['vegan']}, icon: $_rcFtVegan"),
-                } else {
-                    _rcFtVegan = Icon(Icons.grass_outlined),
-                    },
-                // print("doc: ${_rcID}, val: vegan = '', icon: $_rcFtVegan"),
-                _rcFtVeganInnerList.add(_rcFtVegan),
-                // _rcFtVeganLst.add(_rcFtVegan),
-
-              },
-              // _rcFtVeganLst.add(_rcFtVegan),
-              print('veganLse: ${_rcFtVeganInnerList.length}'),
-
-            }),
-            // _rcFtVeganInnerList.add(_rcFtVegan),
-
-
-            // _rcFtVeganLst.add(_rcFtVegan),
-            print('veganLse2: ${_rcFtVeganInnerList.length}'),
             _rcOpenNowLst.add(_rcOpenNow),
             _rcDeliveryLst.add(_rcDelivery),
             _rcHasItemLst.add(_rcHasItem),
@@ -148,27 +112,40 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
           },
 
-          /*for(DocumentSnapshot dDoc in dRetailClients.docs){
-            _rcID = dDoc.reference.id,
-            _rcFTypesRef = _firebaseServices.sellersRef.doc(_rcID).collection('foodType'),
-            _rcFTypesRef.get()
-                .then((value) => {
-                  for (DocumentSnapshot ds in value.docs) {
-                    // print("dddsss: ${ds['vegan']}"),
-                    if(ds['vegan'] == true)
-                      _rcFtVegan = Icon(Icons.grass, color: Colors.green, )
-                    else
-                      _rcFtVegan = Icon(Icons.grass_outlined),
-
-                    print("doc: ${_rcID}, val: vegan = ${ds['vegan']}, icon: $_rcFtVegan"),
-
-                    _rcFtVeganLst.add(_rcFtVegan)
-                  }
-                }),
-          }*/
-
         });
   }
+
+  Future _getRetailClientOptions() async {
+    late String? _dsPID;
+    return await _firebaseServices.foodTypesGroupRef
+      .get()
+        .then((dRcOptions) => {
+          for(DocumentSnapshot dRcOpt in dRcOptions.docs) {
+            _dsOptID = dRcOpt.reference.id,
+            _dsPID = dRcOpt.reference.parent.parent?.id,
+            // print('dsID: $_dsOptID, dsPID: $_dsPID'),
+            if(dRcOpt['vegan'] == true){
+              _rcFtVegan = Icon(Icons.grass, color: Colors.green,),
+              // print("ddoc: ${_dsPID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
+            } else {
+              _rcFtVegan = Icon(Icons.grass_outlined),
+            },
+
+            if(dRcOpt['pescatarian'] == true){
+              _rcFtPescatarian = Icon(Icons.set_meal, color: Colors.pink,),
+              // print("ddoc: ${_dsPID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
+            } else {
+              _rcFtPescatarian = Icon(Icons.set_meal_outlined),
+            },
+
+            _rcFtVeganLst.add(_rcFtVegan),
+            _rcFtPescatarianLst.add(_rcFtPescatarian),
+
+          }
+    });
+
+  }
+
 
   Future _selectRetailClients<String>() async {
     late List _clientList;
@@ -264,6 +241,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
     // TODO: Set this state top be MenuClosed State, Button State
     // _isCustomerService = "AnnNjTT8vmYSAEpT0rPg";
     _getRetailClientSrvcs();
+    _getRetailClientOptions();
     super.initState();
   }
 
@@ -344,7 +322,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                             _rcNearByLst[index],
                           ],
                           retailClientStatus: [
-                            _rcFtVeganLst,
+                            _rcFtVeganLst[index],
+                            _rcFtPescatarianLst[index],
                           ],
                         )
 
