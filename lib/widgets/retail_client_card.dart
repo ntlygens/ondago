@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:ondago/constants.dart';
-import 'dart:ffi';
+import 'dart:math' as math;
 
 class RetailClientCard extends StatelessWidget{
   // final List imageList;
@@ -27,8 +27,8 @@ class RetailClientCard extends StatelessWidget{
     late List _retailClientSrvcs = retailClientSrvcs;
     late List? _retailClientStatus = retailClientStatus;
 
-    // double rcStatW = (40 * _retailClientStatus.length);
-    // print("object: ${_retailClientStatus}");
+    double rcStatW = (40 * _retailClientStatus!.length).toDouble();
+    print("object: rcStatW: $rcStatW and rcClentStatusL: ${_retailClientStatus.length}");
     // TODO: implement build
     return Stack(
       // alignment: Alignment.topLeft,
@@ -214,7 +214,7 @@ class RetailClientCard extends StatelessWidget{
         Positioned(
           right: 32,
           bottom: 12,
-          width: 80,
+          width: rcStatW,
           height: 40,
           child: Container(
             padding: EdgeInsets.all(4),
@@ -246,7 +246,7 @@ class RetailClientCard extends StatelessWidget{
                     mainAxisSpacing: 6,
                     crossAxisSpacing: 6
                 ),
-                itemCount: _retailClientStatus!.length,
+                itemCount: _retailClientStatus.length,
                 itemBuilder: (BuildContext context, int index){
                   return Container(
                     // width: 30,
@@ -266,7 +266,8 @@ class RetailClientCard extends StatelessWidget{
                     child: Stack(
                         children: [
                           // Solid text as fill.
-                          _retailClientStatus[index],
+                          if(_retailClientStatus[index] != null)
+                            _retailClientStatus[index],
                         ]
                     ),
                   );
