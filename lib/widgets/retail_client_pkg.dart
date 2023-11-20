@@ -134,7 +134,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
             },
 
             if(dRcOpt['pescatarian'] == true){
-              _rcFtPescatarian = Icon(Icons.set_meal_outlined, color: Colors.pink,),
+              _rcFtPescatarian = Icon(Icons.set_meal_outlined,),
               // _rcFtPescatarianLst?.add(_rcFtPescatarian),
               // print("ddoc: ${_dsPID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
             } else {
@@ -142,8 +142,21 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
               _rcFtPescatarian = null,
             },
 
-            _rcFtVeganLst?.add(_rcFtVegan),
-            _rcFtPescatarianLst?.add(_rcFtPescatarian),
+            if(dRcOpt['omnivore'] == true){
+              _rcFtOmnivore = Icon(Icons.kebab_dining, color: Colors.red,),
+              // _rcFtPescatarianLst?.add(_rcFtPescatarian),
+              // print("ddoc: ${_dsPID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
+            } else {
+              // _rcFtPescatarian = Icon(Icons.set_meal),
+              _rcFtOmnivore = null,
+            },
+
+            // if(_rcFtVegan != null)
+              _rcFtVeganLst?.add(_rcFtVegan),
+            // if(_rcFtPescatarian != null)
+              _rcFtPescatarianLst?.add(_rcFtPescatarian),
+            // if(_rcFtOmnivore != null)
+              _rcFtOmnivoreLst?.add(_rcFtOmnivore),
 
           }
     });
@@ -326,8 +339,14 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                             _rcNearByLst[index],
                           ],
                           retailClientStatus: [
-                            _rcFtVeganLst?[index],
-                            _rcFtPescatarianLst?[index],
+                            if(_rcFtVeganLst?[index] != null)
+                              _rcFtVeganLst?[index],
+                            if(_rcFtPescatarianLst?[index] != null)
+                              _rcFtPescatarianLst?[index],
+                            if(_rcFtOmnivoreLst?[index] != null)
+                              _rcFtOmnivoreLst?[index],
+                            /*if(_rcFtOmnivore != null)
+                              _rcFtOmnivoreLst?[index],*/
                           ],
                         )
 

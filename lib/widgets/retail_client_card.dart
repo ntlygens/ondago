@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:ondago/constants.dart';
-import 'dart:math' as math;
 
 class RetailClientCard extends StatelessWidget{
   // final List imageList;
