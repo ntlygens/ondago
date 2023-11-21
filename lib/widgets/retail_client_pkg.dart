@@ -81,6 +81,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
         .then((dRetailClients) => {
           for (DocumentSnapshot dRc in dRetailClients.docs) {
             _rcID = dRc.reference.id,
+            // print("drcAmt: ${dRetailClients.docs.length}"),
             if(dRc['openNow'] == true){
               _rcOpenNow = Icon(Icons.meeting_room, color: Colors.deepOrangeAccent,),
             } else {

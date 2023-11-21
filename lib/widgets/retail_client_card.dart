@@ -27,7 +27,7 @@ class RetailClientCard extends StatelessWidget{
     late List? _retailClientStatus = retailClientStatus;
 
     double rcStatW = (40 * _retailClientStatus!.length).toDouble();
-    print("object: rcStatW: $rcStatW and rcClentStatusL: ${_retailClientStatus.length}");
+    // print("object: rcStatW: $rcStatW and rcClentStatusL: ${_retailClientStatus.length}");
     // TODO: implement build
     return Stack(
       // alignment: Alignment.topLeft,
