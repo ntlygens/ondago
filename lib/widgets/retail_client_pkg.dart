@@ -38,6 +38,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   late Image _cardBckgrnd;
   String _clientStore = "";
   late List _clientList;
+  late List _rcRetailers;
 
   late Icon _rcOpenNow;
   late Icon _rcNearBy;
@@ -49,6 +50,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   late Icon? _rcFtHalal;
   late Icon? _rcFtKosher;
   late Icon? _rcFtOmnivore;
+
   final List _rcOpenNowLst = [];
   final List _rcNearByLst = [];
   final List _rcHasItemLst = [];
@@ -270,103 +272,115 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     // print("amt: ${_rcFtVeganLst.length}");
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 8
-      ),
-      child: GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 400,
-              childAspectRatio: 3 / 1.35,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10),
-          itemCount: widget.retailClientList.length,
-          itemBuilder: (BuildContext ctx, index) {
-            // ** Sellers Builder being Build ** //
-            // print("indesList: ${_rcHasItemLst}");
-            return FutureBuilder(
-              future: _firebaseServices.sellersRef
-                  .doc("${widget.retailClientList[index]}")
-                  .get(),
-              builder: (context, AsyncSnapshot sellerSnap) {
-                if(sellerSnap.hasError) {
-                  return Scaffold(
-                    body: Center(
-                      child: Text(
-                        "RetailersListError: ${sellerSnap.error}"
-                      ),
+    return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 400,
+            childAspectRatio: 3 / 1.325,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 30),
+        itemCount: widget.retailClientList.length,
+        itemBuilder: (BuildContext ctx, int index) {
+          // ** Sellers Builder being Build ** //
+          // print("indesList: ${_rcHasItemLst}");
+          return StreamBuilder(
+            stream: _firebaseServices.sellersRef
+                // .orderBy("name", descending: false)
+                .snapshots(),
+            builder: (context, AsyncSnapshot sellerSnap) {
+              if(sellerSnap.hasError) {
+                return Scaffold(
+                  body: Center(
+                    child: Text(
+                      "RetailersListError: ${sellerSnap.error}"
                     ),
+                  ),
+                );
+              }
+
+              if(sellerSnap.connectionState == ConnectionState.active) {
+                if(sellerSnap.hasData) {
+                  _rcRetailers = sellerSnap.data.docs;
+                  print("logo: ${_rcRetailers[index]['logo']}");
+                  return Container(
+                    alignment: Alignment.topCenter,
+                    width: screenWidth,
+                    height: screenHeight,
+                    margin: const EdgeInsets.symmetric(vertical: 0),
+                    padding: const EdgeInsets.symmetric (
+                        vertical: 0,
+                        horizontal: 0
+                    ),
+                    // height: 100,
+                    child: GestureDetector(
+                          onTap: () async {
+                            _selectedSellerName = "${_rcRetailers[index]['name']}";
+                            _selectedSellerID = "${_rcRetailers[index].id}";
+                            _selectedSrvcCtgryName = widget.serviceCategoryName;
+                            _selectedSrvcCtgryID = widget.serviceCategoryID;
+                            // _prodSelected = true;
+                            setState(() {
+                              // _isSelected = index;
+                            });
+
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) =>
+                              // Text("this is itext")
+                              RetailClientProductsLst(
+                                sellerID: "${_rcRetailers[index]['sellerID']}",
+                              ),
+                            ));
+                          },
+                          child: Container(
+                              child: ClipRRect (
+                                borderRadius: BorderRadius.circular(6),
+                                child: Image.network(
+                                    "${_rcRetailers[index]['logo']}",
+                                    fit: BoxFit.fill,
+                                  )
+                              )
+                          )
+                          /*child: RetailClientCard(
+                            retailClientBnr: "${_rcRetailers[index]['logo']}",
+                            retailClientName: "${_rcRetailers[index]['name']}",
+                            retailClientRating: "${_rcRetailers[index]['rating']}",
+                            retailClientSrvcs: [
+                              _rcOpenNowLst[index],
+                              _rcDeliveryLst[index],
+                              _rcHasItemLst[index],
+                              _rcNearByLst[index],
+                            ],
+                            retailClientStatus: [
+                              if(_rcFtVeganLst?[index] != null)
+                                _rcFtVeganLst?[index],
+                              if(_rcFtPescatarianLst?[index] != null)
+                                _rcFtPescatarianLst?[index],
+                              if(_rcFtOmnivoreLst?[index] != null)
+                                _rcFtOmnivoreLst?[index],
+                            ],
+                          )*/
+
+                        )
+
+
                   );
                 }
 
-                if(sellerSnap.connectionState == ConnectionState.done) {
-                  if(sellerSnap.hasData) {
-                    return Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 5
-                      ),
-                      // height: 100,
-                      child: GestureDetector(
-                        onTap: () async {
-                          _selectedSellerName = "${sellerSnap.data!['name']}";
-                          _selectedSellerID = "${sellerSnap.data!.id}";
-                          _selectedSrvcCtgryName = widget.serviceCategoryName;
-                          _selectedSrvcCtgryID = widget.serviceCategoryID;
-                          // _prodSelected = true;
-                          setState(() {
-                            // _isSelected = index;
-                          });
+              }
 
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) =>
-                                // Text("this is itext")
-                                RetailClientProductsLst(
-                                  sellerID: "${sellerSnap.data!['sellerID']}",
-                                ),
-                          ));
-                        },
-                        child: RetailClientCard(
-                          retailClientBnr: "${sellerSnap.data!['logo']}",
-                          retailClientName: "${sellerSnap.data!['name']}",
-                          retailClientRating: "${sellerSnap.data!['rating']}",
-                          retailClientSrvcs: [
-                            _rcOpenNowLst[index],
-                            _rcDeliveryLst[index],
-                            _rcHasItemLst[index],
-                            _rcNearByLst[index],
-                          ],
-                          retailClientStatus: [
-                            if(_rcFtVeganLst?[index] != null)
-                              _rcFtVeganLst?[index],
-                            if(_rcFtPescatarianLst?[index] != null)
-                              _rcFtPescatarianLst?[index],
-                            if(_rcFtOmnivoreLst?[index] != null)
-                              _rcFtOmnivoreLst?[index],
-                            /*if(_rcFtOmnivore != null)
-                              _rcFtOmnivoreLst?[index],*/
-                          ],
-                        )
-
-                      ),
-                    );
-                  }
-
-                }
-
-                return const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              },
-            );
-            // *************************************** //
-          }
-      ),
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
+          );
+          // *************************************** //
+        }
     );
   }
 }
