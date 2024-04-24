@@ -25,8 +25,10 @@ class RetailClientCard extends StatelessWidget{
     late String _retailClientRating = retailClientRating;
     late List _retailClientSrvcs = retailClientSrvcs;
     late List? _retailClientStatus = retailClientStatus;
-
-    double rcStatW = (40 * _retailClientStatus!.length).toDouble();
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    // double rcStatW = (40 * 4).toDouble();
+    // print("width: ${screenWidth}");
     // print("object: rcStatW: $rcStatW and rcClentStatusL: ${_retailClientStatus.length}");
     // TODO: implement build
     return Stack(
@@ -34,26 +36,70 @@ class RetailClientCard extends StatelessWidget{
       fit: StackFit.loose,
       children: [
         /// *** Background container *** ///
-        Container(
-          height: 100,
-          // color: Colors.amber,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black38,
-                width: 1,
-              style: BorderStyle.solid
+        Positioned(
+          left: 0,
+          top: 0,
+          // width: screenWidth,
+          // height: 130,
+          child: Container(
+            width: screenWidth - 18,
+            height: 125,
+            // clipBehavior: Clip.hardEdge,
+            // color: Colors.amber,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.black38,
+                  width: 1,
+                style: BorderStyle.solid
+              ),
+              borderRadius: BorderRadius.circular(6),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.lightBlueAccent, spreadRadius: 0
+                )
+              ],
             ),
-            borderRadius: BorderRadius.circular(6),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.lightBlueAccent, spreadRadius: 0
-              )
-            ],
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          ),
+        ),
+        /// *** Image container *** ///
+        Positioned(
+          right: 30,
+          top: 31,
+          height: 120,
+          child:
+          Container(
+            margin: EdgeInsets.fromLTRB(
+                0, 0, 0, 0
+            ),
+            decoration: BoxDecoration(
+              border: Border.all(
+                  color: Colors.deepOrange,
+                  width: 3,
+                  style: BorderStyle.solid,
+                  strokeAlign: BorderSide.strokeAlignCenter
+              ),
+              borderRadius: BorderRadius.circular(6),
+              // color: Colors.deepOrange,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black54.withOpacity(0.45),
+                  spreadRadius: 3,
+                  blurRadius: 4,
+                  offset: Offset(0, 0), // changes position of shadow
+                ),
+                // BoxShadow(color: Colors.deepOrange, sprea`dRadius: 3),
+              ],
+            ),
+            child: Image.network(
+              "${_retailClientBnr}",
+              fit: BoxFit.contain,
+            ),
           ),
         ),
         /// *** Services container *** ///
         Positioned(
-          left: 20,
+          left: 30,
           top: 44,
           width: 92,
           height: 92,
@@ -112,41 +158,6 @@ class RetailClientCard extends StatelessWidget{
                     ),
                   );
                 }
-            ),
-          ),
-        ),
-        /// *** Image container *** ///
-        Positioned(
-          right: 20,
-          top: 31,
-          height: 120,
-          child:
-            Container(
-              margin: EdgeInsets.fromLTRB(
-                0, 0, 0, 0
-              ),
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: Colors.deepOrange,
-                    width: 3,
-                    style: BorderStyle.solid,
-                    strokeAlign: BorderSide.strokeAlignCenter
-                ),
-                borderRadius: BorderRadius.circular(6),
-                // color: Colors.deepOrange,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black54.withOpacity(0.45),
-                    spreadRadius: 3,
-                    blurRadius: 4,
-                    offset: Offset(0, 0), // changes position of shadow
-                  ),
-                  // BoxShadow(color: Colors.deepOrange, sprea`dRadius: 3),
-                ],
-              ),
-              child: Image.network(
-                "${_retailClientBnr}",
-                fit: BoxFit.contain,
             ),
           ),
         ),
@@ -213,7 +224,7 @@ class RetailClientCard extends StatelessWidget{
         Positioned(
           right: 32,
           bottom: 12,
-          width: rcStatW,
+          width: 92,
           height: 40,
           child: Container(
             padding: EdgeInsets.all(4),
@@ -245,7 +256,7 @@ class RetailClientCard extends StatelessWidget{
                     mainAxisSpacing: 6,
                     crossAxisSpacing: 6
                 ),
-                itemCount: _retailClientStatus.length,
+                itemCount: _retailClientStatus?.length,
                 itemBuilder: (BuildContext context, int index){
                   return Container(
                     // width: 30,
@@ -263,11 +274,11 @@ class RetailClientCard extends StatelessWidget{
                         borderRadius: BorderRadius.circular(4)
                     ),
                     child: Stack(
-                        children: [
+                        /*children: [
                           // Solid text as fill.
-                          if(_retailClientStatus[index] != null)
-                            _retailClientStatus[index],
-                        ]
+                          if(_retailClientStatus?[index] != null)
+                            _retailClientStatus?[index],
+                        ]*/
                     ),
                   );
                 }

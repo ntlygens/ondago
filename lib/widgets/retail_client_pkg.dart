@@ -55,12 +55,12 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   final List _rcNearByLst = [];
   final List _rcHasItemLst = [];
   final List _rcDeliveryLst = [];
-  final List? _rcFtVeganLst = [];
+  final List _rcFtVeganLst = [];
   final List? _rcFtVegetarianLst = [];
-  final List? _rcFtPescatarianLst = [];
+  final List _rcFtPescatarianLst = [];
   final List? _rcFtHalalLst = [];
   final List? _rcFtKosherLst = [];
-  final List? _rcFtOmnivoreLst = [];
+  final List _rcFtOmnivoreLst = [];
 
   final List _rcFoodTypeLst = [];
 
@@ -282,7 +282,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
             maxCrossAxisExtent: 400,
             childAspectRatio: 3 / 1.325,
             crossAxisSpacing: 10,
-            mainAxisSpacing: 30),
+            mainAxisSpacing: 10),
         itemCount: widget.retailClientList.length,
         itemBuilder: (BuildContext ctx, int index) {
           // ** Sellers Builder being Build ** //
@@ -305,7 +305,6 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
               if(sellerSnap.connectionState == ConnectionState.active) {
                 if(sellerSnap.hasData) {
                   _rcRetailers = sellerSnap.data.docs;
-                  print("logo: ${_rcRetailers[index]['logo']}");
                   return Container(
                     alignment: Alignment.topCenter,
                     width: screenWidth,
@@ -335,7 +334,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                               ),
                             ));
                           },
-                          child: Container(
+                          /*child: Container(
                               child: ClipRRect (
                                 borderRadius: BorderRadius.circular(6),
                                 child: Image.network(
@@ -343,8 +342,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                                     fit: BoxFit.fill,
                                   )
                               )
-                          )
-                          /*child: RetailClientCard(
+                          )*/
+                          child: RetailClientCard(
                             retailClientBnr: "${_rcRetailers[index]['logo']}",
                             retailClientName: "${_rcRetailers[index]['name']}",
                             retailClientRating: "${_rcRetailers[index]['rating']}",
@@ -354,15 +353,15 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                               _rcHasItemLst[index],
                               _rcNearByLst[index],
                             ],
-                            retailClientStatus: [
-                              if(_rcFtVeganLst?[index] != null)
-                                _rcFtVeganLst?[index],
-                              if(_rcFtPescatarianLst?[index] != null)
-                                _rcFtPescatarianLst?[index],
-                              if(_rcFtOmnivoreLst?[index] != null)
-                                _rcFtOmnivoreLst?[index],
-                            ],
-                          )*/
+                            /*retailClientStatus: [
+                              if(_rcFtVeganLst[index] != null)
+                                {_rcFtVeganLst[index]},
+                              if(_rcFtPescatarianLst[index] != null)
+                                {_rcFtPescatarianLst[index]},
+                              if(_rcFtOmnivoreLst[index] != null)
+                                {_rcFtOmnivoreLst[index]},
+                            ],*/
+                          )
 
                         )
 
