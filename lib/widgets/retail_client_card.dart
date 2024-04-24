@@ -65,7 +65,7 @@ class RetailClientCard extends StatelessWidget{
         /// *** Image container *** ///
         Positioned(
           right: 30,
-          top: 31,
+          top: 37,
           height: 120,
           child:
           Container(
@@ -100,7 +100,7 @@ class RetailClientCard extends StatelessWidget{
         /// *** Services container *** ///
         Positioned(
           left: 30,
-          top: 44,
+          top: 50,
           width: 92,
           height: 92,
           child: Container(
@@ -222,8 +222,8 @@ class RetailClientCard extends StatelessWidget{
         ),
         /// *** Cuisine container *** ///
         Positioned(
-          right: 32,
-          bottom: 12,
+          right: 15,
+          bottom: 20,
           width: 92,
           height: 40,
           child: Container(
