@@ -81,11 +81,11 @@ class _HomeTabState extends State<HomeTab> {
     _pageController = PageController();
     _getSelectedSrvc();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    /*WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         redboxSize = getRedBoxSize(key.currentContext!);
       });
-    });
+    });*/
     super.initState();
   }
 

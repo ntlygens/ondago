@@ -274,11 +274,11 @@ class RetailClientCard extends StatelessWidget{
                         borderRadius: BorderRadius.circular(4)
                     ),
                     child: Stack(
-                        /*children: [
+                        children: [
                           // Solid text as fill.
                           if(_retailClientStatus?[index] != null)
                             _retailClientStatus?[index],
-                        ]*/
+                        ]
                     ),
                   );
                 }

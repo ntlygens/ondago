@@ -55,12 +55,14 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   final List _rcNearByLst = [];
   final List _rcHasItemLst = [];
   final List _rcDeliveryLst = [];
-  final List _rcFtVeganLst = [];
+  final List? _rcFtVeganLst = [];
   final List? _rcFtVegetarianLst = [];
-  final List _rcFtPescatarianLst = [];
+  final List? _rcFtPescatarianLst = [];
   final List? _rcFtHalalLst = [];
   final List? _rcFtKosherLst = [];
-  final List _rcFtOmnivoreLst = [];
+  final List? _rcFtOmnivoreLst = [];
+
+  final List _foodType = ['vegan', 'pescatarian', 'omnivore'];
 
   final List _rcFoodTypeLst = [];
 
@@ -68,6 +70,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   late String _rcID;
   late String _dsID;
   late String _dsOptID;
+  late String? _dsPID;
+  late String _ft;
   late bool _vegan;
   late bool _vegetarian;
   late bool _pescatarian;
@@ -119,7 +123,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   }
 
   Future _getRetailClientOptions() async {
-    late String? _dsPID;
+
     return await _firebaseServices.foodTypesGroupRef
       .get()
         .then((dRcOptions) => {
@@ -127,10 +131,20 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
             _dsOptID = dRcOpt.reference.id,
             _dsPID = dRcOpt.reference.parent.parent?.id,
             // print('dsID: $_dsOptID, dsPID: $_dsPID'),
-            if(dRcOpt['vegan'] == true){
+            if(dRcOpt['vegan'] == true) {
+              print("ddoc: ${_dsPID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
+            } else if(dRcOpt['pescatarian'] == true) {
+              print("ddoc2: ${_dsPID}, val: pescatarian = ${dRcOpt['pescatarian']}, icon: $_rcFtVegan"),
+            } else if(dRcOpt['omnivore'] == true) {
+              print("ddoc3: ${_dsPID}, val: omnivore = ${dRcOpt['omnivore']}, icon: $_rcFtVegan"),
+            } else {
+              print("ddoc4: ${_dsPID}, val: default"),
+            },
+
+            /*if(dRcOpt['vegan'] == true){
               _rcFtVegan = Icon(Icons.grass, color: Colors.green,),
-              // _rcFtVeganLst?.add(_rcFtVegan),
-              // print("ddoc: ${_dsPID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
+              _rcFtVeganLst?.add(_rcFtVegan),
+              print("ddoc: ${_dsPID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
             } else {
               _rcFtVegan = null,
               // _rcFtVegan = Icon(Icons.grass_outlined),
@@ -138,8 +152,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
             if(dRcOpt['pescatarian'] == true){
               _rcFtPescatarian = Icon(Icons.set_meal_outlined,),
-              // _rcFtPescatarianLst?.add(_rcFtPescatarian),
-              // print("ddoc: ${_dsPID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
+              _rcFtPescatarianLst?.add(_rcFtPescatarian),
+              print("ddoc2: ${_dsPID}, val: pescatarian = ${dRcOpt['pescatarian']}, icon: $_rcFtVegan"),
             } else {
               // _rcFtPescatarian = Icon(Icons.set_meal),
               _rcFtPescatarian = null,
@@ -147,19 +161,19 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
             if(dRcOpt['omnivore'] == true){
               _rcFtOmnivore = Icon(Icons.kebab_dining, color: Colors.red,),
-              // _rcFtPescatarianLst?.add(_rcFtPescatarian),
-              // print("ddoc: ${_dsPID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
+              _rcFtPescatarianLst?.add(_rcFtPescatarian),
+              print("ddoc3: ${_dsPID}, val: omnivore = ${dRcOpt['omnivore']}, icon: $_rcFtVegan"),
             } else {
               // _rcFtPescatarian = Icon(Icons.set_meal),
               _rcFtOmnivore = null,
-            },
+            },*/
 
             // if(_rcFtVegan != null)
-              _rcFtVeganLst?.add(_rcFtVegan),
+              // _rcFtVeganLst?.add(_rcFtVegan),
             // if(_rcFtPescatarian != null)
-              _rcFtPescatarianLst?.add(_rcFtPescatarian),
+              // _rcFtPescatarianLst?.add(_rcFtPescatarian),
             // if(_rcFtOmnivore != null)
-              _rcFtOmnivoreLst?.add(_rcFtOmnivore),
+              // _rcFtOmnivoreLst?.add(_rcFtOmnivore),
 
           }
     });
@@ -274,7 +288,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    // print("amt: ${_rcFtVeganLst.length}");
+    // print("amt: ${widget.retailClientList[0]}");
     return GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
@@ -305,6 +319,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
               if(sellerSnap.connectionState == ConnectionState.active) {
                 if(sellerSnap.hasData) {
                   _rcRetailers = sellerSnap.data.docs;
+
                   return Container(
                     alignment: Alignment.topCenter,
                     width: screenWidth,
@@ -321,7 +336,12 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                             _selectedSellerID = "${_rcRetailers[index].id}";
                             _selectedSrvcCtgryName = widget.serviceCategoryName;
                             _selectedSrvcCtgryID = widget.serviceCategoryID;
+                            _rcFtVeganLst?[index] = _rcRetailers[index]['foodType'];
                             // _prodSelected = true;
+
+                            // {_rcFtPescatarianLst?[index]},
+                            //               // {_rcFtOmnivoreLst?[index]},
+                            print('tesg ${_rcFtVeganLst?[index]}');
                             setState(() {
                               // _isSelected = index;
                             });
@@ -354,13 +374,25 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                               _rcNearByLst[index],
                             ],
                             /*retailClientStatus: [
-                              if(_rcFtVeganLst[index] != null)
-                                {_rcFtVeganLst[index]},
-                              if(_rcFtPescatarianLst[index] != null)
-                                {_rcFtPescatarianLst[index]},
-                              if(_rcFtOmnivoreLst[index] != null)
-                                {_rcFtOmnivoreLst[index]},
+                              _rcFtVeganLst?[0]
+
                             ],*/
+                            // retailClientStatus: [
+                              // if(_rcFtVeganLst?[index] != 0)
+                              //   {_rcFtVeganLst?[index]},
+                              // if(_rcFtPescatarianLst?[index] != 0)
+                              //   {_rcFtPescatarianLst?[index]},
+                              // if(_rcFtOmnivoreLst?[index] != 0)
+                              //   {_rcFtOmnivoreLst?[index]},
+
+
+                              /*if(_rcFtVeganLst[index] != 0)
+                                {_rcFtVeganLst[index]},
+                              if(_rcFtPescatarianLst[index] != 0)
+                                {_rcFtPescatarianLst[index]},
+                              if(_rcFtOmnivoreLst[index] != 0)
+                                {_rcFtOmnivoreLst[index]},*/
+                            // ],
                           )
 
                         )
