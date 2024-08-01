@@ -24,12 +24,14 @@ class RetailClientCard extends StatelessWidget{
     late String _retailClientName = retailClientName;
     late String _retailClientRating = retailClientRating;
     late List _retailClientSrvcs = retailClientSrvcs;
-    late List _retailClientStatus = retailClientStatus;
+    late List? _retailClientStatus = retailClientStatus;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     // double rcStatW = (40 * 4).toDouble();
     // print("width: ${screenWidth}");
     // print("rcObjStat: rcStatW: $rcStatW and rcClentStatusL: ${_retailClientStatus.length}");
+    // print("rcClentStatusL: ${_retailClientStatus[0]}");
+
     // TODO: implement build
     return Stack(
       // alignment: Alignment.topLeft,
@@ -256,7 +258,7 @@ class RetailClientCard extends StatelessWidget{
                     mainAxisSpacing: 6,
                     crossAxisSpacing: 6
                 ),
-                itemCount: _retailClientStatus.length,
+                itemCount: _retailClientStatus?.length,
                 itemBuilder: (BuildContext context, int index){
                   return Container(
                     // width: 30,
@@ -276,8 +278,8 @@ class RetailClientCard extends StatelessWidget{
                     child: Stack(
                         children: [
                           // Solid text as fill.
-                          if (_retailClientStatus[index] != null)
-                            _retailClientStatus[index],
+                          // if (_retailClientStatus?[index] != null)
+                            _retailClientStatus[index]
                         ]
                     ),
                   );
