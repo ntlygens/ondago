@@ -81,11 +81,11 @@ class _HomeTabState extends State<HomeTab> {
     _pageController = PageController();
     _getSelectedSrvc();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    /*WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         redboxSize = getRedBoxSize(key.currentContext!);
       });
-    });
+    });*/
     super.initState();
   }
 
@@ -277,8 +277,8 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   /// get size of actionBar to drop tab below it ///
-  Size getRedBoxSize(BuildContext context) {
+  /*Size getRedBoxSize(BuildContext context) {
     final box = context.findRenderObject() as RenderBox;
     return box.size;
-  }
+  }*/
 }

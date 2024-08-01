@@ -56,15 +56,16 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   final List _rcHasItemLst = [];
   final List _rcDeliveryLst = [];
   final List _rcFtVeganLst = [];
-  final List? _rcFtVegetarianLst = [];
+  final List _rcFtVegetarianLst = [];
   final List _rcFtPescatarianLst = [];
-  final List? _rcFtHalalLst = [];
-  final List? _rcFtKosherLst = [];
+  final List _rcFtHalalLst = [];
+  final List _rcFtKosherLst = [];
   final List _rcFtOmnivoreLst = [];
 
   final List _rcFoodTypeLst = [];
 
   late CollectionReference _rcFTypesRef;
+  // late DocumentReference _dsOpt;
   late String _rcID;
   late String _dsID;
   late String _dsOptID;
@@ -119,18 +120,73 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   }
 
   Future _getRetailClientOptions() async {
-    late String? _dsPID;
+    late String? _dsRcID;
+    late bool? _dsOptn;
+    late String? _dsRcName;
+    int _kl;
     return await _firebaseServices.foodTypesGroupRef
       .get()
         .then((dRcOptions) => {
+          // print("dsID: $dRcOptions")
           for(DocumentSnapshot dRcOpt in dRcOptions.docs) {
+            // _dsOptn = dRcOpt['vegan'],
+            _halal = dRcOpt['halal'],
+            _kosher = dRcOpt['kosher'],
+            _omnivore = dRcOpt['omnivore'],
+            _pescatarian = dRcOpt['pescatarian'],
+            _vegan = dRcOpt['vegan'],
+            _vegetarian = dRcOpt['vegetarian'],
             _dsOptID = dRcOpt.reference.id,
-            _dsPID = dRcOpt.reference.parent.parent?.id,
-            // print('dsID: $_dsOptID, dsPID: $_dsPID'),
-            if(dRcOpt['vegan'] == true){
+            _dsRcID = dRcOpt.reference.parent.parent?.id,
+            print("dsRcID: $_dsRcID, dsOptID: $_dsOptID"),
+
+            if(_halal == true){
+              _rcFtHalal = Icon(Icons.grass, color: Colors.green,),
+              _rcFtHalalLst.add(_rcFtHalal),
+              print('halal prods: $_dsOptID'),
+
+            },
+            if(_kosher == true){
+              _rcFtKosher = Icon(Icons.grass, color: Colors.deepOrange,),
+              _rcFtKosherLst.add(_rcFtKosher),
+              print('kosher prods: $_dsOptID')
+
+            },
+            if(_omnivore == true){
+              _rcFtOmnivore = Icon(Icons.kebab_dining, color: Colors.red,),
+              _rcFtOmnivoreLst.add(_rcFtOmnivore),
+              print('omnivore prods: $_dsOptID')
+
+            },
+            if(_pescatarian == true){
+              _rcFtPescatarian = Icon(Icons.set_meal_outlined,),
+              _rcFtPescatarianLst.add(_rcFtPescatarian),
+              print('pescatarian prods: $_dsOptID')
+
+            },
+            if(_vegan == true){
               _rcFtVegan = Icon(Icons.grass, color: Colors.green,),
-              // _rcFtVeganLst?.add(_rcFtVegan),
-              // print("ddoc: ${_dsPID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
+              _rcFtVeganLst.add(_rcFtVegan),
+              print('vegan prods: $_dsOptID')
+
+            },
+            if(_vegetarian == true){
+              _rcFtVegetarian = Icon(Icons.grass, color: Colors.lightGreenAccent,),
+              _rcFtVegetarianLst.add(_rcFtVegetarian),
+              print('vegetarian prods: $_dsOptID')
+
+            },
+              // _rcFtHalal = null, _rcFtKosher = null,
+              // _rcFtOmnivore = null, _rcFtPescatarian = null,
+              // _rcFtVegan = null, _rcFtVegetarian = null,
+              // _kl = _rcFtKosherLst.length,
+              // print(" list: $_kl")
+            // },
+
+            /*if(dRcOpt['vegan'] == true){
+              _rcFtVegan = Icon(Icons.grass, color: Colors.green,),
+              _rcFtVeganLst?.add(_rcFtVegan),
+              print("ddoc: ${_dsRcID}, val: vegan = ${_vegan}, icon: $_rcFtVegan"),
             } else {
               _rcFtVegan = null,
               // _rcFtVegan = Icon(Icons.grass_outlined),
@@ -138,8 +194,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
             if(dRcOpt['pescatarian'] == true){
               _rcFtPescatarian = Icon(Icons.set_meal_outlined,),
-              // _rcFtPescatarianLst?.add(_rcFtPescatarian),
-              // print("ddoc: ${_dsPID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
+              _rcFtPescatarianLst?.add(_rcFtPescatarian),
+              // print("ddoc: ${_dsRcID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
             } else {
               // _rcFtPescatarian = Icon(Icons.set_meal),
               _rcFtPescatarian = null,
@@ -147,19 +203,25 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
             if(dRcOpt['omnivore'] == true){
               _rcFtOmnivore = Icon(Icons.kebab_dining, color: Colors.red,),
-              // _rcFtPescatarianLst?.add(_rcFtPescatarian),
-              // print("ddoc: ${_dsPID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
+              _rcFtOmnivoreLst?.add(_rcFtOmnivore),
+              // print("ddoc: ${_dsRcID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
             } else {
               // _rcFtPescatarian = Icon(Icons.set_meal),
               _rcFtOmnivore = null,
-            },
+            },*/
 
-            // if(_rcFtVegan != null)
-              _rcFtVeganLst?.add(_rcFtVegan),
-            // if(_rcFtPescatarian != null)
-              _rcFtPescatarianLst?.add(_rcFtPescatarian),
+            // if(_rcFtHalal != null)
+            //   _rcFtHalalLst.add(_rcFtHalal),
+            // if(_rcFtKosher != null)
+            //   _rcFtKosherLst.add(_rcFtKosher),
             // if(_rcFtOmnivore != null)
-              _rcFtOmnivoreLst?.add(_rcFtOmnivore),
+            //   _rcFtOmnivoreLst.add(_rcFtOmnivore),
+            // if(_rcFtPescatarian != null)
+            //   _rcFtPescatarianLst.add(_rcFtPescatarian),
+            // if(_rcFtVegan != null)
+            //   _rcFtVeganLst.add(_rcFtVegan),
+            // if(_rcFtVegetarian != null)
+            //   _rcFtVegetarianLst.add(_rcFtVegetarian),
 
           }
     });
@@ -353,14 +415,19 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                               _rcHasItemLst[index],
                               _rcNearByLst[index],
                             ],
-                            /*retailClientStatus: [
-                              if(_rcFtVeganLst[index] != null)
-                                {_rcFtVeganLst[index]},
-                              if(_rcFtPescatarianLst[index] != null)
-                                {_rcFtPescatarianLst[index]},
-                              if(_rcFtOmnivoreLst[index] != null)
-                                {_rcFtOmnivoreLst[index]},
-                            ],*/
+                            retailClientStatus: [
+                              // _rcOpenNowLst[index],
+                              // _rcDeliveryLst[index],
+                              // _rcHasItemLst[index],
+                              // _rcNearByLst[index],
+                              _rcFtHalalLst?[index],
+                              _rcFtKosherLst?[index],
+                              // _rcFtOmnivoreLst?[index],
+                              // _rcFtPescatarianLst?[index],
+                              // _rcFtVeganLst[index],
+                              // _rcFtVegetarianLst?[index],
+
+                            ],
                           )
 
                         )

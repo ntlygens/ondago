@@ -172,7 +172,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
               }
 
               if (snapshot.connectionState == ConnectionState.done) {
-                List docs = snapshot.data!['type'];
+                List docs = snapshot.data['type'];
                 return ListView(
                     padding: const EdgeInsets.all(0),
                     children: [

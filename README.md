@@ -1,3 +1,5 @@
 # ondago
 
-A new Flutter project.
+A new ethod of mobile online ordering, catered to transportation industry.
+
+

@@ -8,14 +8,14 @@ class RetailClientCard extends StatelessWidget{
   final String retailClientName;
   final String retailClientRating;
   final List retailClientSrvcs;
-  final List? retailClientStatus;
+  final List retailClientStatus;
   const RetailClientCard({
     // required this.imageList,
     required this.retailClientBnr,
     required this.retailClientName,
     required this.retailClientRating,
     required this.retailClientSrvcs,
-    this.retailClientStatus
+    required this.retailClientStatus
   });
 
   @override
@@ -24,12 +24,12 @@ class RetailClientCard extends StatelessWidget{
     late String _retailClientName = retailClientName;
     late String _retailClientRating = retailClientRating;
     late List _retailClientSrvcs = retailClientSrvcs;
-    late List? _retailClientStatus = retailClientStatus;
+    late List _retailClientStatus = retailClientStatus;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     // double rcStatW = (40 * 4).toDouble();
     // print("width: ${screenWidth}");
-    // print("object: rcStatW: $rcStatW and rcClentStatusL: ${_retailClientStatus.length}");
+    // print("rcObjStat: rcStatW: $rcStatW and rcClentStatusL: ${_retailClientStatus.length}");
     // TODO: implement build
     return Stack(
       // alignment: Alignment.topLeft,
@@ -224,8 +224,8 @@ class RetailClientCard extends StatelessWidget{
         Positioned(
           right: 15,
           bottom: 20,
-          width: 92,
-          height: 40,
+          width: 80,
+          height: 42,
           child: Container(
             padding: EdgeInsets.all(4),
             // color: Colors.lightGreenAccent,
@@ -251,12 +251,12 @@ class RetailClientCard extends StatelessWidget{
             child: GridView.builder(
                 shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 40,
+                    maxCrossAxisExtent: 35,
                     childAspectRatio: 1 / 1,
                     mainAxisSpacing: 6,
                     crossAxisSpacing: 6
                 ),
-                itemCount: _retailClientStatus?.length,
+                itemCount: _retailClientStatus.length,
                 itemBuilder: (BuildContext context, int index){
                   return Container(
                     // width: 30,
@@ -274,11 +274,11 @@ class RetailClientCard extends StatelessWidget{
                         borderRadius: BorderRadius.circular(4)
                     ),
                     child: Stack(
-                        /*children: [
+                        children: [
                           // Solid text as fill.
-                          if(_retailClientStatus?[index] != null)
-                            _retailClientStatus?[index],
-                        ]*/
+                          if (_retailClientStatus[index] != null)
+                            _retailClientStatus[index],
+                        ]
                     ),
                   );
                 }

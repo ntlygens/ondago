@@ -70,14 +70,23 @@ flutter {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:32.4.0')
+    implementation platform('com.google.firebase:firebase-bom:33.1.2')
+    // implementation platform('com.google.firebase:firebase-bom:32.4.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.firebase:firebase-analytics:21.4.0'
-    implementation 'com.google.firebase:firebase-firestore:24.9.0'
-    implementation 'com.google.firebase:firebase-storage:20.3.0'
-    implementation 'com.google.firebase:firebase-database:20.3.0'
-    implementation 'com.google.firebase:firebase-auth:22.2.0'
-    implementation 'com.google.firebase:firebase-messaging:23.3.0'
-    implementation 'com.google.firebase:firebase-inappmessaging-display:20.4.0'
+    implementation 'com.google.firebase:firebase-analytics:22.0.2'
+    implementation 'com.google.firebase:firebase-firestore:25.0.0'
+    implementation 'com.google.firebase:firebase-storage:21.0.0'
+//    implementation 'com.google.firebase:firebase-analytics:21.4.0'
+//    implementation 'com.google.firebase:firebase-firestore:24.9.0'
+//    implementation 'com.google.firebase:firebase-storage:20.3.0'
+    implementation 'com.google.firebase:firebase-database:21.0.0'
+    // implementation 'com.google.firebase:firebase-database:20.3.0'
+    implementation 'com.google.firebase:firebase-auth:23.0.0'
+    implementation 'com.google.firebase:firebase-messaging:24.0.0'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:21.0.0'
+
+//    implementation 'com.google.firebase:firebase-auth:22.2.0'
+//    implementation 'com.google.firebase:firebase-messaging:23.3.0'
+//    implementation 'com.google.firebase:firebase-inappmessaging-display:20.4.0'
 }
