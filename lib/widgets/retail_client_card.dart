@@ -8,14 +8,14 @@ class RetailClientCard extends StatelessWidget{
   final String retailClientName;
   final String retailClientRating;
   final List retailClientSrvcs;
-  final List retailClientStatus;
+  final List? retailClientStatus;
   const RetailClientCard({
     // required this.imageList,
     required this.retailClientBnr,
     required this.retailClientName,
     required this.retailClientRating,
     required this.retailClientSrvcs,
-    required this.retailClientStatus
+    this.retailClientStatus
   });
 
   @override
@@ -155,7 +155,8 @@ class RetailClientCard extends StatelessWidget{
                     child: Stack(
                         children: [
                           // Solid text as fill.
-                          _retailClientSrvcs[index],
+                          if(_retailClientSrvcs[index] != null)
+                            _retailClientSrvcs[index],
                         ]
                     ),
                   );
@@ -278,8 +279,8 @@ class RetailClientCard extends StatelessWidget{
                     child: Stack(
                         children: [
                           // Solid text as fill.
-                          // if (_retailClientStatus?[index] != null)
-                            _retailClientStatus[index]
+                          if (_retailClientStatus?[index] != null)
+                            _retailClientStatus?[index]
                         ]
                     ),
                   );
