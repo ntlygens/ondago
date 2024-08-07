@@ -29,7 +29,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   final String _selectedProductName = "selected-product-name";
   String? _selectedSellerName = "selected-product-name";
   final String _selectedProductID = "selected-product-id";
-  String _selectedSellerID = "selected-product-id";
+  String _selectedSellerID = "selected-seller -id";
   final String _selectedProductSrvcID = "selected-product-service-id";
   String _selectedSrvcCtgryName = "selected-service-name";
   String _selectedSrvcCtgryID = "selected-service-id";
@@ -365,8 +365,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 400,
-            childAspectRatio: 3 / 1.325,
-            crossAxisSpacing: 10,
+            childAspectRatio: 3 / 1.235,
+            crossAxisSpacing: 20,
             mainAxisSpacing: 10),
         itemCount: widget.retailClientList.length,
         itemBuilder: (BuildContext ctx, int index) {
@@ -387,14 +387,19 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                 );
               }
 
+              //TODO: Must fix index error when loading data
+              // ******************************************** //
               if(sellerSnap.connectionState == ConnectionState.active) {
                 if(sellerSnap.hasData) {
                   _rcRetailers = sellerSnap.data.docs;
                   return Container(
                     alignment: Alignment.topCenter,
-                    width: screenWidth,
-                    height: screenHeight,
-                    margin: const EdgeInsets.symmetric(vertical: 0),
+                    // width: screenWidth,
+                    // height: screenHeight,
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: 0,
+                    ),
                     padding: const EdgeInsets.symmetric (
                         vertical: 0,
                         horizontal: 0
@@ -493,6 +498,8 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(
         children: [
@@ -521,29 +528,33 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                       itemCount: _prodData.length,
                       itemBuilder: (BuildContext context, int index) {
                         // print("client product name = ${_prodData[index]['name']}");
-                        return Column(
-                          /*padding : EdgeInsets.only(
-                                top: 10,
-                                bottom: 20,
+                        return SizedBox(
+                          child: Column(
+                            /*padding : EdgeInsets.only(
+                                  top: 10,
+                                  bottom: 20,
+                                ),*/
+                            // children: [
+                            // children: _prodData.map((_prodData, index) =>
+                            ///// for (var i = 0; i < _prodData.length; i++)
+                            // seperate array into individual documents
+                            /*child: Text(
+                                "thisiis retail client product list page"
                               ),*/
-                          // children: [
-                          // children: _prodData.map((_prodData, index) =>
-                          ///// for (var i = 0; i < _prodData.length; i++)
-                          // seperate array into individual documents
-                          /*child: Text(
-                              "thisiis retail client product list page"
-                            ),*/
 
-                            children: [
-                              ProductViewer(
-                                // isSelected: index == 0,
-                                prodPID: _prodData[index]['prodID'],
-                                prodName: _prodData[index]['name'],
-                                // prodSellers: [''],
-                                srvcProdID: _prodData[index].id,
-                              ),
-                            ]
-                          // ]
+                              //TODO: Build out the product viewer template
+                              // *************************************** //
+                              children: [
+                                ProductViewer(
+                                  // isSelected: index == 0,
+                                  prodPID: _prodData[index]['prodID'],
+                                  prodName: _prodData[index]['name'],
+                                  // prodSellers: [''],
+                                  srvcProdID: _prodData[index].id,
+                                ),
+                              ]
+                            // ]
+                          ),
                         );
                       },
 

@@ -180,8 +180,8 @@ class _HomeTabState extends State<HomeTab> {
                                         shrinkWrap: true,
                                         physics: const ScrollPhysics(),
                                         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                            maxCrossAxisExtent: 400,
-                                            childAspectRatio: 2 / 1
+                                            maxCrossAxisExtent: 435,
+                                            childAspectRatio: 3 / 1.375,
                                         ),
                                         itemCount: _srvcDataList.length,
                                         itemBuilder: (BuildContext context, int index) {

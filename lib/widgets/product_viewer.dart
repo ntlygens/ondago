@@ -33,16 +33,17 @@ class ProductViewer extends StatefulWidget {
 class _ProductViewerState extends State<ProductViewer> {
   final FirebaseServices _firebaseServices = FirebaseServices();
 
-  /*Future _removeServiceProduct(value) async {
+  Future _removeServiceProduct(value) async {
     return _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
         .collection("SelectedService")
         .doc(value)
         .delete()
         .then((_) {
-          print("product $value removed");
+          _resetProductIsSelected(value);
           // _refreshServiceProduct();
-        });
+          print("product $value removed");
+    });
   }
 
   Future _resetProductIsSelected(value) async {
@@ -51,8 +52,8 @@ class _ProductViewerState extends State<ProductViewer> {
         .update({"isSelected" : false})
         .then((_) {
           print("product $value UnSelected");
-          // _refreshServiceProduct;
-          _removeServiceProduct(widget.srvcProdID);
+          _refreshServiceProduct;
+          // _removeServiceProduct(widget.srvcProdID);
         });
   }
 
@@ -67,14 +68,14 @@ class _ProductViewerState extends State<ProductViewer> {
         });
 
   }
-*/
-/*  Future _getProductSellers() async {
+
+  Future _getProductSellers() async {
     return _firebaseServices.productsRef
-        .doc(widget.prodID)
+        .doc(widget.prodPID)
         .snapshots().where((event) => event['type']);
         // .get();
         // .then((value) => value['type']);
-  }*/
+  }
 
 /*Future _getAltProduct() async {
     late List dList = [];
