@@ -70,7 +70,7 @@ class RetailClientCard extends StatelessWidget{
           Positioned(
             right: 30,
             top: 37,
-            height: 120,
+            height: 125,
             child:
               Container(
                 margin: EdgeInsets.fromLTRB(

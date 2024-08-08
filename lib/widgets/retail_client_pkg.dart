@@ -528,12 +528,33 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                       itemCount: _prodData.length,
                       itemBuilder: (BuildContext context, int index) {
                         // print("client product name = ${_prodData[index]['name']}");
-                        return ProductViewer(
-                          // isSelected: index == 0,
-                          prodPID: _prodData[index]['prodID'],
-                          prodName: _prodData[index]['name'],
-                          // prodSellers: [''],
-                          srvcProdID: _prodData[index].id,
+                        return SizedBox(
+                          child: Column(
+                            /*padding : EdgeInsets.only(
+                                  top: 10,
+                                  bottom: 20,
+                                ),*/
+                            // children: [
+                            // children: _prodData.map((_prodData, index) =>
+                            ///// for (var i = 0; i < _prodData.length; i++)
+                            // seperate array into individual documents
+                            /*child: Text(
+                                "thisiis retail client product list page"
+                              ),*/
+
+                              //TODO: Build out the product viewer template
+                              // *************************************** //
+                              children: [
+                                ProductViewer(
+                                  // isSelected: index == 0,
+                                  prodPID: _prodData[index]['prodID'],
+                                  prodName: _prodData[index]['name'],
+                                  // prodSellers: [''],
+                                  srvcProdID: _prodData[index].id,
+                                ),
+                              ]
+                            // ]
+                          ),
                         );
                       },
 
