@@ -170,80 +170,77 @@ class _HomeTabState extends State<HomeTab> {
 
                                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 // crossAxisAlignment: CrossAxisAlignment.start,
-                                child: SizedBox(
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.vertical,
-                                      clipBehavior: Clip.antiAlias,
-                                      // physics: ScrollPhysics(),
-                                      child: GridView.builder(
-                                        // padding: EdgeInsets.fromLTRB(0, 70, 0, 320),
-                                        shrinkWrap: true,
-                                        physics: const ScrollPhysics(),
-                                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                            maxCrossAxisExtent: 435,
-                                            childAspectRatio: 3 / 1.375,
-                                        ),
-                                        itemCount: _srvcDataList.length,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                _srvcData = _srvcDataList[index].id;
-                                                _hdrBnnrImg = _srvcDataList[index]['images'][0];
-                                                _hdrBnnrName = _srvcDataList[index]['name'];
-                                                _srvcDataType = _srvcDataList[index]['srvcType'];
-                                              });
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  clipBehavior: Clip.antiAlias,
+                                  // physics: ScrollPhysics(),
+                                  child: GridView.builder(
+                                    // padding: EdgeInsets.fromLTRB(0, 70, 0, 320),
+                                    shrinkWrap: true,
+                                    physics: const ScrollPhysics(),
+                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 435,
+                                        childAspectRatio: 3 / 1.375,
+                                    ),
+                                    itemCount: _srvcDataList.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _srvcData = _srvcDataList[index].id;
+                                            _hdrBnnrImg = _srvcDataList[index]['images'][0];
+                                            _hdrBnnrName = _srvcDataList[index]['name'];
+                                            _srvcDataType = _srvcDataList[index]['srvcType'];
+                                          });
 
-                                              print("HomeTab-Srvc-Data-Name: ${_srvcDataList[index]['name']} \n");
-                                              print("HomeTab-Srvc-Data-ID: ${_srvcDataList[index].id}");
-                                              print("data ID: ${_srvcData} and first image: ${_hdrBnnrImg}");
-                                              // print("HomeTab-Srvc-Data-Type: ${_srvcDataList[index]['srvcType']}");
-                                              Navigator.push(context, MaterialPageRoute(
-                                                  maintainState: true,
-                                                  builder: (context) =>
-                                                  // Text("this is iit")
-                                                  SelectedServicePage(
-                                                    serviceID: "${_srvcData}",
-                                                    serviceType: "${_srvcDataType}",
-                                                    headerImg: _hdrBnnrImg,
-                                                    headerName: _hdrBnnrName
-                                                  )
-                                                // RetailClientProductsLst(),
-                                              ));
-                                            },
-                                            child: Card(
-                                              elevation: 4,
-                                              margin: const EdgeInsets.symmetric(
-                                                // 8
-                                                vertical: 11,
-                                                horizontal: 16,
-                                              ),
-                                              clipBehavior: Clip.antiAlias,
-                                              child: Stack(
-                                                children: [
-                                                  Container(
-                                                    alignment: Alignment.center,
-                                                    child: ClipRRect(
-                                                      borderRadius: BorderRadius.circular(6),
-                                                      /*child: Text(
-                                                      "${_srvcDataList[index]['name']}"
-                                                    ),*/
-                                                      child: Image.network(
-                                                        "${_srvcDataList[index]['images'][0]}",
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text ("${_srvcDataList[index]['name']}"),
-                                                ],
-                                              ),
-                                            ),
-
-                                          );
+                                          print("HomeTab-Srvc-Data-Name: ${_srvcDataList[index]['name']} \n");
+                                          print("HomeTab-Srvc-Data-ID: ${_srvcDataList[index].id}");
+                                          print("data ID: ${_srvcData} and first image: ${_hdrBnnrImg}");
+                                          // print("HomeTab-Srvc-Data-Type: ${_srvcDataList[index]['srvcType']}");
+                                          Navigator.push(context, MaterialPageRoute(
+                                              maintainState: true,
+                                              builder: (context) =>
+                                              // Text("this is iit")
+                                              SelectedServicePage(
+                                                serviceID: "${_srvcData}",
+                                                serviceType: "${_srvcDataType}",
+                                                headerImg: _hdrBnnrImg,
+                                                headerName: _hdrBnnrName
+                                              )
+                                            // RetailClientProductsLst(),
+                                          ));
                                         },
-                                      ),
-                                    )
+                                        child: Card(
+                                          elevation: 4,
+                                          margin: const EdgeInsets.symmetric(
+                                            // 8
+                                            vertical: 11,
+                                            horizontal: 16,
+                                          ),
+                                          clipBehavior: Clip.antiAlias,
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                alignment: Alignment.center,
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(6),
+                                                  /*child: Text(
+                                                  "${_srvcDataList[index]['name']}"
+                                                ),*/
+                                                  child: Image.network(
+                                                    "${_srvcDataList[index]['images'][0]}",
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                              ),
+                                              Text ("${_srvcDataList[index]['name']}"),
+                                            ],
+                                          ),
+                                        ),
 
+                                      );
+                                    },
+                                  ),
                                 ),
                               );
                             }

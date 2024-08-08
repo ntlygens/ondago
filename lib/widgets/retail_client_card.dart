@@ -72,34 +72,34 @@ class RetailClientCard extends StatelessWidget{
             top: 37,
             height: 120,
             child:
-            Container(
-              margin: EdgeInsets.fromLTRB(
-                  0, 0, 0, 0
-              ),
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: Colors.deepOrange,
-                    width: 3,
-                    style: BorderStyle.solid,
-                    strokeAlign: BorderSide.strokeAlignCenter
+              Container(
+                margin: EdgeInsets.fromLTRB(
+                    0, 0, 0, 0
                 ),
-                borderRadius: BorderRadius.circular(6),
-                // color: Colors.deepOrange,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black54.withOpacity(0.45),
-                    spreadRadius: 3,
-                    blurRadius: 4,
-                    offset: Offset(0, 0), // changes position of shadow
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Colors.deepOrange,
+                      width: 3,
+                      style: BorderStyle.solid,
+                      strokeAlign: BorderSide.strokeAlignCenter
                   ),
-                  // BoxShadow(color: Colors.deepOrange, sprea`dRadius: 3),
-                ],
+                  borderRadius: BorderRadius.circular(6),
+                  // color: Colors.deepOrange,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black54.withOpacity(0.45),
+                      spreadRadius: 3,
+                      blurRadius: 4,
+                      offset: Offset(0, 0), // changes position of shadow
+                    ),
+                    // BoxShadow(color: Colors.deepOrange, sprea`dRadius: 3),
+                  ],
+                ),
+                child: Image.network(
+                  "${_retailClientBnr}",
+                  fit: BoxFit.contain,
+                ),
               ),
-              child: Image.network(
-                "${_retailClientBnr}",
-                fit: BoxFit.contain,
-              ),
-            ),
           ),
           /// *** Services container *** ///
           Positioned(
