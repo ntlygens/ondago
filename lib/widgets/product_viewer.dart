@@ -339,12 +339,13 @@ class _ProductViewerState extends State<ProductViewer> {
                       print("selected");
                     });
 
-Navigator.push(context, MaterialPageRoute(
+                    Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
-                            const Text("this is it")
-                            /*SelectedServicePage(
+                            // const Text("this is it"),
+                            SelectedServicePage(
                               serviceID: "${widget.prodSrvcID}",
-                            )*/
+                              serviceType: "${widget.prodSrvcType}",
+                            )
                     ));
 
                   },

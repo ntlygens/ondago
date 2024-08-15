@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // import 'package:ondago/screens/retail_client_products_lst.dart';
@@ -424,7 +426,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                               ),
                             ));
                           },
-                          /*child: Container(
+                          child: Container(
                               child: ClipRRect (
                                 borderRadius: BorderRadius.circular(6),
                                 child: Image.network(
@@ -432,8 +434,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                                     fit: BoxFit.fill,
                                   )
                               )
-                          )*/
-                          child: RetailClientCard(
+                          )
+                          /*child: RetailClientCard(
                             retailClientBnr: "${_rcRetailers[index]['logo']}",
                             retailClientName: "${_rcRetailers[index]['name']}",
                             retailClientRating: "${_rcRetailers[index]['rating']}",
@@ -456,7 +458,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                               _rcFtVegetarianLst?[index],
 
                             ],
-                          )
+                          )*/
 
                         )
 
@@ -501,81 +503,103 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Stack(
-        children: [
-          StreamBuilder<QuerySnapshot>(
-            // get all selected documents from SelectedService
-              stream: _firebaseServices.productsRef
-                  .where("retailerID", isEqualTo: widget.sellerID)
-              // .orderBy("name", descending: true)
-                  .snapshots(),
-              builder: (context, AsyncSnapshot snapshot) {
-                if( snapshot.hasError) {
-                  return Scaffold(
-                    body: Center(
-                      child: Text("RetailClientProductsPage-Error: ${snapshot.error}"),
-                    ),
-                  );
-                }
+      appBar: ActionBar(
+        title: "Servic Products",
+        hasTitle: true,
+        hasBackArrow: true,
+      ),
+      body:
+        StreamBuilder<QuerySnapshot>(
+        // get all selected documents from SelectedService
+          stream: _firebaseServices.productsRef
+              .where("retailerID", isEqualTo: widget.sellerID)
+          // .orderBy("name", descending: true)
+              .snapshots(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if( snapshot.hasError) {
+              return Scaffold(
+                body: Center(
+                  child: Text("RetailClientProductsPage-Error: ${snapshot.error}"),
+                ),
+              );
+            }
 
-                if(snapshot.connectionState == ConnectionState.active) {
-                  if(snapshot.hasData){
-                    _prodData = snapshot.data!.docs;
-                    // print("prodID: ${_prodData[0]['name']}");
-                    // Collect Selected docs into array / ListView
-                    // display data in listview
-                    return ListView.builder (
+            if(snapshot.connectionState == ConnectionState.active) {
+              if(snapshot.hasData){
+                _prodData = snapshot.data!.docs;
+                // print("prodID: ${_prodData[0]['name']}");
+                // Collect Selected docs into array / ListView
+                // display data in listview
+                return Stack(
+                  children: [
+
+                    ListView.builder (
+                      padding: EdgeInsets.only(top: 200),
                       itemCount: _prodData.length,
                       itemBuilder: (BuildContext context, int index) {
                         // print("client product name = ${_prodData[index]['name']}");
-                        return SizedBox(
-                          child: Column(
-                            /*padding : EdgeInsets.only(
-                                  top: 10,
-                                  bottom: 20,
-                                ),*/
-                            // children: [
-                            // children: _prodData.map((_prodData, index) =>
-                            ///// for (var i = 0; i < _prodData.length; i++)
-                            // seperate array into individual documents
-                            /*child: Text(
-                                "thisiis retail client product list page"
-                              ),*/
-
-                              //TODO: Build out the product viewer template
-                              // *************************************** //
-                              children: [
-                                ProductViewer(
-                                  // isSelected: index == 0,
-                                  prodPID: _prodData[index]['prodID'],
-                                  prodName: _prodData[index]['name'],
-                                  // prodSellers: [''],
-                                  srvcProdID: _prodData[index].id,
-                                ),
-                              ]
-                            // ]
-                          ),
+                        return Stack (
+                          alignment: AlignmentDirectional.topCenter,
+                          fit: StackFit.loose,
+                          children: [
+                            ProductViewer(
+                              // isSelected: index == 0,
+                              prodPID: _prodData[index]['prodID'],
+                              prodName: _prodData[index]['name'],
+                              // prodSellers: [''],
+                              srvcProdID: _prodData[index].id,
+                            ),
+                          ],
                         );
                       },
 
-                    );
-                  }
-                }
-
-                return const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
                   ),
+                    Container(
+                      width: screenWidth,
+                      height: 135,
+                      alignment: Alignment.topCenter,
+                      margin: EdgeInsets.fromLTRB(
+                          0, 0, 0, 40
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.deepOrange,
+                            width: 3,
+                            style: BorderStyle.solid,
+                            strokeAlign: BorderSide.strokeAlignCenter
+                        ),
+                        borderRadius: BorderRadius.circular(6),
+                        // color: Colors.deepOrange,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black54.withOpacity(0.45),
+                            spreadRadius: 3,
+                            blurRadius: 4,
+                            offset: Offset(0, 0), // changes position of shadow
+                          ),
+                          // BoxShadow(color: Colors.deepOrange, sprea`dRadius: 3),
+                        ],
+                      ),
+                      child: Text("rhis is he thse"),
+                      /*child: Image.network(
+                              "${_headerImage}",
+                              fit: BoxFit.contain,
+                            ),*/
+                    ),
+                  ]
                 );
               }
-          ),
-          ActionBar(
-            title: "Service Products",
-            hasTitle: true,
-            hasBackArrow: true,
-          ),
-        ],
+            }
+
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
       ),
+
+
     );
   }
 }

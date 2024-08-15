@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ondago/screens/selected_service_page.dart';
 // import 'package:ondago/screens/retail_client_products_lst.dart';
 import 'package:ondago/services/firebase_services.dart';
+import 'package:ondago/widgets/action_bar.dart';
 import 'package:ondago/widgets/app_bar_search.dart';
 // import 'package:ondago/screens/search_page.dart';
 
@@ -106,10 +107,33 @@ class _HomeTabState extends State<HomeTab> {
           settings: settings,
           builder: (BuildContext context) {
             return Scaffold(
-              appBar: AppBar(
+              /*appBar: AppBar(
                 centerTitle: true,
                 title: Text("Home"),
                 actions: [
+                  IconButton(
+                      onPressed: () => Navigator.of(context)
+                          .push(
+                          MaterialPageRoute(
+                            builder: (context) => AppBarSesrch(),
+                          )),
+                      icon: const Icon(Icons.search)
+                  )
+                ],
+                // toolbarHeight: 100,
+                hasTitle: true,
+                hasBackArrow: true,
+                hasHdrImg: true,
+                headerImage: _headerImage,
+              ),*/
+              appBar: ActionBar(
+                centerTitle: true,
+                title: "Home",
+                hasCounter: false,
+                hasTitle: true,
+                hasHdrImg: false,
+                hasBackground: false,
+                /*actions: [
                   IconButton(
                       onPressed: () => Navigator.of(context)
                       .push(
@@ -118,7 +142,7 @@ class _HomeTabState extends State<HomeTab> {
                           )),
                       icon: const Icon(Icons.search)
                   )
-                ],
+                ],*/
                 // toolbarHeight: 100,
                 /*hasTitle: true,
               hasBackArrow: true,
@@ -131,8 +155,8 @@ class _HomeTabState extends State<HomeTab> {
                     child: Text("Home Tab"),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(
-                        0
+                    padding: EdgeInsets.only(
+                        top: 0
                     ),
                     child: StreamBuilder<QuerySnapshot>(
                         stream: _firebaseServices.servicesRef

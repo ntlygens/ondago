@@ -4,20 +4,33 @@ import 'package:ondago/screens/cart_page.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:ondago/widgets/image_swipe.dart';
 
-class ActionBar extends StatefulWidget {
+class ActionBar extends StatefulWidget implements PreferredSizeWidget {
   @override
   final GlobalKey? key;
   final String? title;
   final bool? hasBackArrow;
   final bool? hasTitle;
+  final bool? centerTitle;
   final bool? hasBackground;
   final bool? hasHdrImg;
+  final bool? hasCounter;
   final String? headerImage;
+  final Size preferredSize;
+  final List<Widget>? actions;
 
-  ActionBar({ this.key, this.title, this.hasBackArrow, this.hasTitle, this.hasBackground, this.hasHdrImg, this.headerImage });
+  ActionBar({
+    this.key, this.title, this.hasBackArrow,
+    this.hasTitle, this.centerTitle,
+    this.hasBackground, this.hasCounter,
+    this.hasHdrImg, this.headerImage, this.actions,
+  }) : preferredSize = Size.fromHeight(kToolbarHeight), super(key: key);
 
   @override
   State<ActionBar> createState() => _ActionBarState();
+
+  // @override
+  // TODO: implement preferredSize
+  // Size get preferredSize => throw UnimplementedError();
 }
 
 class _ActionBarState extends State<ActionBar> {
@@ -28,37 +41,43 @@ class _ActionBarState extends State<ActionBar> {
     bool _hasBackArrow = widget.hasBackArrow ?? false;
     bool _hasTitle = widget.hasTitle ?? true;
     bool _hasBackground = widget.hasBackground ?? true;
+    bool _hasCounter = widget.hasCounter ?? true;
     bool _hasHdrImg = widget.hasHdrImg ?? false;
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    print("headerImg first img: ${widget.headerImage}");
+    // print("headerImg first img: ${widget.headerImage}");
 
     return Container(
       alignment: Alignment.topCenter,
       width: screenWidth,
-      height: _hasHdrImg ? 150 : 100,
-      margin: const EdgeInsets.all(0),
-      decoration: const BoxDecoration(
-        /*gradient: _hasBackground ? LinearGradient(
+      // height: 120,
+      margin: EdgeInsets.only(
+        top: _hasHdrImg ? 0 : 0,
+        left: _hasHdrImg ? 0 : 0,
+        right: _hasHdrImg ? 0 : 0,
+        bottom: _hasHdrImg ? 0 : 0
+      ),
+      decoration: BoxDecoration(
+        gradient: _hasBackground ? LinearGradient(
           colors: [
-            Colors.yellow,
-            Colors.green.withOpacity(0.5),
+            Colors.white,
+            Colors.blueGrey.withOpacity(0.5),
           ],
           begin: Alignment(0, 0),
           end: Alignment(0, 1)
-        ) : null*/
+        ) : null
       ),
       padding: EdgeInsets.only(
-        top: _hasHdrImg ? 0 : 40,
-        left: _hasHdrImg ? 0 : 24,
-        right: _hasHdrImg ? 0 : 24,
+        top: _hasHdrImg ? 0 : 0,
+        left: _hasHdrImg ? 0 : 0,
+        right: _hasHdrImg ? 0 : 0,
         bottom: _hasHdrImg ? 0 : 0
       ),
       child: Stack(
         alignment: Alignment.center,
-        fit: StackFit.loose,
+        fit: StackFit.expand,
         children: [
           if (widget.hasHdrImg == true)
             SizedBox(
@@ -69,79 +88,93 @@ class _ActionBarState extends State<ActionBar> {
                 ),
             ),
           Row(
-            mainAxisAlignment: _hasHdrImg ? MainAxisAlignment.spaceAround : MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: !_hasBackArrow ? MainAxisAlignment.spaceAround : MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+
               if (_hasBackArrow)
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                      width: 42,
-                      height: 42,
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, left: 15),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Image(
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.contain,
+                      image: AssetImage(
+                          "assets/images/back_arrow.png"
+                      ),
+                    ),
+                  ),
+                ),
+
+              if ( _hasTitle)
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    widget.title ?? "Title here",
+                    style: Constants.boldHeadingW, textAlign: TextAlign.center,
+                  ),
+                ),
+
+              if (_hasCounter)
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, right: 15),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CartPage(),
+                          ));
+                    },
+                    child: Container(
+                      width: 30,
+                      height: 30,
                       decoration: BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(8)
                       ),
-                      child: const Image(
-                        image: AssetImage(
-                            "assets/images/back_arrow.png"
-                        ),
-                      ),
-                  ),
-                ),
-              if (_hasTitle && _hasBackArrow)
-                Text(
-                  widget.title ?? "Title here",
-                  style: Constants.boldHeadingW,
-                )
-              else
-                Text(
-                  widget.title ?? "Title here",
-                  style: Constants.boldHeading,
-                ),
+                      alignment: Alignment.center,
+                      child: StreamBuilder(
+                          stream: _firebaseServices.usersRef.doc(_firebaseServices.getUserID()).collection("Cart").snapshots(),
+                          builder: (context, AsyncSnapshot snapshot) {
+                            int totalItems = 0;
 
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CartPage(),
-                      ));
-                },
-                child: Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(8)
-                  ),
-                  alignment: Alignment.center,
-                  child: StreamBuilder(
-                    stream: _firebaseServices.usersRef.doc(_firebaseServices.getUserID()).collection("Cart").snapshots(),
-                    builder: (context, AsyncSnapshot snapshot) {
-                      int totalItems = 0;
+                            if( snapshot.connectionState == ConnectionState.active ) {
+                              if(snapshot.hasData) {
+                                List documents = snapshot.data!.docs;
+                                totalItems = documents.length;
+                              }
+                            }
 
-                      if( snapshot.connectionState == ConnectionState.active ) {
-                        if(snapshot.hasData) {
-                            List documents = snapshot.data!.docs;
-                            totalItems = documents.length;
+                            return Text(
+                              "$totalItems",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+
+                            );
                           }
-                        }
-
-                      return Text(
-                        "$totalItems",
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-
-                      );
-                    }
+                      ),
+                    ),
                   ),
-                ),
-              )
+                )
+
+
+              // if (_hasTitle && _hasBackArrow)
+
+              // else
+              //   Text(
+              //     widget.title ?? "Title here",
+              //     style: Constants.boldHeading,
+              //   ),
+
+
 
             ],
           ),

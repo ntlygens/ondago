@@ -226,7 +226,7 @@ class RetailClientCard extends StatelessWidget{
             ),
           ),
           /// *** Cuisine container *** ///
-          Positioned(
+          /*Positioned(
             right: 15,
             bottom: 20,
             width: 80,
@@ -289,7 +289,7 @@ class RetailClientCard extends StatelessWidget{
                   }
               ),
             ),
-          ),
+          ),*/
         ],
 
       ),
