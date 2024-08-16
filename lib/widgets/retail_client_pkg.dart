@@ -254,82 +254,6 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   }
 
 
-  Future _selectRetailClients<String>() async {
-    late List _clientList;
-    _firebaseServices.sellersRef
-        .get()
-        .then((retailclients) => {
-          for( DocumentSnapshot rc in retailclients.docs) {
-            _clientStore = rc.id,
-            print("retailer Name: ${rc['name']} -- clientStoreID: $_clientStore"),
-          }
-        });
-    return _clientStore;
-  }
-
-  Future _selectServiceProduct() async {
-      return _firebaseServices.usersRef
-          .doc(_firebaseServices.getUserID())
-          .collection("SelectedService")
-          .doc()
-          .set({
-        "prodName": _selectedProductName,
-        "prodID": _selectedProductID,
-        "srvcCtgry": _selectedSrvcCtgryName,
-        "srvcCtgryID": _selectedSrvcCtgryID,
-        "date": _firebaseServices.setDayAndTime(),
-      }).then((_) {
-        print(
-            "Name: $_selectedProductName | ID: $_selectedProductID Selected");
-        _setProductIsSelected(_selectedProductID);
-      });
-  }
-
-  Future _selectSellerProduct() async {
-      return _firebaseServices.usersRef
-          .doc(_firebaseServices.getUserID())
-          .collection("SelectedSeller")
-          .doc()
-          .set({
-        "sellerName": _selectedSellerName,
-        "sellerID": _selectedSellerID,
-        "srvcCtgry": _selectedSrvcCtgryName,
-        "srvcCtgryID": _selectedSrvcCtgryID,
-        "date": _firebaseServices.setDayAndTime(),
-      }).then((_) {
-        print(
-            "Name: $_selectedProductName | ID: $_selectedProductID Selected");
-        _setProductIsSelected(_selectedProductID);
-      });
-  }
-
-  Future _selectCustomerService() async {
-    return _firebaseServices.customerSrvcsRef
-        .doc(_firebaseServices.getUserID())
-        .collection("CustomerServices")
-        .doc()
-        .set({
-          "prodName": _selectedProductName,
-          "prodID": _selectedProductID,
-          "srvcCtgry": _selectedSrvcCtgryName,
-          "srvcCtgryID": _selectedSrvcCtgryID,
-          "date": _firebaseServices.setDayAndTime(),
-        })
-        .then((_) {
-          print("Name: $_selectedProductName | ID: $_selectedProductID Selected");
-          _setProductIsSelected(_selectedProductID);
-        });
-  }
-
-  Future _setProductIsSelected(value) async {
-    return _firebaseServices.productsRef
-        .doc(value)
-        .update({"isSelected": true})
-        .then((_) {
-          // _selectServiceProduct();
-          print("selection done");
-        });
-  }
 
   Future _setSellerIsSelected(value) async {
     return _firebaseServices.sellersRef
@@ -413,7 +337,9 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                             _selectedSellerID = "${_rcRetailers[index].id}";
                             _selectedSrvcCtgryName = widget.serviceCategoryName;
                             _selectedSrvcCtgryID = widget.serviceCategoryID;
+                            // _selectedProductID =
                             // _prodSelected = true;
+                            // _selectSellerProduct();
                             setState(() {
                               // _isSelected = index;
                             });
@@ -497,6 +423,46 @@ class RetailClientProductsLst extends StatefulWidget {
 class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
   final FirebaseServices _firebaseServices = FirebaseServices();
   late List _prodData;
+
+  Future _isProductSelected(prodID) {
+    return _firebaseServices.usersRef
+        .doc(_firebaseServices.getUserID())
+        .collection("SelectedService")
+        .where('prodID', isEqualTo: prodID)
+        .get()
+        .then((snapshot) => {
+      for (DocumentSnapshot ds in snapshot.docs){
+        if(ds.reference.id == prodID ) {
+          print("${ds.reference.id } product!")
+        } else {
+          _selectServiceProduct()
+        }
+        // ds.reference.update({'isSelected': false})
+      },
+    });
+
+    // return prod;
+    // print("${snapshot.}product unselected!")
+  }
+
+  Future _selectServiceProduct() async {
+    return _firebaseServices.usersRef
+        .doc(_firebaseServices.getUserID())
+        .collection("SelectedService")
+        .doc()
+        .set({
+      "prodName": "_selectedProductName",
+      "prodID": "_selectedProductID",
+      "srvcCtgry": "_selectedSrvcCtgryName",
+      "srvcCtgryID": "_selectedSrvcCtgryID",
+      "date": _firebaseServices.setDayAndTime(),
+    }).then((_) {
+      print(
+          "Name: _selectedProductName | ID: _selectedProductID Selected");
+      // _setProductIsSelected(_selectedProductID);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {

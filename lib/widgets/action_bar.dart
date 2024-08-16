@@ -40,7 +40,7 @@ class _ActionBarState extends State<ActionBar> {
   Widget build(BuildContext context) {
     bool _hasBackArrow = widget.hasBackArrow ?? false;
     bool _hasTitle = widget.hasTitle ?? true;
-    bool _hasBackground = widget.hasBackground ?? true;
+    bool _hasBackground = widget.hasBackground ?? false;
     bool _hasCounter = widget.hasCounter ?? true;
     bool _hasHdrImg = widget.hasHdrImg ?? false;
 
@@ -94,17 +94,24 @@ class _ActionBarState extends State<ActionBar> {
 
               if (_hasBackArrow)
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 15),
+                  padding: const EdgeInsets.only(top: 40, left: 15),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: const Image(
-                      width: 20,
-                      height: 20,
-                      fit: BoxFit.contain,
-                      image: AssetImage(
-                          "assets/images/back_arrow.png"
+                    child: Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(4)
+                      ),
+                      child: const Image(
+                        width: 20,
+                        height: 20,
+                        fit: BoxFit.contain,
+                        image: AssetImage(
+                            "assets/images/back_arrow.png"
+                        ),
                       ),
                     ),
                   ),
@@ -112,7 +119,7 @@ class _ActionBarState extends State<ActionBar> {
 
               if ( _hasTitle)
                 Padding(
-                  padding: const EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.only(top: 40),
                   child: Text(
                     widget.title ?? "Title here",
                     style: Constants.boldHeadingW, textAlign: TextAlign.center,
@@ -121,7 +128,7 @@ class _ActionBarState extends State<ActionBar> {
 
               if (_hasCounter)
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, right: 15),
+                  padding: const EdgeInsets.only(top: 40, right: 15),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -131,11 +138,11 @@ class _ActionBarState extends State<ActionBar> {
                           ));
                     },
                     child: Container(
-                      width: 30,
-                      height: 30,
+                      width: 34,
+                      height: 34,
                       decoration: BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.circular(8)
+                          borderRadius: BorderRadius.circular(4)
                       ),
                       alignment: Alignment.center,
                       child: StreamBuilder(
@@ -153,7 +160,7 @@ class _ActionBarState extends State<ActionBar> {
                             return Text(
                               "$totalItems",
                               style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),

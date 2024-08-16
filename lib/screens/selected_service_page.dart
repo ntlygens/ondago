@@ -145,40 +145,11 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        /*appBar: AppBar(
-          centerTitle: true,
-          title: Text("Home"),
-          actions: [
-            IconButton(
-                onPressed: () => Navigator.of(context)
-                    .push(
-                    MaterialPageRoute(
-                      builder: (context) => AppBarSesrch(),
-                    )),
-                icon: const Icon(Icons.search)
-            )
-          ],
-          // toolbarHeight: 100,
-          // hasTitle: true,
-          //     hasBackArrow: true,
-          //     hasHdrImg: true,
-          //     headerImage: _headerImage,
-        ),*/
         appBar: ActionBar(
           title: 'Hme',
           hasTitle: true,
           hasBackArrow: true,
           hasCounter: true,
-          /*actions: [
-            IconButton(
-                onPressed: () => Navigator.of(context)
-                    .push(
-                    MaterialPageRoute(
-                      builder: (context) => AppBarSesrch(),
-                    )),
-                icon: const Icon(Icons.search)
-            )
-          ],*/
         ),
 
         body: FutureBuilder<DocumentSnapshot>(
