@@ -387,12 +387,12 @@ class _ProductViewerState extends State<ProductViewer> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: isSelected ? Colors.amberAccent : Colors.blueGrey,
-                            border: Border.all(
-                                color: Colors.black45,
-                                width: 1,
-                                style: BorderStyle.solid
-                            ),
+                            color: isSelected ? Colors.amberAccent : Colors.black12,
+                            // border: Border.all(
+                            //     color: Colors.black45,
+                            //     width: 1,
+                            //     style: BorderStyle.solid
+                            // ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
@@ -400,7 +400,7 @@ class _ProductViewerState extends State<ProductViewer> {
                             "inCart",
                             style: TextStyle(
                               fontSize: 18,
-                              color: Color(0xFFFFFFFF),
+                              color: Colors.black54,
                               letterSpacing: 1.0,
 
                             ),
