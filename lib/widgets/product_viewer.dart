@@ -388,11 +388,11 @@ class _ProductViewerState extends State<ProductViewer> {
                         Container(
                           decoration: BoxDecoration(
                             color: isSelected ? Colors.amberAccent : Colors.black12,
-                            // border: Border.all(
-                            //     color: Colors.black45,
-                            //     width: 1,
-                            //     style: BorderStyle.solid
-                            // ),
+                            border: Border.all(
+                                color: Colors.black45,
+                                width: 1,
+                                style: BorderStyle.solid
+                            ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
