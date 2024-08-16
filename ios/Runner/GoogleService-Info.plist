@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDz_swJBlkooy4geor_8RkvFK_NKxNhPWA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>903059244415</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ondamenu.odg.ondago</string>
+	<key>PROJECT_ID</key>
+	<string>ondamenu-3dc99</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ondamenu-3dc99.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:903059244415:ios:0d15a17e99f9cd590d464a</string>
+	<key>DATABASE_URL</key>
+	<string>https://ondamenu-3dc99-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

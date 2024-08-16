@@ -222,7 +222,7 @@ class _HomeTabState extends State<HomeTab> {
                                           print("data ID: ${_srvcData} and first image: ${_hdrBnnrImg}");
                                           // print("HomeTab-Srvc-Data-Type: ${_srvcDataList[index]['srvcType']}");
                                           Navigator.push(context, MaterialPageRoute(
-                                              maintainState: true,
+                                              // maintainState: true,
                                               builder: (context) =>
                                               // Text("this is iit")
                                               SelectedServicePage(

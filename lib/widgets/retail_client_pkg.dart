@@ -426,7 +426,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                               ),
                             ));
                           },
-                          child: Container(
+                          /*child: Container(
                               child: ClipRRect (
                                 borderRadius: BorderRadius.circular(6),
                                 child: Image.network(
@@ -434,8 +434,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                                     fit: BoxFit.fill,
                                   )
                               )
-                          )
-                          /*child: RetailClientCard(
+                          )*/
+                          child: RetailClientCard(
                             retailClientBnr: "${_rcRetailers[index]['logo']}",
                             retailClientName: "${_rcRetailers[index]['name']}",
                             retailClientRating: "${_rcRetailers[index]['rating']}",
@@ -458,7 +458,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                               _rcFtVegetarianLst?[index],
 
                             ],
-                          )*/
+                          )
 
                         )
 
