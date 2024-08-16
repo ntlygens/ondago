@@ -544,6 +544,7 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                           children: [
                             ProductViewer(
                               // isSelected: index == 0,
+                              prodPrice: _prodData[index]['price'],
                               prodPID: _prodData[index]['prodID'],
                               prodName: _prodData[index]['name'],
                               // prodSellers: [''],
