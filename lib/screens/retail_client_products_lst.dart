@@ -25,7 +25,7 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
       body: Stack(
         children: [
           StreamBuilder<QuerySnapshot>(
-            // get all selected documents from SelectedService
+            // get all selected documents from SelectedProducts
             stream: _firebaseServices.productsRef
             .where("retailerID", isEqualTo: widget.sellerID)
                 // .orderBy("name", descending: true)

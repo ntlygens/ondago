@@ -28,9 +28,9 @@ class RetailClientPkg extends StatefulWidget {
 }
 
 class _RetailClientPkgState extends State<RetailClientPkg> {
-  final String _selectedProductName = "selected-product-name";
+  String _selectedProductName = "selected-product-name";
   String? _selectedSellerName = "selected-product-name";
-  final String _selectedProductID = "selected-product-id";
+  String _selectedProductID = "selected-product-id";
   String _selectedSellerID = "selected-seller -id";
   final String _selectedProductSrvcID = "selected-product-service-id";
   String _selectedSrvcCtgryName = "selected-service-name";
@@ -253,18 +253,6 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
   }
 
-
-
-  Future _setSellerIsSelected(value) async {
-    return _firebaseServices.sellersRef
-        .doc(value)
-        .update({"isSelected": true})
-        .then((_) {
-          // _selectServiceProduct();
-          print("selection done");
-        });
-  }
-
   // Check if service type for product or customer before requesting data
 
   @override
@@ -337,9 +325,10 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                             _selectedSellerID = "${_rcRetailers[index].id}";
                             _selectedSrvcCtgryName = widget.serviceCategoryName;
                             _selectedSrvcCtgryID = widget.serviceCategoryID;
+                            // _selectedProductID = "${_rcRetailers[index]['prodID']}";
                             // _selectedProductID =
                             // _prodSelected = true;
-                            // _selectSellerProduct();
+                            // _isProductSelected(prodID);
                             setState(() {
                               // _isSelected = index;
                             });
@@ -349,6 +338,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                               // Text("this is itext")
                               RetailClientProductsLst(
                                 sellerID: "${_rcRetailers[index]['sellerID']}",
+                                // selectedProductID: ,
                               ),
                             ));
                           },
@@ -413,8 +403,24 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
 class RetailClientProductsLst extends StatefulWidget {
   final String? sellerID;
+  final String? selectedSellerName;
+  final String? selectedSellerID;
+  final String? selectedSrvcCtgryName;
+  final String? selectedSrvcCtgryID;
+  final String? selectedProductName;
+  final String? selectedProductID;
   final Function? onPressed;
-  RetailClientProductsLst({super.key,  this.onPressed, required this.sellerID});
+  RetailClientProductsLst({
+    super.key,
+    required this.sellerID,
+    this.selectedSellerID,
+    this.selectedSrvcCtgryName,
+    this.selectedSrvcCtgryID,
+    this.selectedProductName,
+    this.selectedProductID,
+    this.selectedSellerName,
+    this.onPressed,
+  });
 
   @override
   _RetailClientProductsLstState createState() => _RetailClientProductsLstState();
@@ -423,47 +429,8 @@ class RetailClientProductsLst extends StatefulWidget {
 class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
   final FirebaseServices _firebaseServices = FirebaseServices();
   late List _prodData;
-
-  Future _isProductSelected(prodID) {
-    return _firebaseServices.usersRef
-        .doc(_firebaseServices.getUserID())
-        .collection("SelectedService")
-        .where('prodID', isEqualTo: prodID)
-        .get()
-        .then((snapshot) => {
-      for (DocumentSnapshot ds in snapshot.docs){
-        if(ds.reference.id == prodID ) {
-          print("${ds.reference.id } product!")
-        } else {
-          _selectServiceProduct()
-        }
-        // ds.reference.update({'isSelected': false})
-      },
-    });
-
     // return prod;
     // print("${snapshot.}product unselected!")
-  }
-
-  Future _selectServiceProduct() async {
-    return _firebaseServices.usersRef
-        .doc(_firebaseServices.getUserID())
-        .collection("SelectedService")
-        .doc()
-        .set({
-      "prodName": "_selectedProductName",
-      "prodID": "_selectedProductID",
-      "srvcCtgry": "_selectedSrvcCtgryName",
-      "srvcCtgryID": "_selectedSrvcCtgryID",
-      "date": _firebaseServices.setDayAndTime(),
-    }).then((_) {
-      print(
-          "Name: _selectedProductName | ID: _selectedProductID Selected");
-      // _setProductIsSelected(_selectedProductID);
-    });
-  }
-
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -476,7 +443,7 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
       ),
       body:
         StreamBuilder<QuerySnapshot>(
-        // get all selected documents from SelectedService
+        // get all selected documents from SelectedProducts
           stream: _firebaseServices.productsRef
               .where("retailerID", isEqualTo: widget.sellerID)
           // .orderBy("name", descending: true)
@@ -498,7 +465,6 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                 // display data in listview
                 return Stack(
                   children: [
-
                     ListView.builder (
                       padding: EdgeInsets.only(top: 200),
                       itemCount: _prodData.length,
@@ -509,11 +475,14 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                           fit: StackFit.loose,
                           children: [
                             ProductViewer(
-                              // isSelected: index == 0,
+                              // isSelected: index,
                               prodPrice: _prodData[index]['price'],
                               prodPID: _prodData[index]['prodID'],
                               prodName: _prodData[index]['name'],
+                              prodSrvcName: _prodData[index]['srvc'],
+                              isSelected: _prodData[index]['isSelected'],
                               // prodSellers: [''],
+                              prodSrvcID: _prodData[index]['srvcID'],
                               srvcProdID: _prodData[index].id,
                             ),
                           ],

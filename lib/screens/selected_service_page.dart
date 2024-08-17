@@ -53,7 +53,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   Future _removeAllServiceProducts() async {
     return _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
-        .collection("SelectedService")
+        .collection("SelectedProducts")
         .get()
         .then((snapshot) => {
           for (DocumentSnapshot ds in snapshot.docs){
@@ -70,7 +70,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   Future _removeThisServiceProduct( prodID ) async {
     return _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
-        .collection("SelectedService")
+        .collection("SelectedProducts")
         .where('prodID', isEqualTo: prodID)
         .get()
         .then((snapshot) => {
@@ -97,7 +97,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   Future _unselectThisIcon(prodID) async {
     return  _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
-        .collection("SelectedService")
+        .collection("SelectedProducts")
         .where('id', isEqualTo: prodID)
         // .where('prodID', isEqualTo: prodID)
         .get()

@@ -100,7 +100,7 @@ class _ActionBarState extends State<ActionBar> {
                       Navigator.pop(context);
                     },
                     child: Container(
-                      padding: EdgeInsets.all(6),
+                      padding: EdgeInsets.all(7),
                       decoration: BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(4)

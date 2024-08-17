@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:ondago/screens/selected_service_page.dart';
 import 'package:ondago/services/firebase_services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ondago/widgets/custom_btn.dart';
 import 'package:ondago/widgets/prod_n_price.dart';
 import 'package:ondago/widgets/product_wndw.dart';
@@ -13,7 +14,7 @@ class ProductViewer extends StatefulWidget {
   final String? prodSrvcName;
   final String? prodSrvcID;
   final String? prodSrvcType;
-  final String srvcProdID;
+  final String? srvcProdID;
   final bool? isSelected;
   final List? prodSellers;
   const ProductViewer({
@@ -24,7 +25,7 @@ class ProductViewer extends StatefulWidget {
     this.prodSrvcName,
     this.prodSrvcID,
     this.prodSrvcType,
-    required this.srvcProdID,
+    this.srvcProdID,
     this.prodSellers
   });
 
@@ -35,10 +36,130 @@ class ProductViewer extends StatefulWidget {
 class _ProductViewerState extends State<ProductViewer> {
   final FirebaseServices _firebaseServices = FirebaseServices();
 
+  /*Future<void> writeToSecondaryDatabase(String data) async {
+    try {
+      await _firestoreDB
+      // await FirebaseFirestore.instanceFor(app: Firebase.app('secondary'))
+          .collection('Products')
+          .doc('your_document')
+          .set({'field': data});
+      print('Data written to secondary database successfully.');
+    } catch (e) {
+      print('Error writing to secondary database: $e');
+    }
+  }*/
+  
+  Future _selectServiceProduct() async {
+    late String? _prodName = widget.prodName;
+    late String? _prodPID = widget.prodPID;
+    late String? _prodSrvcName = widget.prodSrvcName;
+    late String? _prodSrvcID = widget.prodSrvcID;
+    late String? _srvcProdID = widget.srvcProdID;
+
+    return _firebaseServices.usersRef
+        .doc(_firebaseServices.getUserID())
+        .collection("SelectedProducts")
+        .doc()
+        .set({
+      "prodName": _prodName,
+      "prodID": _prodPID,
+      "srvcCtgry": _prodSrvcName,
+      "srvcCtgryID": _prodSrvcID,
+      "srvcProdID": _srvcProdID,
+      "date": _firebaseServices.setDayAndTime(),
+    }).then((_) {
+      // _isProductSelected(_prodPID);
+      _setProductIsSelected(_srvcProdID);
+      print("Name: $_prodName | Product ID: $_prodSrvcID | PID: $_prodPID Selected | SrvcProdID: $_srvcProdID");
+
+    });
+  }
+
+  Future _isProductSelected(prodID) {
+    return _firebaseServices.usersRef
+        .doc(_firebaseServices.getUserID())
+        .collection("SelectedProducts")
+        .where('prodID', isEqualTo: prodID)
+        .get()
+        .then((snapshot) => {
+            for (DocumentSnapshot ds in snapshot.docs){
+              // if(ds.reference.id ==  ) {
+                print("${ds['srvcProdID'] } product!"),
+              // } else
+                // {
+                  _setProductIsSelected(prodID)
+                // }
+              // ds.reference.update({'isSelected': false})
+            },
+          });
+  }
+
+  Future _setProductIsSelected(value) async {
+    print("selection done");
+
+    return _firebaseServices.productsRef
+        .doc(value)
+        .update({"isSelected": true});
+
+    // .then((_) {
+        //  _selectServiceProduct();
+        // });
+  }
+
+
+  /*Future _selectSellerProduct() async {
+    return _firebaseServices.usersRef
+        .doc(_firebaseServices.getUserID())
+        .collection("SelectedSeller")
+        .doc()
+        .set({
+      "sellerName": _selectedSellerName,
+      "sellerID": _selectedSellerID,
+      "srvcCtgry": _selectedSrvcCtgryName,
+      "srvcCtgryID": _selectedSrvcCtgryID,
+      "date": _firebaseServices.setDayAndTime(),
+    }).then((_) {
+      print(
+          "Name: _selectedProductName | ID: _selectedProductID Selected");
+      // _setProductIsSelected(_selectedProductID);
+    });
+  }
+
+  Future _selectCustomerService() async {
+    return _firebaseServices.customerSrvcsRef
+        .doc(_firebaseServices.getUserID())
+        .collection("CustomerServices")
+        .doc()
+        .set({
+      "prodName": _selectedProductName,
+      "prodID": _selectedProductID,
+      "srvcCtgry": _selectedSrvcCtgryName,
+      "srvcCtgryID": _selectedSrvcCtgryID,
+      "date": _firebaseServices.setDayAndTime(),
+    })
+        .then((_) {
+      print("Name: _selectedProductName | ID: _selectedProductID Selected");
+      // _setProductIsSelected(_selectedProductID);
+    });
+  }*/
+
+
+  Future _setSellerIsSelected(value) async {
+    return _firebaseServices.sellersRef
+        .doc(value)
+        .update({"isSelected": true})
+        .then((_) {
+      // _selectServiceProduct();
+      print("selection done");
+    });
+  }
+  
+  
+  
   Future _removeServiceProduct(value) async {
     return _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
-        .collection("SelectedService")
+        .collection("SelectedProducts")
         .doc(value)
         .delete()
         .then((_) {
@@ -62,7 +183,7 @@ class _ProductViewerState extends State<ProductViewer> {
   Future _refreshServiceProduct() async {
     return _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
-        .collection("SelectedService")
+        .collection("SelectedProducts")
         .orderBy("date", descending: true)
         .get()
         .then((_) {
@@ -117,10 +238,11 @@ class _ProductViewerState extends State<ProductViewer> {
 
   @override
   Widget build(BuildContext context) {
-    bool isSelected = widget.isSelected ?? false;
+    bool _isSelected = widget.isSelected ?? false;
+    // print('isSelected = $isSelected');
     return Stack(
       children: [
-        if(isSelected)
+        if(_isSelected)
           Card(
             child: Stack(
               children: [
@@ -330,20 +452,21 @@ class _ProductViewerState extends State<ProductViewer> {
                 horizontal: 12
             ),
             child: GestureDetector(
-              onTap: () {
+              onTap: () async {
+                _selectServiceProduct();
                 setState(() {
-                  isSelected = true;
-                  print("selected");
+                  _isSelected = true;
+                  print("item is selected");
                 });
 
-                Navigator.push(context, MaterialPageRoute(
+                /*Navigator.push(context, MaterialPageRoute(
                     builder: (context) =>
                         // const Text("this is it"),
                         SelectedServicePage(
                           serviceID: "${widget.prodSrvcID}",
                           serviceType: "${widget.prodSrvcType}",
                         )
-                ));
+                ));*/
 
               },
               child: Row(
@@ -354,11 +477,11 @@ class _ProductViewerState extends State<ProductViewer> {
                     child: Container(
                       // width: 300,
                       decoration: BoxDecoration(
-                        color: isSelected ? Colors.amberAccent : Colors.blueGrey,
+                        color: _isSelected ? Colors.amberAccent : Colors.blueGrey,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       // height: _isSelected ? 300 : 55,
-                      height: isSelected ? 350 : 65,
+                      height: _isSelected ? 350 : 65,
                       alignment: Alignment.center,
 
                       margin: const EdgeInsets.only(
@@ -370,7 +493,7 @@ class _ProductViewerState extends State<ProductViewer> {
                       child: Text(
                         "${widget.prodName}",
                         style: TextStyle(
-                            color: isSelected ? Colors.black12 : Colors.white70,
+                            color: _isSelected ? Colors.black12 : Colors.white70,
                             fontSize: 18,
                             fontWeight: FontWeight.w600
                         ),
@@ -387,7 +510,7 @@ class _ProductViewerState extends State<ProductViewer> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: isSelected ? Colors.amberAccent : Colors.black12,
+                            color: _isSelected ? Colors.amberAccent : Colors.black12,
                             // border: Border.all(
                             //     color: Colors.black45,
                             //     width: 1,
@@ -425,11 +548,11 @@ class _ProductViewerState extends State<ProductViewer> {
                       // width: 65,
                       // future: _firebaseServices.servicesRef.doc(document.id).get(),
                       decoration: BoxDecoration(
-                        color: isSelected ? Colors.amberAccent : Colors.blueGrey,
+                        color: _isSelected ? Colors.amberAccent : Colors.blueGrey,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       // height: _isSelected ? 300 : 55,
-                      height: isSelected ? 350 : 65,
+                      height: _isSelected ? 350 : 65,
                       // width: double.infinity,
                       alignment: Alignment.center,
 
