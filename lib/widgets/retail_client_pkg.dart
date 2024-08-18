@@ -28,17 +28,18 @@ class RetailClientPkg extends StatefulWidget {
 }
 
 class _RetailClientPkgState extends State<RetailClientPkg> {
-  String _selectedProductName = "selected-product-name";
-  String? _selectedSellerName = "selected-product-name";
-  String _selectedProductID = "selected-product-id";
-  String _selectedSellerID = "selected-seller -id";
-  final String _selectedProductSrvcID = "selected-product-service-id";
-  String _selectedSrvcCtgryName = "selected-service-name";
-  String _selectedSrvcCtgryID = "selected-service-id";
-  final String _selectedSrvcCtgryType = "selected-service-type";
+  late String _selectedProductName = "selected-product-name";
+  late String _selectedSellerName = "selected-product-name";
+  late String _selectedProductID = "selected-product-id";
+  late String _selectedSellerID = "selected-seller-id";
+  late String _selectedSellerSID = "selected-seller-sid";
+  late String _selectedProductSrvcID = "selected-product-service-id";
+  late String _selectedSrvcCtgryName = "selected-service-name";
+  late String _selectedSrvcCtgryID = "selected-service-id";
+  late String _selectedSrvcCtgryType = "selected-service-type";
+  late String _clientStore = "";
   late bool _isCustomerService;
   late Image _cardBckgrnd;
-  String _clientStore = "";
   late List _clientList;
   late List _rcRetailers;
   late List _testingList;
@@ -323,6 +324,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                           onTap: () async {
                             _selectedSellerName = "${_rcRetailers[index]['name']}";
                             _selectedSellerID = "${_rcRetailers[index].id}";
+                            _selectedSellerSID = "${_rcRetailers[index]['sellerID']}";
                             _selectedSrvcCtgryName = widget.serviceCategoryName;
                             _selectedSrvcCtgryID = widget.serviceCategoryID;
                             // _selectedProductID = "${_rcRetailers[index]['prodID']}";
@@ -331,13 +333,14 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                             // _isProductSelected(prodID);
                             setState(() {
                               // _isSelected = index;
+                              print("_selectedSellerName: $_selectedSellerName | _selectedSellerID: $_selectedSellerID");
                             });
 
                             Navigator.push(context, MaterialPageRoute(
                               builder: (context) =>
-                              // Text("this is itext")
                               RetailClientProductsLst(
-                                sellerID: "${_rcRetailers[index]['sellerID']}",
+                                selectedSellerSID: _selectedSellerSID,
+                                selectedSellerName: _selectedSellerName,
                                 // selectedProductID: ,
                               ),
                             ));
@@ -402,9 +405,9 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
 
 class RetailClientProductsLst extends StatefulWidget {
+  final String selectedSellerSID;
   final String? sellerID;
-  final String? selectedSellerName;
-  final String? selectedSellerID;
+  final String selectedSellerName;
   final String? selectedSrvcCtgryName;
   final String? selectedSrvcCtgryID;
   final String? selectedProductName;
@@ -412,13 +415,13 @@ class RetailClientProductsLst extends StatefulWidget {
   final Function? onPressed;
   RetailClientProductsLst({
     super.key,
-    required this.sellerID,
-    this.selectedSellerID,
+    required this.selectedSellerSID,
+    this.sellerID,
     this.selectedSrvcCtgryName,
     this.selectedSrvcCtgryID,
     this.selectedProductName,
     this.selectedProductID,
-    this.selectedSellerName,
+    required this.selectedSellerName,
     this.onPressed,
   });
 
@@ -429,6 +432,7 @@ class RetailClientProductsLst extends StatefulWidget {
 class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
   final FirebaseServices _firebaseServices = FirebaseServices();
   late List _prodData;
+  late String _selectedSellerName = widget.selectedSellerName;
     // return prod;
     // print("${snapshot.}product unselected!")
   @override
@@ -437,7 +441,7 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: ActionBar(
-        title: "Servic Products",
+        title: _selectedSellerName ?? "Service Products",
         hasTitle: true,
         hasBackArrow: true,
       ),
@@ -445,7 +449,7 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
         StreamBuilder<QuerySnapshot>(
         // get all selected documents from SelectedProducts
           stream: _firebaseServices.productsRef
-              .where("retailerID", isEqualTo: widget.sellerID)
+              .where("retailerID", isEqualTo: widget.selectedSellerSID)
           // .orderBy("name", descending: true)
               .snapshots(),
           builder: (context, AsyncSnapshot snapshot) {

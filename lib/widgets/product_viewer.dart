@@ -35,6 +35,11 @@ class ProductViewer extends StatefulWidget {
 
 class _ProductViewerState extends State<ProductViewer> {
   final FirebaseServices _firebaseServices = FirebaseServices();
+  late String? _prodName = widget.prodName;
+  late String? _prodPID = widget.prodPID;
+  late String? _prodSrvcName = widget.prodSrvcName;
+  late String? _prodSrvcID = widget.prodSrvcID;
+  late String? _srvcProdID = widget.srvcProdID;
 
   /*Future<void> writeToSecondaryDatabase(String data) async {
     try {
@@ -48,17 +53,20 @@ class _ProductViewerState extends State<ProductViewer> {
       print('Error writing to secondary database: $e');
     }
   }*/
+
+  /*Future<void> createRoom(collection, docid, data) async {
+    await FirebaseFirestore.instance
+        .collection(collection)
+        .doc("doc_Id")
+        .set(data);
+
+    // simply add a document in messages sub-collection when needed.
+  }*/
   
   Future _selectServiceProduct() async {
-    late String? _prodName = widget.prodName;
-    late String? _prodPID = widget.prodPID;
-    late String? _prodSrvcName = widget.prodSrvcName;
-    late String? _prodSrvcID = widget.prodSrvcID;
-    late String? _srvcProdID = widget.srvcProdID;
-
     return _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
-        .collection("SelectedProducts")
+        .collection("Cart")
         .doc()
         .set({
       "prodName": _prodName,
@@ -70,7 +78,7 @@ class _ProductViewerState extends State<ProductViewer> {
     }).then((_) {
       // _isProductSelected(_prodPID);
       _setProductIsSelected(_srvcProdID);
-      print("Name: $_prodName | Product ID: $_prodSrvcID | PID: $_prodPID Selected | SrvcProdID: $_srvcProdID");
+      print("Name: $_prodName | Prod-Srvc-Type-ID: $_prodSrvcID | PID: $_prodPID Selected | SrvcProdID: $_srvcProdID");
 
     });
   }
@@ -95,15 +103,13 @@ class _ProductViewerState extends State<ProductViewer> {
   }
 
   Future _setProductIsSelected(value) async {
-    print("selection done");
-
     return _firebaseServices.productsRef
         .doc(value)
-        .update({"isSelected": true});
-
-    // .then((_) {
-        //  _selectServiceProduct();
-        // });
+        .update({"isSelected": true})
+        .then((_) {
+          // _selectServiceProduct();
+          print("selection done");
+        });
   }
 
 
@@ -123,9 +129,9 @@ class _ProductViewerState extends State<ProductViewer> {
           "Name: _selectedProductName | ID: _selectedProductID Selected");
       // _setProductIsSelected(_selectedProductID);
     });
-  }
+  }*/
 
-  Future _selectCustomerService() async {
+  /*Future _selectCustomerService() async {
     return _firebaseServices.customerSrvcsRef
         .doc(_firebaseServices.getUserID())
         .collection("CustomerServices")

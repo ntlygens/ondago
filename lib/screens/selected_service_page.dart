@@ -53,7 +53,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   Future _removeAllServiceProducts() async {
     return _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
-        .collection("SelectedProducts")
+        .collection("Cart")
         .get()
         .then((snapshot) => {
           for (DocumentSnapshot ds in snapshot.docs){
@@ -174,6 +174,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                     ListView(
                       padding: const EdgeInsets.only(top:250),
                       children: [
+                          /// List of Products by Slctd Srvc ///
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
