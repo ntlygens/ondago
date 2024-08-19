@@ -199,39 +199,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
               _rcFtVegetarian = null
               // _rcFtVegetarian = Icon(Icons.disabled_by_default, color: Colors.black,),
             },
-              // _rcFtHalal = null, _rcFtKosher = null,
-              // _rcFtOmnivore = null, _rcFtPescatarian = null,
-              // _rcFtVegan = null, _rcFtVegetarian = null,
-              // _kl = _rcFtKosherLst.length,
-              // print(" list: $_kl")
-            // },
 
-            /*if(dRcOpt['vegan'] == true){
-              _rcFtVegan = Icon(Icons.grass, color: Colors.green,),
-              _rcFtVeganLst?.add(_rcFtVegan),
-              print("ddoc: ${_dsRcID}, val: vegan = ${_vegan}, icon: $_rcFtVegan"),
-            } else {
-              _rcFtVegan = null,
-              // _rcFtVegan = Icon(Icons.grass_outlined),
-            },
-
-            if(dRcOpt['pescatarian'] == true){
-              _rcFtPescatarian = Icon(Icons.set_meal_outlined,),
-              _rcFtPescatarianLst?.add(_rcFtPescatarian),
-              // print("ddoc: ${_dsRcID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
-            } else {
-              // _rcFtPescatarian = Icon(Icons.set_meal),
-              _rcFtPescatarian = null,
-            },
-
-            if(dRcOpt['omnivore'] == true){
-              _rcFtOmnivore = Icon(Icons.kebab_dining, color: Colors.red,),
-              _rcFtOmnivoreLst?.add(_rcFtOmnivore),
-              // print("ddoc: ${_dsRcID}, val: vegan = ${dRcOpt['vegan']}, icon: $_rcFtVegan"),
-            } else {
-              // _rcFtPescatarian = Icon(Icons.set_meal),
-              _rcFtOmnivore = null,
-            },*/
 
             // if(_rcFtHalal != null)
             _rcFtHalalLst?.add(_rcFtHalal),
