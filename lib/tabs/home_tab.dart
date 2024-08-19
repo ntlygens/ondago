@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ondago/screens/selected_service_page.dart';
 // import 'package:ondago/screens/retail_client_products_lst.dart';
 import 'package:ondago/services/firebase_services.dart';
+import 'package:ondago/widgets/action_bar.dart';
 import 'package:ondago/widgets/app_bar_search.dart';
 // import 'package:ondago/screens/search_page.dart';
 
@@ -106,10 +107,33 @@ class _HomeTabState extends State<HomeTab> {
           settings: settings,
           builder: (BuildContext context) {
             return Scaffold(
-              appBar: AppBar(
+              /*appBar: AppBar(
                 centerTitle: true,
                 title: Text("Home"),
                 actions: [
+                  IconButton(
+                      onPressed: () => Navigator.of(context)
+                          .push(
+                          MaterialPageRoute(
+                            builder: (context) => AppBarSesrch(),
+                          )),
+                      icon: const Icon(Icons.search)
+                  )
+                ],
+                // toolbarHeight: 100,
+                hasTitle: true,
+                hasBackArrow: true,
+                hasHdrImg: true,
+                headerImage: _headerImage,
+              ),*/
+              appBar: ActionBar(
+                centerTitle: true,
+                title: "Home",
+                hasCounter: false,
+                hasTitle: true,
+                hasHdrImg: false,
+                hasBackground: false,
+                /*actions: [
                   IconButton(
                       onPressed: () => Navigator.of(context)
                       .push(
@@ -118,7 +142,7 @@ class _HomeTabState extends State<HomeTab> {
                           )),
                       icon: const Icon(Icons.search)
                   )
-                ],
+                ],*/
                 // toolbarHeight: 100,
                 /*hasTitle: true,
               hasBackArrow: true,
@@ -131,8 +155,8 @@ class _HomeTabState extends State<HomeTab> {
                     child: Text("Home Tab"),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(
-                        0
+                    padding: EdgeInsets.only(
+                        top: 0
                     ),
                     child: StreamBuilder<QuerySnapshot>(
                         stream: _firebaseServices.servicesRef
@@ -170,80 +194,77 @@ class _HomeTabState extends State<HomeTab> {
 
                                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 // crossAxisAlignment: CrossAxisAlignment.start,
-                                child: SizedBox(
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.vertical,
-                                      clipBehavior: Clip.antiAlias,
-                                      // physics: ScrollPhysics(),
-                                      child: GridView.builder(
-                                        // padding: EdgeInsets.fromLTRB(0, 70, 0, 320),
-                                        shrinkWrap: true,
-                                        physics: const ScrollPhysics(),
-                                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                            maxCrossAxisExtent: 400,
-                                            childAspectRatio: 2 / 1
-                                        ),
-                                        itemCount: _srvcDataList.length,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                _srvcData = _srvcDataList[index].id;
-                                                _hdrBnnrImg = _srvcDataList[index]['images'][0];
-                                                _hdrBnnrName = _srvcDataList[index]['name'];
-                                                _srvcDataType = _srvcDataList[index]['srvcType'];
-                                              });
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  clipBehavior: Clip.antiAlias,
+                                  // physics: ScrollPhysics(),
+                                  child: GridView.builder(
+                                    // padding: EdgeInsets.fromLTRB(0, 70, 0, 320),
+                                    shrinkWrap: true,
+                                    physics: const ScrollPhysics(),
+                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 435,
+                                        childAspectRatio: 3 / 1.375,
+                                    ),
+                                    itemCount: _srvcDataList.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _srvcData = _srvcDataList[index].id;
+                                            _hdrBnnrImg = _srvcDataList[index]['images'][0];
+                                            _hdrBnnrName = _srvcDataList[index]['name'];
+                                            _srvcDataType = _srvcDataList[index]['srvcType'];
+                                          });
 
-                                              print("HomeTab-Srvc-Data-Name: ${_srvcDataList[index]['name']} \n");
-                                              print("HomeTab-Srvc-Data-ID: ${_srvcDataList[index].id}");
-                                              print("data ID: ${_srvcData} and first image: ${_hdrBnnrImg}");
-                                              // print("HomeTab-Srvc-Data-Type: ${_srvcDataList[index]['srvcType']}");
-                                              Navigator.push(context, MaterialPageRoute(
-                                                  maintainState: true,
-                                                  builder: (context) =>
-                                                  // Text("this is iit")
-                                                  SelectedServicePage(
-                                                    serviceID: "${_srvcData}",
-                                                    serviceType: "${_srvcDataType}",
-                                                    headerImg: _hdrBnnrImg,
-                                                    headerName: _hdrBnnrName
-                                                  )
-                                                // RetailClientProductsLst(),
-                                              ));
-                                            },
-                                            child: Card(
-                                              elevation: 4,
-                                              margin: const EdgeInsets.symmetric(
-                                                // 8
-                                                vertical: 11,
-                                                horizontal: 16,
-                                              ),
-                                              clipBehavior: Clip.antiAlias,
-                                              child: Stack(
-                                                children: [
-                                                  Container(
-                                                    alignment: Alignment.center,
-                                                    child: ClipRRect(
-                                                      borderRadius: BorderRadius.circular(6),
-                                                      /*child: Text(
-                                                      "${_srvcDataList[index]['name']}"
-                                                    ),*/
-                                                      child: Image.network(
-                                                        "${_srvcDataList[index]['images'][0]}",
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text ("${_srvcDataList[index]['name']}"),
-                                                ],
-                                              ),
-                                            ),
-
-                                          );
+                                          print("HomeTab-Srvc-Data-Name: ${_srvcDataList[index]['name']} \n");
+                                          print("HomeTab-Srvc-Data-ID: ${_srvcDataList[index].id}");
+                                          print("data ID: ${_srvcData} and first image: ${_hdrBnnrImg}");
+                                          // print("HomeTab-Srvc-Data-Type: ${_srvcDataList[index]['srvcType']}");
+                                          Navigator.push(context, MaterialPageRoute(
+                                              // maintainState: true,
+                                              builder: (context) =>
+                                              // Text("this is iit")
+                                              SelectedServicePage(
+                                                serviceID: "${_srvcData}",
+                                                serviceType: "${_srvcDataType}",
+                                                headerImg: _hdrBnnrImg,
+                                                headerName: _hdrBnnrName
+                                              )
+                                            // RetailClientProductsLst(),
+                                          ));
                                         },
-                                      ),
-                                    )
+                                        child: Card(
+                                          elevation: 4,
+                                          margin: const EdgeInsets.symmetric(
+                                            // 8
+                                            vertical: 11,
+                                            horizontal: 16,
+                                          ),
+                                          clipBehavior: Clip.antiAlias,
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                alignment: Alignment.center,
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(6),
+                                                  /*child: Text(
+                                                  "${_srvcDataList[index]['name']}"
+                                                ),*/
+                                                  child: Image.network(
+                                                    "${_srvcDataList[index]['images'][0]}",
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                              ),
+                                              Text ("${_srvcDataList[index]['name']}"),
+                                            ],
+                                          ),
+                                        ),
 
+                                      );
+                                    },
+                                  ),
                                 ),
                               );
                             }

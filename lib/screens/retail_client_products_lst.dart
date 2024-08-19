@@ -19,6 +19,8 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(
         children: [
@@ -45,33 +47,16 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                     // display data in listview
                     return ListView.builder (
                       itemCount: _prodData.length,
-                        itemBuilder: (BuildContext context, int index) {
+                      itemBuilder: (BuildContext context, int index) {
                         // print("client product name = ${_prodData[index]['name']}");
-                          return Column(
-                              /*padding : EdgeInsets.only(
-                                top: 10,
-                                bottom: 20,
-                              ),*/
-                              // children: [
-                              // children: _prodData.map((_prodData, index) =>
-                              ///// for (var i = 0; i < _prodData.length; i++)
-                                // seperate array into individual documents
-                            /*child: Text(
-                              "thisiis retail client product list page"
-                            ),*/
-
-                              children: [
-                                  ProductViewer(
-                                    // isSelected: index == 0,
-                                    prodPID: _prodData[index]['prodID'],
-                                    prodName: _prodData[index]['name'],
-                                    // prodSellers: [''],
-                                    srvcProdID: _prodData[index].id,
-                                  ),
-                                ]
-                            // ]
-                          );
-                        },
+                        return ProductViewer(
+                          isSelected: index == 0,
+                          prodPID: _prodData[index]['prodID'],
+                          prodName: _prodData[index]['name'],
+                          // prodSellers: [''],
+                          srvcProdID: _prodData[index].id,
+                        );
+                      },
 
                     );
                   }
@@ -83,11 +68,6 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                 ),
               );
             }
-          ),
-          ActionBar(
-            title: "Service Products",
-            hasTitle: true,
-            hasBackArrow: true,
           ),
         ],
       ),

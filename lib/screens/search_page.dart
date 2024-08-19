@@ -113,9 +113,9 @@ class _SearchPageState extends State<SearchPage> {
           BuildContext buildContext,
           AsyncSnapshot<List<UserModel>> snapshot
           ) {
-        if (snapshot == null) {
+        /*if (snapshot == null) {
           return const CircularProgressIndicator();
-        }
+        }*/
         return snapshot.connectionState == ConnectionState.waiting
             ? const Center(child: CircularProgressIndicator(),)
             : ListView.builder(

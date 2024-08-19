@@ -1,5 +1,5 @@
 # ondago
 
-A new ethod of mobile online ordering, catered to transportation industry.
+A new method of mobile online ordering, catered to transportation industry.
 
 

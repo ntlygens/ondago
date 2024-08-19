@@ -1,6 +1,1 @@
-{
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  }
-}
+{"firestore":{"rules":"firestore.rules","indexes":"firestore.indexes.json"},"flutter":{"platforms":{"android":{"default":{"projectId":"ondamenu-3dc99","appId":"1:903059244415:android:f90757593fed8a910d464a","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"ondamenu-3dc99","appId":"1:903059244415:ios:0d15a17e99f9cd590d464a","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"ondamenu-3dc99","configurations":{"android":"1:903059244415:android:f90757593fed8a910d464a","ios":"1:903059244415:ios:0d15a17e99f9cd590d464a","web":"1:903059244415:web:2b75d1c15b76a4bd0d464a"}}}}}}

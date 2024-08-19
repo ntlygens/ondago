@@ -26,13 +26,16 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
 
   final _snackBar = const SnackBar(content: Text("Product added to Cart"));
   late bool _isCustomerSrvc;
+  late bool _notCustomerSrvc;
   late String? _headerImage;
   late String? _headerName;
 
   Future _checkSrvcType<String>() async {
     _isCustomerSrvc = false;
+    _notCustomerSrvc = true;
     if(widget.serviceType == 'customer') {
       _isCustomerSrvc = true;
+      _notCustomerSrvc = false;
     }
 
     /*return _firebaseServices.servicesRef
@@ -138,26 +141,15 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   @override
   Widget build(BuildContext context) {
     bool alreadySelected = true;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Home"),
-          actions: [
-            IconButton(
-                onPressed: () => Navigator.of(context)
-                    .push(
-                    MaterialPageRoute(
-                      builder: (context) => AppBarSesrch(),
-                    )),
-                icon: const Icon(Icons.search)
-            )
-          ],
-          // toolbarHeight: 100,
-          /*hasTitle: true,
-              hasBackArrow: true,
-              hasHdrImg: true,
-              headerImage: _headerImage,*/
+        appBar: ActionBar(
+          title: 'Hme',
+          hasTitle: true,
+          hasBackArrow: true,
+          hasCounter: true,
         ),
 
         body: FutureBuilder<DocumentSnapshot>(
@@ -173,128 +165,127 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
 
               if (snapshot.connectionState == ConnectionState.done) {
                 List docs = snapshot.data['type'];
-                return ListView(
-                    padding: const EdgeInsets.all(0),
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8,
-                            horizontal: 14
-                        ),
-                        child: Text(
-                          "${snapshot.data['name']}",
-                          style: Constants.boldHeading,
-                        ),
-                      ),
-                      /// Description Row ///
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 24
-                        ),
-
-                        child: Text(
-                          "${snapshot.data['desc']}",
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      /// Catagories Label Row ///
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20,
-                            right: 20,
-                            top: 24,
-                            bottom: 0
-                        ),
-                        child: Text(
-                          _isCustomerSrvc ?
-                          "${snapshot.data!['name']} Categories" : "",
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFFFF1E80)
-                            )
-                        ),
-                      ),
-                      /// Retail Clients Row ///
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8
-                        ),
-                        child: RetailClientPkg(
+                print("headerIme: $_headerImage");
+                return Stack(
+                  alignment: AlignmentDirectional.topCenter,
+                  fit: StackFit.loose,
+                  children: [
+                    // Text ("${snapshot.data['name']}"),
+                    ListView(
+                      padding: const EdgeInsets.only(top:250),
+                      children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 0
+                            ),
+                            child: RetailClientPkg(
                               retailClientList: docs,
                               serviceCategoryName: snapshot.data['name'],
                               serviceCategoryID: snapshot.data.id,
                             ),
-                      ),
-                      /// View Btn and Delete Slctd Row ///
-                      Padding(
-                        padding: const EdgeInsets.all(24.0),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 90,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFFDCDCDC),
-                                  borderRadius: BorderRadius.circular(12)
-                              ),
-                              alignment: Alignment.center,
-                              /// ** // Reset DB Button Below IMPORTANT!!! //
-                              child: IconButton(
-                                onPressed: () {
-                                  _unselectAllIcons(snapshot.data!.id);
-                                  _removeAllServiceProducts();
-                                },
-                                icon: const Icon(
-                                  Icons.delete,
-                                  size: 32.0,
-                                ),
-                              ),
-
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () async {
-                                  // await _addToCart();
-                                  if(alreadySelected == false) {
-                                    ScaffoldMessenger.of(context).showSnackBar(_snackBar);
-                                  }
-
-                                  /*Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) =>
-                                        RetailClientProductsLst(
-                                          sellerID: ,
-                                        ),
-                                  ));*/
-                                },
-                                child: Container(
-                                  height: 65,
-                                  margin: const EdgeInsets.only(
-                                      left: 16
-                                  ),
+                          ),
+                          /// View Btn and Delete Slctd Row ///
+                          Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 90,
+                                  height: 60,
                                   decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(12),
+                                      color: const Color(0xFFDCDCDC),
+                                      borderRadius: BorderRadius.circular(12)
                                   ),
                                   alignment: Alignment.center,
-                                  child: const Text(
-                                    "View Selected",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600
+                                  /// ** // Reset DB Button Below IMPORTANT!!! //
+                                  child: IconButton(
+                                    onPressed: () {
+                                      _unselectAllIcons(snapshot.data!.id);
+                                      _removeAllServiceProducts();
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      size: 32.0,
                                     ),
                                   ),
+
                                 ),
-                              ),
-                            )
-                          ],
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      // await _addToCart();
+                                      if(alreadySelected == false) {
+                                        ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+                                      }
+
+                                      /*Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) =>
+                                          RetailClientProductsLst(
+                                            sellerID: ,
+                                          ),
+                                    ));*/
+                                    },
+                                    child: Container(
+                                      height: 65,
+                                      margin: const EdgeInsets.only(
+                                          left: 16
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: const Text(
+                                        "View Selected",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ]
+                    ),
+
+                    Container(
+                      width: screenWidth,
+                      height: 135,
+                      alignment: Alignment.topCenter,
+                      margin: EdgeInsets.fromLTRB(
+                          0, 0, 0, 40
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.deepOrange,
+                            width: 3,
+                            style: BorderStyle.solid,
+                            strokeAlign: BorderSide.strokeAlignCenter
                         ),
-                      )
-                    ]
+                        borderRadius: BorderRadius.circular(6),
+                        // color: Colors.deepOrange,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black54.withOpacity(0.45),
+                            spreadRadius: 3,
+                            blurRadius: 4,
+                            offset: Offset(0, 0), // changes position of shadow
+                          ),
+                          // BoxShadow(color: Colors.deepOrange, sprea`dRadius: 3),
+                        ],
+                      ),
+                      child: Text("rhis is he thse"),
+                      /*child: Image.network(
+                              "${_headerImage}",
+                              fit: BoxFit.contain,
+                            ),*/
+                    ),
+                  ],
                 );
               }
 
