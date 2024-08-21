@@ -5,7 +5,7 @@ import 'package:ondago/services/firebase_services.dart';
 class MenuDashboard extends StatefulWidget {
   final String menuID;
   final List? menuItemsAll;
-  const MenuDashboard ({
+  const MenuDashboard ({super.key, 
     required this.menuID,
     this.menuItemsAll,
   });

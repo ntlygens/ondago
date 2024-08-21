@@ -14,7 +14,7 @@ class _SearchTabState extends State<SearchTab> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SearchPage(),
+      child: const SearchPage(),
       /*child: Stack(
         children: [
           Center(

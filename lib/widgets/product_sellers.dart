@@ -9,7 +9,7 @@ class ProductSellers extends StatefulWidget {
   final String prodName;
   final String? prodID;
 
-  const ProductSellers({ Key? key, required this.prodName, this.prodID});
+  const ProductSellers({super.key, required this.prodName, this.prodID});
 
   @override
   _ProductSellersState createState() => _ProductSellersState();

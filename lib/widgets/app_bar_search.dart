@@ -1,11 +1,11 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:ondago/api/user_bloc.dart';
 import 'package:ondago/models/user_model.dart';
 
 class AppBarSesrch extends StatefulWidget {
+  const AppBarSesrch({super.key});
+
 
   @override
   _AppBarSesrchState createState() => _AppBarSesrchState();
@@ -34,9 +34,9 @@ class _AppBarSesrchState extends State<AppBarSesrch> {
             child: Center(
               child: TextField(
                 decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
+                    prefixIcon: const Icon(Icons.search),
                     suffixIcon: IconButton(
-                      icon: Icon(Icons.clear),
+                      icon: const Icon(Icons.clear),
                       onPressed: () {
 
                       },
@@ -60,9 +60,9 @@ class _AppBarSesrchState extends State<AppBarSesrch> {
               hasHdrImg: true,
               headerImage: _headerImage,*/
         ),
-        body: Column(
+        body: const Column(
           children: <Widget>[
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             /// search banner ///
             /*Container(
               padding: const EdgeInsets.all(16.0),
@@ -114,9 +114,6 @@ class _AppBarSesrchState extends State<AppBarSesrch> {
           BuildContext buildContext,
           AsyncSnapshot<List<UserModel>> snapshot
           ) {
-        if (snapshot == null) {
-          return const CircularProgressIndicator();
-        }
         return snapshot.connectionState == ConnectionState.waiting
             ? const Center(child: CircularProgressIndicator(),)
             : ListView.builder(

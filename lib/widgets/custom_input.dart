@@ -9,7 +9,7 @@ class CustomInput extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool? isPasswordField;
 
-  const CustomInput({ this.hintText, this.onChanged, this.onSubmitted, this.focusNode, this.textInputAction, this.isPasswordField});
+  const CustomInput({super.key,  this.hintText, this.onChanged, this.onSubmitted, this.focusNode, this.textInputAction, this.isPasswordField});
 
   @override
   Widget build(BuildContext context) {

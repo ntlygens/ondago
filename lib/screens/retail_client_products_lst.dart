@@ -2,12 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:ondago/widgets/product_viewer.dart';
-import 'package:ondago/widgets/action_bar.dart';
 
 class RetailClientProductsLst extends StatefulWidget {
   final String? sellerID;
   final Function? onPressed;
-  RetailClientProductsLst({super.key,  this.onPressed, required this.sellerID});
+  const RetailClientProductsLst({super.key,  this.onPressed, required this.sellerID});
 
   @override
   _RetailClientProductsLstState createState() => _RetailClientProductsLstState();

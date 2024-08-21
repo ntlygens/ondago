@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ondago/constants.dart';
 import 'package:ondago/screens/cart_page.dart';
 import 'package:ondago/services/firebase_services.dart';
-import 'package:ondago/widgets/image_swipe.dart';
 
 class ActionBar extends StatefulWidget implements PreferredSizeWidget {
   @override
@@ -15,15 +14,16 @@ class ActionBar extends StatefulWidget implements PreferredSizeWidget {
   final bool? hasHdrImg;
   final bool? hasCounter;
   final String? headerImage;
+  @override
   final Size preferredSize;
   final List<Widget>? actions;
 
-  ActionBar({
+  const ActionBar({
     this.key, this.title, this.hasBackArrow,
     this.hasTitle, this.centerTitle,
     this.hasBackground, this.hasCounter,
     this.hasHdrImg, this.headerImage, this.actions,
-  }) : preferredSize = Size.fromHeight(kToolbarHeight), super(key: key);
+  }) : preferredSize = const Size.fromHeight(kToolbarHeight), super(key: key);
 
   @override
   State<ActionBar> createState() => _ActionBarState();
@@ -38,11 +38,11 @@ class _ActionBarState extends State<ActionBar> {
 
   @override
   Widget build(BuildContext context) {
-    bool _hasBackArrow = widget.hasBackArrow ?? false;
-    bool _hasTitle = widget.hasTitle ?? true;
-    bool _hasBackground = widget.hasBackground ?? false;
-    bool _hasCounter = widget.hasCounter ?? true;
-    bool _hasHdrImg = widget.hasHdrImg ?? false;
+    bool hasBackArrow = widget.hasBackArrow ?? false;
+    bool hasTitle = widget.hasTitle ?? true;
+    bool hasBackground = widget.hasBackground ?? false;
+    bool hasCounter = widget.hasCounter ?? true;
+    bool hasHdrImg = widget.hasHdrImg ?? false;
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -54,26 +54,26 @@ class _ActionBarState extends State<ActionBar> {
       width: screenWidth,
       // height: 120,
       margin: EdgeInsets.only(
-        top: _hasHdrImg ? 0 : 0,
-        left: _hasHdrImg ? 0 : 0,
-        right: _hasHdrImg ? 0 : 0,
-        bottom: _hasHdrImg ? 0 : 0
+        top: hasHdrImg ? 0 : 0,
+        left: hasHdrImg ? 0 : 0,
+        right: hasHdrImg ? 0 : 0,
+        bottom: hasHdrImg ? 0 : 0
       ),
       decoration: BoxDecoration(
-        gradient: _hasBackground ? LinearGradient(
+        gradient: hasBackground ? LinearGradient(
           colors: [
             Colors.white,
             Colors.blueGrey.withOpacity(0.5),
           ],
-          begin: Alignment(0, 0),
-          end: Alignment(0, 1)
+          begin: const Alignment(0, 0),
+          end: const Alignment(0, 1)
         ) : null
       ),
       padding: EdgeInsets.only(
-        top: _hasHdrImg ? 0 : 0,
-        left: _hasHdrImg ? 0 : 0,
-        right: _hasHdrImg ? 0 : 0,
-        bottom: _hasHdrImg ? 0 : 0
+        top: hasHdrImg ? 0 : 0,
+        left: hasHdrImg ? 0 : 0,
+        right: hasHdrImg ? 0 : 0,
+        bottom: hasHdrImg ? 0 : 0
       ),
       child: Stack(
         alignment: Alignment.center,
@@ -88,11 +88,11 @@ class _ActionBarState extends State<ActionBar> {
                 ),
             ),
           Row(
-            mainAxisAlignment: !_hasBackArrow ? MainAxisAlignment.spaceAround : MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: !hasBackArrow ? MainAxisAlignment.spaceAround : MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
 
-              if (_hasBackArrow)
+              if (hasBackArrow)
                 Padding(
                   padding: const EdgeInsets.only(top: 40, left: 15),
                   child: GestureDetector(
@@ -100,7 +100,7 @@ class _ActionBarState extends State<ActionBar> {
                       Navigator.pop(context);
                     },
                     child: Container(
-                      padding: EdgeInsets.all(7),
+                      padding: const EdgeInsets.all(7),
                       decoration: BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(4)
@@ -117,7 +117,7 @@ class _ActionBarState extends State<ActionBar> {
                   ),
                 ),
 
-              if ( _hasTitle)
+              if ( hasTitle)
                 Padding(
                   padding: const EdgeInsets.only(top: 40),
                   child: Text(
@@ -126,7 +126,7 @@ class _ActionBarState extends State<ActionBar> {
                   ),
                 ),
 
-              if (_hasCounter)
+              if (hasCounter)
                 Padding(
                   padding: const EdgeInsets.only(top: 40, right: 15),
                   child: GestureDetector(
@@ -134,7 +134,7 @@ class _ActionBarState extends State<ActionBar> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CartPage(),
+                            builder: (context) => const CartPage(),
                           ));
                     },
                     child: Container(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ProdNPrice extends StatefulWidget {
   final String prodName;
   final List? altProds;
-  const ProdNPrice({ this.altProds, required this.prodName});
+  const ProdNPrice({super.key,  this.altProds, required this.prodName});
 
   @override
   _ProdNPriceState createState() => _ProdNPriceState();

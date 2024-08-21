@@ -5,6 +5,8 @@ import 'package:ondago/widgets/custom_input.dart';
 import 'package:ondago/widgets/custom_btn.dart';
 
 class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
 
   // const RegisterPage({Key? key}) : super(key: key);
   @override

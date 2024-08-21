@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:ondago/constants.dart';
 
 class RetailClientCard extends StatelessWidget{
@@ -9,7 +8,7 @@ class RetailClientCard extends StatelessWidget{
   final String retailClientRating;
   final List retailClientSrvcs;
   final List? retailClientStatus;
-  const RetailClientCard({
+  const RetailClientCard({super.key, 
     // required this.imageList,
     required this.retailClientBnr,
     required this.retailClientName,
@@ -62,7 +61,7 @@ class RetailClientCard extends StatelessWidget{
                   )
                 ],
               ),
-              margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+              margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             ),
           ),
@@ -73,7 +72,7 @@ class RetailClientCard extends StatelessWidget{
             height: 125,
             child:
               Container(
-                margin: EdgeInsets.fromLTRB(
+                margin: const EdgeInsets.fromLTRB(
                     0, 0, 0, 0
                 ),
                 decoration: BoxDecoration(
@@ -90,13 +89,13 @@ class RetailClientCard extends StatelessWidget{
                       color: Colors.black54.withOpacity(0.45),
                       spreadRadius: 3,
                       blurRadius: 4,
-                      offset: Offset(0, 0), // changes position of shadow
+                      offset: const Offset(0, 0), // changes position of shadow
                     ),
                     // BoxShadow(color: Colors.deepOrange, sprea`dRadius: 3),
                   ],
                 ),
                 child: Image.network(
-                  "${_retailClientBnr}",
+                  _retailClientBnr,
                   fit: BoxFit.contain,
                 ),
               ),
@@ -108,7 +107,7 @@ class RetailClientCard extends StatelessWidget{
             width: 92,
             height: 92,
             child: Container(
-              padding: EdgeInsets.all(6),
+              padding: const EdgeInsets.all(6),
               // color: Colors.lightGreenAccent,
               decoration: BoxDecoration(
                 color: Colors.lightGreenAccent,
@@ -124,7 +123,7 @@ class RetailClientCard extends StatelessWidget{
                     color: Colors.black54.withOpacity(0.45),
                     spreadRadius: 2,
                     blurRadius: 4,
-                    offset: Offset(-1, 0), // changes position of shadow
+                    offset: const Offset(-1, 0), // changes position of shadow
                   ),
                   // BoxShadow(color: Colors.deepOrange, spreadRadius: 3),
                 ],
@@ -171,12 +170,12 @@ class RetailClientCard extends StatelessWidget{
             right: 40,
             top: 2,
             child: Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                   vertical: 2,
                   horizontal: 8
               ),
               child: Text (
-                "${_retailClientName}".toUpperCase(),
+                _retailClientName.toUpperCase(),
                 style: Constants.allCapsHeadingW,
               ),
             ),
@@ -203,7 +202,7 @@ class RetailClientCard extends StatelessWidget{
               child: Stack(
                 children: [
                   Text(
-                    "${_retailClientRating}",
+                    _retailClientRating,
                     style: TextStyle(
                       fontSize: 21,
                       foreground: Paint()
@@ -214,8 +213,8 @@ class RetailClientCard extends StatelessWidget{
                   ),
                   // Solid text as fill.
                   Text(
-                    "${_retailClientRating}",
-                    style: TextStyle(
+                    _retailClientRating,
+                    style: const TextStyle(
                       fontSize: 21,
                       color: Colors.deepOrangeAccent,
                       // color: Colors.lime[400],
@@ -232,7 +231,7 @@ class RetailClientCard extends StatelessWidget{
             width: 80,
             height: 42,
             child: Container(
-              padding: EdgeInsets.all(4),
+              padding: const EdgeInsets.all(4),
               // color: Colors.lightGreenAccent,
               decoration: BoxDecoration(
                 color: Colors.transparent,
@@ -248,7 +247,7 @@ class RetailClientCard extends StatelessWidget{
                     color: Colors.black54.withOpacity(0.45),
                     spreadRadius: 1,
                     blurRadius: 2,
-                    offset: Offset(0, 0), // changes position of shadow
+                    offset: const Offset(0, 0), // changes position of shadow
                   ),
                   // BoxShadow(color: Colors.deepOrange, spreadRadius: 3),
                 ],

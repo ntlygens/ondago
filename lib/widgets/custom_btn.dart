@@ -6,7 +6,7 @@ class CustomBtn extends StatelessWidget {
   final bool? outlineBtn;
   final bool? isLoading;
 
-  const CustomBtn({ required this.dText, required this.onPressed, this.outlineBtn, this.isLoading});
+  const CustomBtn({super.key,  required this.dText, required this.onPressed, this.outlineBtn, this.isLoading});
 
   @override
   Widget build(BuildContext context) {

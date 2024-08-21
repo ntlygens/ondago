@@ -126,7 +126,7 @@ class _ProfileTabState extends State<ProfileTab> {
               },
             ),
           ),
-          ActionBar(
+          const ActionBar(
             title: "Profile Page",
             // hasTitle: false,
             hasBackArrow: false,

@@ -1,11 +1,6 @@
-
 import 'package:flutter/material.dart';
-import 'package:ondago/screens/selected_service_page.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ondago/widgets/custom_btn.dart';
-import 'package:ondago/widgets/prod_n_price.dart';
-import 'package:ondago/widgets/product_wndw.dart';
 
 class ProductViewer extends StatefulWidget {
   final String? prodPID;
@@ -17,7 +12,7 @@ class ProductViewer extends StatefulWidget {
   final String? srvcProdID;
   final bool? isSelected;
   final List? prodSellers;
-  const ProductViewer({
+  const ProductViewer({super.key, 
     this.prodPID,
     this.isSelected,
     this.prodName,
@@ -35,11 +30,11 @@ class ProductViewer extends StatefulWidget {
 
 class _ProductViewerState extends State<ProductViewer> {
   final FirebaseServices _firebaseServices = FirebaseServices();
-  late String? _prodName = widget.prodName;
-  late String? _prodPID = widget.prodPID;
-  late String? _prodSrvcName = widget.prodSrvcName;
-  late String? _prodSrvcID = widget.prodSrvcID;
-  late String? _srvcProdID = widget.srvcProdID;
+  late final String? _prodName = widget.prodName;
+  late final String? _prodPID = widget.prodPID;
+  late final String? _prodSrvcName = widget.prodSrvcName;
+  late final String? _prodSrvcID = widget.prodSrvcID;
+  late final String? _srvcProdID = widget.srvcProdID;
 
   /*Future<void> writeToSecondaryDatabase(String data) async {
     try {
@@ -244,11 +239,11 @@ class _ProductViewerState extends State<ProductViewer> {
 
   @override
   Widget build(BuildContext context) {
-    bool _isSelected = widget.isSelected ?? false;
+    bool isSelected = widget.isSelected ?? false;
     // print('isSelected = $isSelected');
     return Stack(
       children: [
-        if(_isSelected)
+        if(isSelected)
           Card(
             child: Stack(
               children: [
@@ -461,7 +456,7 @@ class _ProductViewerState extends State<ProductViewer> {
               onTap: () async {
                 _selectServiceProduct();
                 setState(() {
-                  _isSelected = true;
+                  isSelected = true;
                   print("item is selected");
                 });
 
@@ -483,11 +478,11 @@ class _ProductViewerState extends State<ProductViewer> {
                     child: Container(
                       // width: 300,
                       decoration: BoxDecoration(
-                        color: _isSelected ? Colors.amberAccent : Colors.blueGrey,
+                        color: isSelected ? Colors.amberAccent : Colors.blueGrey,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       // height: _isSelected ? 300 : 55,
-                      height: _isSelected ? 350 : 65,
+                      height: isSelected ? 350 : 65,
                       alignment: Alignment.center,
 
                       margin: const EdgeInsets.only(
@@ -499,7 +494,7 @@ class _ProductViewerState extends State<ProductViewer> {
                       child: Text(
                         "${widget.prodName}",
                         style: TextStyle(
-                            color: _isSelected ? Colors.black12 : Colors.white70,
+                            color: isSelected ? Colors.black12 : Colors.white70,
                             fontSize: 18,
                             fontWeight: FontWeight.w600
                         ),
@@ -516,7 +511,7 @@ class _ProductViewerState extends State<ProductViewer> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: _isSelected ? Colors.amberAccent : Colors.black12,
+                            color: isSelected ? Colors.amberAccent : Colors.black12,
                             // border: Border.all(
                             //     color: Colors.black45,
                             //     width: 1,
@@ -524,7 +519,7 @@ class _ProductViewerState extends State<ProductViewer> {
                             // ),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: Text(
+                          child: const Text(
                             // ~~   \$12.90   ~~",
                             "inCart",
                             style: TextStyle(
@@ -538,7 +533,7 @@ class _ProductViewerState extends State<ProductViewer> {
                         Text(
                           // ~~   \$12.90   ~~",
                           "${widget.prodPrice}",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 22,
                             color: Color(0xFFFF1E80),
                             letterSpacing: 1.0,
@@ -554,11 +549,11 @@ class _ProductViewerState extends State<ProductViewer> {
                       // width: 65,
                       // future: _firebaseServices.servicesRef.doc(document.id).get(),
                       decoration: BoxDecoration(
-                        color: _isSelected ? Colors.amberAccent : Colors.blueGrey,
+                        color: isSelected ? Colors.amberAccent : Colors.blueGrey,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       // height: _isSelected ? 300 : 55,
-                      height: _isSelected ? 350 : 65,
+                      height: isSelected ? 350 : 65,
                       // width: double.infinity,
                       alignment: Alignment.center,
 
@@ -568,7 +563,7 @@ class _ProductViewerState extends State<ProductViewer> {
                         bottom: 10,
                         left: 8,
                       ),
-                      child: Image (
+                      child: const Image (
                         image: AssetImage("assets/images/italFusionLogo.png"),
                         fit: BoxFit.fitHeight,
                       ),

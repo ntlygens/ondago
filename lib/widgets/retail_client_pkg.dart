@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:ondago/widgets/product_viewer.dart';
 import 'package:ondago/widgets/action_bar.dart';
-import 'package:ondago/constants.dart';
 import 'package:ondago/widgets/retail_client_card.dart';
 
 
@@ -28,16 +27,16 @@ class RetailClientPkg extends StatefulWidget {
 }
 
 class _RetailClientPkgState extends State<RetailClientPkg> {
-  late String _selectedProductName = "selected-product-name";
+  late final String _selectedProductName = "selected-product-name";
   late String _selectedSellerName = "selected-product-name";
-  late String _selectedProductID = "selected-product-id";
+  late final String _selectedProductID = "selected-product-id";
   late String _selectedSellerID = "selected-seller-id";
   late String _selectedSellerSID = "selected-seller-sid";
-  late String _selectedProductSrvcID = "selected-product-service-id";
+  late final String _selectedProductSrvcID = "selected-product-service-id";
   late String _selectedSrvcCtgryName = "selected-service-name";
   late String _selectedSrvcCtgryID = "selected-service-id";
-  late String _selectedSrvcCtgryType = "selected-service-type";
-  late String _clientStore = "";
+  late final String _selectedSrvcCtgryType = "selected-service-type";
+  late final String _clientStore = "";
   late bool _isCustomerService;
   late Image _cardBckgrnd;
   late List _clientList;
@@ -59,12 +58,12 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   final List _rcNearByLst = [];
   final List _rcHasItemLst = [];
   final List _rcDeliveryLst = [];
-  final List? _rcFtVeganLst = [];
-  final List? _rcFtVegetarianLst = [];
-  final List? _rcFtPescatarianLst = [];
-  final List? _rcFtHalalLst = [];
-  final List? _rcFtKosherLst = [];
-  final List? _rcFtOmnivoreLst = [];
+  final List _rcFtVeganLst = [];
+  final List _rcFtVegetarianLst = [];
+  final List _rcFtPescatarianLst = [];
+  final List _rcFtHalalLst = [];
+  final List _rcFtKosherLst = [];
+  final List _rcFtOmnivoreLst = [];
 
   final List _rcFoodTypeLst = [];
 
@@ -91,27 +90,27 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
             _rcID = dRc.reference.id,
             // print("drcAmt: ${dRetailClients.docs.length}"),
             if(dRc['openNow'] == true){
-              _rcOpenNow = Icon(Icons.meeting_room, color: Colors.deepOrangeAccent,),
+              _rcOpenNow = const Icon(Icons.meeting_room, color: Colors.deepOrangeAccent,),
             } else {
-              _rcOpenNow = Icon(Icons.no_meeting_room),
+              _rcOpenNow = const Icon(Icons.no_meeting_room),
             },
 
             if(dRc['delivery'] == true){
-              _rcDelivery = Icon(Icons.delivery_dining, color: Colors.green,)
+              _rcDelivery = const Icon(Icons.delivery_dining, color: Colors.green,)
             } else {
-              _rcDelivery = Icon(Icons.delivery_dining_outlined)
+              _rcDelivery = const Icon(Icons.delivery_dining_outlined)
             },
 
             if(dRc['hasItem'] == true){
-              _rcHasItem = Icon(Icons.add_shopping_cart)
+              _rcHasItem = const Icon(Icons.add_shopping_cart)
             } else {
-              _rcHasItem = Icon(Icons.production_quantity_limits)
+              _rcHasItem = const Icon(Icons.production_quantity_limits)
             },
 
             if(dRc['nearBy'] == true){
-              _rcNearBy = Icon(Icons.near_me, color: Colors.blue,),
+              _rcNearBy = const Icon(Icons.near_me, color: Colors.blue,),
             } else {
-              _rcNearBy = Icon(Icons.nearby_off)
+              _rcNearBy = const Icon(Icons.nearby_off)
             },
 
             _rcOpenNowLst.add(_rcOpenNow),
@@ -125,10 +124,10 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   }
 
   Future _getRetailClientOptions() async {
-    late String? _dsRcID;
-    late bool? _dsOptn;
-    late String? _dsRcName;
-    int _kl;
+    late String? dsRcID;
+    late bool? dsOptn;
+    late String? dsRcName;
+    int kl;
     late int? vegLstAmt;
     return await _firebaseServices.foodTypesGroupRef
       .get()
@@ -143,8 +142,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
             _vegan = dRcOpt['vegan'],
             _vegetarian = dRcOpt['vegetarian'],
             _dsOptID = dRcOpt.reference.id,
-            _dsRcID = dRcOpt.reference.parent.parent?.id,
-            print("dsRcID: $_dsRcID, dsOptID: $_dsOptID"),
+            dsRcID = dRcOpt.reference.parent.parent?.id,
+            print("dsRcID: $dsRcID, dsOptID: $_dsOptID"),
 
             if(_halal == true){
               _rcFtHalal = Icon(Icons.mosque, color: Colors.orange.shade700,),
@@ -165,7 +164,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
               // _rcFtKosher = Icon(Icons.disabled_by_default, color: Colors.black,),
             },
             if(_omnivore == true){
-              _rcFtOmnivore = Icon(Icons.kebab_dining, color: Colors.red,),
+              _rcFtOmnivore = const Icon(Icons.kebab_dining, color: Colors.red,),
               // _rcFtOmnivoreLst?.add(_rcFtOmnivore),
               print('omnivore prods: $_dsOptID')
 
@@ -183,7 +182,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
               // _rcFtPescatarian = Icon(Icons.disabled_by_default, color: Colors.black,),
             },
             if(_vegan == true){
-              _rcFtVegan = Icon(Icons.grass, color: Colors.green,),
+              _rcFtVegan = const Icon(Icons.grass, color: Colors.green,),
               // _rcFtVeganLst?.add(_rcFtVegan),
               print('vegan prods: $_dsOptID')
 
@@ -237,17 +236,17 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
             },*/
 
             // if(_rcFtHalal != null)
-            _rcFtHalalLst?.add(_rcFtHalal),
+            _rcFtHalalLst.add(_rcFtHalal),
             // if(_rcFtKosher != null)
-            _rcFtKosherLst?.add(_rcFtKosher),
+            _rcFtKosherLst.add(_rcFtKosher),
             // if(_rcFtOmnivore != null)
-            _rcFtOmnivoreLst?.add(_rcFtOmnivore),
+            _rcFtOmnivoreLst.add(_rcFtOmnivore),
             // if(_rcFtPescatarian != null)
-            _rcFtPescatarianLst?.add(_rcFtPescatarian),
+            _rcFtPescatarianLst.add(_rcFtPescatarian),
             // if(_rcFtVegan != null)
-            _rcFtVeganLst?.add(_rcFtVegan),
+            _rcFtVeganLst.add(_rcFtVegan),
             // if(_rcFtVegetarian != null)
-            _rcFtVegetarianLst?.add(_rcFtVegetarian),
+            _rcFtVegetarianLst.add(_rcFtVegetarian),
 
           }
     });
@@ -369,12 +368,12 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                               // _rcDeliveryLst[index],
                               // _rcHasItemLst[index],
                               // _rcNearByLst[index],
-                              _rcFtHalalLst?[index],
-                              _rcFtKosherLst?[index],
-                              _rcFtOmnivoreLst?[index],
-                              _rcFtPescatarianLst?[index],
-                              _rcFtVeganLst?[index],
-                              _rcFtVegetarianLst?[index],
+                              _rcFtHalalLst[index],
+                              _rcFtKosherLst[index],
+                              _rcFtOmnivoreLst[index],
+                              _rcFtPescatarianLst[index],
+                              _rcFtVeganLst[index],
+                              _rcFtVegetarianLst[index],
 
                             ],
                           )
@@ -413,7 +412,7 @@ class RetailClientProductsLst extends StatefulWidget {
   final String? selectedProductName;
   final String? selectedProductID;
   final Function? onPressed;
-  RetailClientProductsLst({
+  const RetailClientProductsLst({
     super.key,
     required this.selectedSellerSID,
     this.sellerID,
@@ -432,7 +431,7 @@ class RetailClientProductsLst extends StatefulWidget {
 class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
   final FirebaseServices _firebaseServices = FirebaseServices();
   late List _prodData;
-  late String _selectedSellerName = widget.selectedSellerName;
+  late final String _selectedSellerName = widget.selectedSellerName;
     // return prod;
     // print("${snapshot.}product unselected!")
   @override
@@ -470,7 +469,7 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                 return Stack(
                   children: [
                     ListView.builder (
-                      padding: EdgeInsets.only(top: 200),
+                      padding: const EdgeInsets.only(top: 200),
                       itemCount: _prodData.length,
                       itemBuilder: (BuildContext context, int index) {
                         // print("client product name = ${_prodData[index]['name']}");
@@ -498,7 +497,7 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                       width: screenWidth,
                       height: 135,
                       alignment: Alignment.topCenter,
-                      margin: EdgeInsets.fromLTRB(
+                      margin: const EdgeInsets.fromLTRB(
                           0, 0, 0, 40
                       ),
                       decoration: BoxDecoration(
@@ -515,12 +514,12 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                             color: Colors.black54.withOpacity(0.45),
                             spreadRadius: 3,
                             blurRadius: 4,
-                            offset: Offset(0, 0), // changes position of shadow
+                            offset: const Offset(0, 0), // changes position of shadow
                           ),
                           // BoxShadow(color: Colors.deepOrange, sprea`dRadius: 3),
                         ],
                       ),
-                      child: Text("rhis is he thse"),
+                      child: const Text("rhis is he thse"),
                       /*child: Image.network(
                               "${_headerImage}",
                               fit: BoxFit.contain,

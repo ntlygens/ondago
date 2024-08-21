@@ -10,6 +10,8 @@ Future () async {
 }
 
 class LandingPage extends StatelessWidget {
+  const LandingPage({super.key});
+
 
 
   @override
@@ -31,10 +33,10 @@ class LandingPage extends StatelessWidget {
           // if user not logged in
           if(user == null) {
             print('no user found');
-            return LoginPage();
+            return const LoginPage();
           } else {
             print('User exists');
-            return HomePage();
+            return const HomePage();
           }
         }
 

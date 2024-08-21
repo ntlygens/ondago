@@ -10,10 +10,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp( MainApp());
+  runApp( const MainApp());
 }
 
 class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class MainApp extends StatelessWidget {
           secondary: const Color(0xFF1EFF22),
         ),
       ),
-      home: LandingPage(),
+      home: const LandingPage(),
     );
   }
 }

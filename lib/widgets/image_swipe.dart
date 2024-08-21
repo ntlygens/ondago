@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ImageSwipe extends StatefulWidget {
   final List imageList;
-  const ImageSwipe({ required this.imageList});
+  const ImageSwipe({super.key,  required this.imageList});
 
   @override
   _ImageSwipeState createState() => _ImageSwipeState();
