@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseServices {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseApp ondamenuPOS = Firebase.app('ondamenuPOS');
+  late FirebaseFirestore firestore = FirebaseFirestore.instanceFor(app: ondamenuPOS);
 
   late String _firebaseTimeStamp;
 
@@ -14,6 +16,13 @@ class FirebaseServices {
   String setDayAndTime() {
     return _firebaseTimeStamp = (DateTime.now()).toString();
   }
+
+
+
+  late CollectionReference ondamenuPosRef =
+      // FirebaseFirestore.instanceFor(app: ondamenuPOS).collection("Products");
+      firestore.collection('Products');
+
 
   final CollectionReference productsRef =
       FirebaseFirestore.instance.collection("Products");

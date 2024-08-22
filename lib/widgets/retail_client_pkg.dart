@@ -84,8 +84,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
   Future _getRetailClientSrvcs() async {
     return await _firebaseServices.sellersRef
-        .get()
-        .then((dRetailClients) => {
+      .get()
+      .then((dRetailClients) => {
           for (DocumentSnapshot dRc in dRetailClients.docs) {
             _rcID = dRc.reference.id,
             // print("drcAmt: ${dRetailClients.docs.length}"),
@@ -221,7 +221,16 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
   }
 
-
+  Future _selectPOSProds() async {
+    return _firebaseServices.ondamenuPosRef
+        .get()
+        .then((value) {
+          // for (DocumentSnapshot dRc in value.docs) {
+          //  _rcID = dRc.reference.id;
+            print('posProducts: $value');
+          // };
+        });
+  }
 
   Future _setSellerIsSelected(value) async {
     return _firebaseServices.sellersRef
@@ -241,6 +250,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
     // _isCustomerService = "AnnNjTT8vmYSAEpT0rPg";
     _getRetailClientSrvcs();
     _getRetailClientOptions();
+    _selectPOSProds();
     super.initState();
   }
 
