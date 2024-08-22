@@ -6,6 +6,8 @@ import 'package:ondago/api/user_bloc.dart';
 import 'package:ondago/models/user_model.dart';
 
 class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
+
 
   @override
   _SearchPageState createState() => _SearchPageState();

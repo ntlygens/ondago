@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class BottomTabs extends StatefulWidget {
   final int? selectedTab;
   final Function(int) tabClicked;
-  const BottomTabs({ this.selectedTab, required this.tabClicked});
+  const BottomTabs({super.key,  this.selectedTab, required this.tabClicked});
 
 @override
   State<BottomTabs> createState() => _BottomTabsState();
@@ -60,8 +60,11 @@ class _BottomTabsState extends State<BottomTabs> {
             imagePath: "assets/images/baseline_shopping_cart_black_24dp@2x.png",
             selected: _selectedTab == 3 ? true : false,
             onPressed: () {
-              FirebaseAuth.instance.signOut();
+              widget.tabClicked(3);
             },
+            /*onPressed: () {
+              FirebaseAuth.instance.signOut();
+            },*/
           ),
 
         ],
@@ -74,7 +77,7 @@ class BottomTabsBtn extends StatelessWidget {
   final String? imagePath;
   final bool selected;
   final Function() onPressed;
-  const BottomTabsBtn({ required this.imagePath, required this.selected, required this.onPressed });
+  const BottomTabsBtn({super.key,  required this.imagePath, required this.selected, required this.onPressed });
 
 
   @override

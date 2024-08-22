@@ -4,6 +4,8 @@ import 'package:ondago/widgets/action_bar.dart';
 import 'selected_service_page.dart';
 
 class CartPage extends StatefulWidget {
+  const CartPage({super.key});
+
 
 
   @override
@@ -155,7 +157,7 @@ class _CartPageState extends State<CartPage> {
 
             },
           ),
-          ActionBar(
+          const ActionBar(
             hasBackArrow: true,
             title: "Cart",
           )

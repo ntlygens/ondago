@@ -1,13 +1,11 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ondago/screens/retail_client_products_lst.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:ondago/widgets/action_bar.dart';
-import 'package:ondago/widgets/app_bar_search.dart';
 import 'package:ondago/widgets/retail_client_pkg.dart';
-import 'package:ondago/widgets/image_swipe.dart';
 
-import '../constants.dart';
 
 class SelectedServicePage extends StatefulWidget {
   final String serviceID;
@@ -15,7 +13,7 @@ class SelectedServicePage extends StatefulWidget {
   final String? headerImg;
   final String? headerName;
 
-  const SelectedServicePage({required this.serviceID, required this.serviceType, this.headerImg, this.headerName});
+  const SelectedServicePage({super.key, required this.serviceID, required this.serviceType, this.headerImg, this.headerName});
 
   @override
   _SelectedServicePageState createState() => _SelectedServicePageState();
@@ -53,7 +51,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   Future _removeAllServiceProducts() async {
     return _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
-        .collection("SelectedService")
+        .collection("Cart")
         .get()
         .then((snapshot) => {
           for (DocumentSnapshot ds in snapshot.docs){
@@ -70,7 +68,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   Future _removeThisServiceProduct( prodID ) async {
     return _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
-        .collection("SelectedService")
+        .collection("SelectedProducts")
         .where('prodID', isEqualTo: prodID)
         .get()
         .then((snapshot) => {
@@ -94,10 +92,138 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   //
   // }
 
+
+  /*Future<void> addProducts() async {
+    // Create a reference to the 'products' collection
+    // CollectionReference products = FirebaseFirestore.instance.collection('products');
+
+    // Set the data for the new document in the 'products' collection
+    return _firebaseServices.productsRef.add({
+      'name': 'al',
+      'prodID': 'prod-001',
+      'SID': 'sid-001',
+      'date': FieldValue.serverTimestamp(), // Sets the current server timestamp
+    }).then((value) {
+      print("Product Added");
+    }).catchError((error) {
+      print("Failed to add product: $error");
+    });
+  }*/
+
+
+  Future<void> addProducts() async {
+    // final CollectionReference productsRef = _firebaseServices.productsRef;
+    // CollectionReference products = FirebaseFirestore.instance.collection('products');
+
+    final items = [
+      "Bruschetta",
+      "Caprese Salad",
+      "Arancini",
+      "Calamari Fritti",
+      "Prosciutto e Melone",
+      "Caesar Salad",
+      "Panzanella",
+      "Arugula Salad",
+      "Spinach and Strawberry Salad",
+      "Spaghetti Carbonara",
+      "Fettuccine Alfredo",
+      "Penne Arrabbiata",
+      "Lasagna",
+      "Gnocchi al Pesto",
+      "Chicken Parmigiana",
+      "Osso Buco",
+      "Veal Marsala",
+      "Grilled Salmon",
+      "Eggplant Parmigiana",
+      "Garlic Bread",
+      "Grilled Vegetables",
+      "Mashed Potatoes",
+      "Sautéed Spinach",
+      "Roasted Potatoes",
+      "Tiramisu",
+      "Cannoli",
+      "Panna Cotta",
+      "Gelato",
+      "Affogato",
+      "Espresso",
+      "Cappuccino",
+      "Limoncello",
+      "Italian Soda",
+      "Sparkling Water",
+    ];
+
+    for (String item in items) {
+      await _firebaseServices.productsRef.add({
+        "desc": "This is a delicious $item, perfect for any occasion.",
+        "images": [
+          "https://example.com/image1.jpg",
+          "https://example.com/image2.jpg",
+          "https://example.com/image3.jpg"
+        ],
+        "isSelected": false,
+        "name": item,
+        "price": 2.00,
+        "prodID": "${item}_001",
+        "retailerID": "sid-001-001",
+        "seller": "seller name",
+        "srvc": "test-menu",
+        "srvcID": "menuID-11032",
+        "type": ["apple", "banana", "cherry"]
+      }).then((value) {
+            print("Product Added $value");
+          }).catchError((error) {
+            print("Failed to add product: $error");
+          });
+    }
+  }
+
+  /*Future<void> addItemsToFirestore() async {
+    final CollectionReference productsRef = _firebaseServices.productsRef;
+
+    List<Map<String, dynamic>> items = [
+      {
+        "desc": "A classic Italian starter with toasted bread topped with tomatoes, garlic, and olive oil.",
+        "images": ["https://example.com/image1.jpg", "https://example.com/image2.jpg", "https://example.com/image3.jpg"],
+        "isSelected": false,
+        "name": "Bruschetta",
+        "price": 2.00,
+        "prodID": "Appetizers_001",
+        "retailerID": "Sid-001",
+        "seller": "seller_name",
+        "srvc": "menu",
+        "srvcID": "menuID11032",
+        "type": ["Apple", "Banana", "Grapes"]
+      },
+      {
+        "desc": "Fresh mozzarella, tomatoes, and basil drizzled with balsamic glaze.",
+        "images": ["https://example.com/image1.jpg", "https://example.com/image2.jpg", "https://example.com/image3.jpg"],
+        "isSelected": false,
+        "name": "Caprese Salad",
+        "price": 2.00,
+        "prodID": "Appetizers_002",
+        "retailerID": "Sid-001",
+        "seller": "seller_name",
+        "srvc": "menu",
+        "srvcID": "menuID11032",
+        "type": ["Orange", "Kiwi", "Strawberry"]
+      },
+      // Add more items here...
+    ];
+
+    for (var item in items) {
+      await productsRef.add(item);
+    }
+  }*/
+
+
+
+
+
+
   Future _unselectThisIcon(prodID) async {
     return  _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
-        .collection("SelectedService")
+        .collection("SelectedProducts")
         .where('id', isEqualTo: prodID)
         // .where('prodID', isEqualTo: prodID)
         .get()
@@ -145,7 +271,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        appBar: ActionBar(
+        appBar: const ActionBar(
           title: 'Hme',
           hasTitle: true,
           hasBackArrow: true,
@@ -174,6 +300,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                     ListView(
                       padding: const EdgeInsets.only(top:250),
                       children: [
+                          /// List of Products by Slctd Srvc ///
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
@@ -214,10 +341,10 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () async {
-                                      // await _addToCart();
-                                      if(alreadySelected == false) {
+                                      await addProducts();
+                                      /*if(alreadySelected == false) {
                                         ScaffoldMessenger.of(context).showSnackBar(_snackBar);
-                                      }
+                                      }*/
 
                                       /*Navigator.push(context, MaterialPageRoute(
                                       builder: (context) =>
@@ -257,7 +384,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                       width: screenWidth,
                       height: 135,
                       alignment: Alignment.topCenter,
-                      margin: EdgeInsets.fromLTRB(
+                      margin: const EdgeInsets.fromLTRB(
                           0, 0, 0, 40
                       ),
                       decoration: BoxDecoration(
@@ -274,12 +401,12 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                             color: Colors.black54.withOpacity(0.45),
                             spreadRadius: 3,
                             blurRadius: 4,
-                            offset: Offset(0, 0), // changes position of shadow
+                            offset: const Offset(0, 0), // changes position of shadow
                           ),
                           // BoxShadow(color: Colors.deepOrange, sprea`dRadius: 3),
                         ],
                       ),
-                      child: Text("rhis is he thse"),
+                      child: const Text("rhis is he thse"),
                       /*child: Image.network(
                               "${_headerImage}",
                               fit: BoxFit.contain,

@@ -4,7 +4,6 @@ import 'package:ondago/screens/selected_service_page.dart';
 // import 'package:ondago/screens/retail_client_products_lst.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:ondago/widgets/action_bar.dart';
-import 'package:ondago/widgets/app_bar_search.dart';
 // import 'package:ondago/screens/search_page.dart';
 
 class HomeTab extends StatefulWidget {
@@ -126,7 +125,7 @@ class _HomeTabState extends State<HomeTab> {
                 hasHdrImg: true,
                 headerImage: _headerImage,
               ),*/
-              appBar: ActionBar(
+              appBar: const ActionBar(
                 centerTitle: true,
                 title: "Home",
                 hasCounter: false,
@@ -155,13 +154,14 @@ class _HomeTabState extends State<HomeTab> {
                     child: Text("Home Tab"),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         top: 0
                     ),
                     child: StreamBuilder<QuerySnapshot>(
                         stream: _firebaseServices.servicesRef
-                            .orderBy("btnOrder", descending: false)
-                            .snapshots(),
+                          //.orderBy("btnOrder", descending: false)
+                          .where("isVisible", isEqualTo: true)
+                          .snapshots(),
                         builder: (context, AsyncSnapshot snapshot) {
                           if( snapshot.hasError) {
                             return Scaffold(
@@ -219,15 +219,15 @@ class _HomeTabState extends State<HomeTab> {
 
                                           print("HomeTab-Srvc-Data-Name: ${_srvcDataList[index]['name']} \n");
                                           print("HomeTab-Srvc-Data-ID: ${_srvcDataList[index].id}");
-                                          print("data ID: ${_srvcData} and first image: ${_hdrBnnrImg}");
+                                          print("data ID: $_srvcData and first image: $_hdrBnnrImg");
                                           // print("HomeTab-Srvc-Data-Type: ${_srvcDataList[index]['srvcType']}");
                                           Navigator.push(context, MaterialPageRoute(
                                               // maintainState: true,
                                               builder: (context) =>
                                               // Text("this is iit")
                                               SelectedServicePage(
-                                                serviceID: "${_srvcData}",
-                                                serviceType: "${_srvcDataType}",
+                                                serviceID: "$_srvcData",
+                                                serviceType: "$_srvcDataType",
                                                 headerImg: _hdrBnnrImg,
                                                 headerName: _hdrBnnrName
                                               )

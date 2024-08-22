@@ -8,9 +8,9 @@ class ShoppingCartTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Stack(
+      child: const Stack(
         children: [
-          const Center(
+          Center(
             child: Text(
               "Cart Tab"
             ),

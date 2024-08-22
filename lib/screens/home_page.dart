@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ondago/tabs/home_tab.dart';
 import 'package:ondago/tabs/profile_tab.dart';
+import 'search_page.dart';
+import 'cart_page.dart';
 import 'package:ondago/widgets/bottom_tabs.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
 
 
   @override
@@ -43,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                     _selectedTab = num;
                   });
                 },
-                children: [
+                children: const [
                   HomeTab(),
                   ProfileTab(),
                   // SearchTab(),
