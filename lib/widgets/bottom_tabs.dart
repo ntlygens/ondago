@@ -59,12 +59,12 @@ class _BottomTabsState extends State<BottomTabs> {
           BottomTabsBtn(
             imagePath: "assets/images/baseline_shopping_cart_black_24dp@2x.png",
             selected: _selectedTab == 3 ? true : false,
-            onPressed: () {
-              widget.tabClicked(3);
-            },
             /*onPressed: () {
-              FirebaseAuth.instance.signOut();
+              widget.tabClicked(3);
             },*/
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+            },
           ),
 
         ],

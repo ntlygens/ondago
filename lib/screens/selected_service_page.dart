@@ -27,6 +27,21 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   late bool _notCustomerSrvc;
   late String? _headerImage;
   late String? _headerName;
+  late String _odmPOS;
+
+  Future _odmPOSDataCheck<String>() async {
+    return await _firebaseServices.odmPOS_MnChstRef
+        .get()
+        .then((posItems) {
+        // .then((posItems) => posItems.docs
+          // .forEach((posItems) {
+          for(DocumentSnapshot posItem in posItems.docs) {
+            _odmPOS = posItem.id;
+            print("odmPosItem: $_odmPOS");
+          }
+        });
+
+  }
 
   Future _checkSrvcType<String>() async {
     _isCustomerSrvc = false;
@@ -254,6 +269,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   @override
   void initState() {
     _checkSrvcType();
+    _odmPOSDataCheck();
     _headerImage = widget.headerImg;
     _headerName = widget.headerName;
     super.initState();
@@ -291,7 +307,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
 
               if (snapshot.connectionState == ConnectionState.done) {
                 List docs = snapshot.data['type'];
-                print("headerIme: $_headerImage");
+                // print("headerImg: $_headerImage");
                 return Stack(
                   alignment: AlignmentDirectional.topCenter,
                   fit: StackFit.loose,
@@ -306,6 +322,34 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                                 horizontal: 8,
                                 vertical: 0
                             ),
+                            /*child: Card(
+                              elevation: 4,
+                              margin: const EdgeInsets.symmetric(
+                                // 8
+                                vertical: 11,
+                                horizontal: 16,
+                              ),
+                              clipBehavior: Clip.antiAlias,
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(6),
+                                      *//*child: Text(
+                                                  "${_srvcDataList[index]['name']}"
+                                                ),*//*
+                                      child: Image.network(
+                                        "${snapshot.data['images'][0]}",
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  ),
+                                  Text ("${snapshot.data['name']}"),
+                                ],
+                              ),
+                            ),*/
+
                             child: RetailClientPkg(
                               retailClientList: docs,
                               serviceCategoryName: snapshot.data['name'],

@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class FirebaseServices {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirebaseApp ondamenuPOS = Firebase.app('ondamenuPOS');
-  late FirebaseFirestore firestore = FirebaseFirestore.instanceFor(app: ondamenuPOS);
-
   late String _firebaseTimeStamp;
+  late FirebaseApp odmPOS = Firebase.app("ondamenuPOS");
+  late FirebaseFirestore firestore = FirebaseFirestore.instanceFor(app: odmPOS);
+
 
   String getUserID() {
     return _firebaseAuth.currentUser!.uid;
@@ -15,13 +16,6 @@ class FirebaseServices {
   String setDayAndTime() {
     return _firebaseTimeStamp = (DateTime.now()).toString();
   }
-
-
-
-  late CollectionReference ondamenuPosRef =
-      // FirebaseFirestore.instanceFor(app: ondamenuPOS).collection("Products");
-      firestore.collection('Products');
-
 
   final CollectionReference productsRef =
       FirebaseFirestore.instance.collection("Products");
@@ -40,5 +34,18 @@ class FirebaseServices {
 
   final Query<Map<String, dynamic>> foodTypesGroupRef =
       FirebaseFirestore.instance.collectionGroup('foodType');
+
+
+
+
+
+  late CollectionReference odmPOS_ProdRef =
+      // FirebaseFirestore.instanceFor(app: odmPOS).collection("Products");
+      firestore.collection("Products");
+
+  late CollectionReference odmPOS_MnChstRef =
+      // FirebaseFirestore.instanceFor(app: odmPOS).collection("Products");
+      firestore.collection("MenuChest");
+
 
 }
