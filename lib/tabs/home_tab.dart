@@ -151,7 +151,10 @@ class _HomeTabState extends State<HomeTab> {
               body: Stack(
                 children: [
                   const Center(
-                    child: Text("Home Tab"),
+                    child: const Image (
+                      image: AssetImage("assets/images/autoSplashScreen.png"),
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
