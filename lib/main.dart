@@ -35,7 +35,7 @@ class MainApp extends StatelessWidget {
           secondary: const Color(0xFF1EFF22),
         ),
       ),
-      home: LandingPage(),
+      home: LandingPage() ,
     );
   }
 }
