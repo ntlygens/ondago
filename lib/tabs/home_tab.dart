@@ -152,7 +152,7 @@ class _HomeTabState extends State<HomeTab> {
                 children: [
                   const Center(
                     child: const Image (
-                      image: AssetImage("assets/images/autoSplashScreen.png"),
+                      image: AssetImage("assets/images/mobile_logo_bckgrnd.png"),
                       fit: BoxFit.fitWidth,
                     ),
                   ),
@@ -206,8 +206,8 @@ class _HomeTabState extends State<HomeTab> {
                                     shrinkWrap: true,
                                     physics: const ScrollPhysics(),
                                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                        maxCrossAxisExtent: 435,
-                                        childAspectRatio: 3 / 1.375,
+                                        maxCrossAxisExtent: 450,
+                                        childAspectRatio: 3 / 1.35,
                                     ),
                                     itemCount: _srvcDataList.length,
                                     itemBuilder: (BuildContext context, int index) {
@@ -241,8 +241,8 @@ class _HomeTabState extends State<HomeTab> {
                                           elevation: 4,
                                           margin: const EdgeInsets.symmetric(
                                             // 8
-                                            vertical: 11,
-                                            horizontal: 16,
+                                            vertical: 12,
+                                            horizontal: 41,
                                           ),
                                           clipBehavior: Clip.antiAlias,
                                           child: Stack(

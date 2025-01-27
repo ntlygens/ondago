@@ -400,7 +400,8 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                                   child: GestureDetector(
                                     onTap: () async {
                                       // await addProducts();
-                                      await _updateProducts();
+                                      // await _updateProducts();
+                                      print('button clicked');
 
                                       /*if(alreadySelected == false) {
                                         ScaffoldMessenger.of(context).showSnackBar(_snackBar);
