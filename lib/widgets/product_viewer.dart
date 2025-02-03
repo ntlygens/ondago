@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ondago/widgets/prod_view_desc.dart';
 
 class ProductViewer extends StatefulWidget {
   final String? prodPID;
   final String? prodName;
+  final String? prodDesc;
   final num? prodPrice;
   final String? prodSrvcName;
   final String? prodSrvcID;
@@ -16,6 +18,7 @@ class ProductViewer extends StatefulWidget {
     this.prodPID,
     this.isSelected,
     this.prodName,
+    this.prodDesc,
     this.prodPrice,
     this.prodSrvcName,
     this.prodSrvcID,
@@ -31,7 +34,9 @@ class ProductViewer extends StatefulWidget {
 class _ProductViewerState extends State<ProductViewer> {
   final FirebaseServices _firebaseServices = FirebaseServices();
   late final String? _prodName = widget.prodName;
+  late final String? _prodDesc = widget.prodDesc;
   late final String? _prodPID = widget.prodPID;
+  late final num? _prodPrice = widget.prodPrice;
   late final String? _prodSrvcName = widget.prodSrvcName;
   late final String? _prodSrvcID = widget.prodSrvcID;
   late final String? _srvcProdID = widget.srvcProdID;
@@ -195,7 +200,8 @@ class _ProductViewerState extends State<ProductViewer> {
 
   Future _getProductSellers() async {
     return _firebaseServices.productsRef
-        .doc(widget.prodPID)
+        .doc(_prodPID)
+        // .doc(widget.prodPID)
         .snapshots().where((event) => event['type']);
         // .get();
         // .then((value) => value['type']);
@@ -240,8 +246,9 @@ class _ProductViewerState extends State<ProductViewer> {
   @override
   Widget build(BuildContext context) {
     bool isSelected = widget.isSelected ?? false;
+    num _price = _prodPrice ?? 0;
     // print('isSelected = $isSelected');
-    return Stack(
+    return Column(
       children: [
         if(isSelected)
           Card(
@@ -447,10 +454,14 @@ class _ProductViewerState extends State<ProductViewer> {
           )
         else
           Card(
+            /*shape: RoundedRectangleBorder(
+              side: BorderSide(color: Colors.black12
+              )
+            ),*/
             elevation: 3,
             margin: const EdgeInsets.symmetric(
                 vertical: 6,
-                horizontal: 12
+                horizontal: 6
             ),
             child: GestureDetector(
               onTap: () async {
@@ -472,8 +483,9 @@ class _ProductViewerState extends State<ProductViewer> {
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
+                  /*Expanded(
                     flex: 4,
                     child: Container(
                       // width: 300,
@@ -483,7 +495,7 @@ class _ProductViewerState extends State<ProductViewer> {
                       ),
                       // height: _isSelected ? 300 : 55,
                       height: isSelected ? 350 : 65,
-                      alignment: Alignment.center,
+                      alignment: Alignment.centerLeft,
 
                       margin: const EdgeInsets.only(
                         top: 10,
@@ -493,58 +505,55 @@ class _ProductViewerState extends State<ProductViewer> {
                       ),
                       child: Text(
                         "${widget.prodName}",
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             color: isSelected ? Colors.black12 : Colors.white70,
                             fontSize: 18,
-                            fontWeight: FontWeight.w600
+                            fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
+                  ),*/
+                  Expanded(
+                    flex: 3,
+                    child: ProdViewDesc(
+                      isSelected: isSelected,
+                      prodDesc: _prodDesc,
+                      prodName: _prodName
+                    )
                   ),
                   Expanded(
                     flex: 1,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-
-                      // padding: const EdgeInsets.symmetric(vertical: 10),
+                      // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          decoration: BoxDecoration(
-                            color: isSelected ? Colors.amberAccent : Colors.black12,
-                            // border: Border.all(
-                            //     color: Colors.black45,
-                            //     width: 1,
-                            //     style: BorderStyle.solid
-                            // ),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: const Text(
-                            // ~~   \$12.90   ~~",
-                            "inCart",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black54,
+                          margin: EdgeInsets.only(top: 5),
+                          // decoration: BoxDecoration(
+                          //   color: isSelected ? Colors.amberAccent : Colors.black12,
+                          //   border: Border.all(
+                          //       color: Colors.black45,
+                          //       width: 1,
+                          //       style: BorderStyle.solid
+                          //   ),
+                          //   borderRadius: BorderRadius.circular(4),
+                          // ),
+                          child: Text(
+                            "\$$_price",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFFFF1E80),
                               letterSpacing: 1.0,
-
                             ),
                           ),
                         ),
-                        Text(
-                          // ~~   \$12.90   ~~",
-                          "${widget.prodPrice}",
-                          style: const TextStyle(
-                            fontSize: 22,
-                            color: Color(0xFFFF1E80),
-                            letterSpacing: 1.0,
 
-                          ),
-                        ),
                       ],
                     ),
                   ),
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: Container(
                       // width: 65,
                       // future: _firebaseServices.servicesRef.doc(document.id).get(),
@@ -553,19 +562,16 @@ class _ProductViewerState extends State<ProductViewer> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       // height: _isSelected ? 300 : 55,
-                      height: isSelected ? 350 : 65,
+                      height: isSelected ? 350 : 80,
                       // width: double.infinity,
                       alignment: Alignment.center,
 
-                      margin: const EdgeInsets.only(
-                        top: 10,
-                        right: 8,
-                        bottom: 10,
-                        left: 8,
+                      margin: const EdgeInsets.all(
+                        3,
                       ),
                       child: const Image (
-                        image: AssetImage("assets/images/italFusionLogo.png"),
-                        fit: BoxFit.fitHeight,
+                        image: AssetImage("assets/images/splashScreenPlaceholder.png"),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),

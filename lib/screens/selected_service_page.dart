@@ -327,6 +327,12 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                   fit: StackFit.loose,
                   children: [
                     // Text ("${snapshot.data['name']}"),
+                    const Center (
+                      child: const Image (
+                        image: AssetImage("assets/images/mobile_plain_bckgrnd.png"),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                     ListView(
                       padding: const EdgeInsets.only(top:250),
                       children: [

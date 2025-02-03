@@ -473,22 +473,22 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                       itemCount: _prodData.length,
                       itemBuilder: (BuildContext context, int index) {
                         // print("client product name = ${_prodData[index]['name']}");
-                        return Stack (
-                          alignment: AlignmentDirectional.topCenter,
-                          fit: StackFit.loose,
+                        return Column (
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ProductViewer(
-                              // isSelected: index,
-                              prodPrice: _prodData[index]['price'],
-                              prodPID: _prodData[index]['prodID'],
-                              prodName: _prodData[index]['name'],
-                              prodSrvcName: _prodData[index]['srvc'],
-                              isSelected: _prodData[index]['isSelected'],
-                              // prodSellers: [''],
-                              prodSrvcID: _prodData[index]['srvcID'],
-                              srvcProdID: _prodData[index].id,
-                            ),
-                          ],
+                              ProductViewer(
+                                // isSelected: index,
+                                prodPrice: _prodData[index]['price'],
+                                prodPID: _prodData[index]['prodID'],
+                                prodName: _prodData[index]['name'],
+                                prodDesc: _prodData[index]['desc'],
+                                prodSrvcName: _prodData[index]['srvc'],
+                                isSelected: _prodData[index]['isSelected'],
+                                // prodSellers: [''],
+                                prodSrvcID: _prodData[index]['srvcID'],
+                                srvcProdID: _prodData[index].id,
+                              )
+                          ]
                         );
                       },
 
