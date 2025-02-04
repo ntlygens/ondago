@@ -45,6 +45,8 @@ class _ProductViewerState extends State<ProductViewer> {
   late final String? _prodSrvcID = widget.prodSrvcID;
   late final String? _srvcProdID = widget.srvcProdID;
 
+  late bool _isOpen = _isSelected ?? false;
+
   /*Future<void> writeToSecondaryDatabase(String data) async {
     try {
       await _firestoreDB
@@ -118,8 +120,8 @@ class _ProductViewerState extends State<ProductViewer> {
               if( snapshot['isSelected'] == true ) {
                 print("ProdItem: ${snapshot.id} -- ProdID: ${snapshot['prodID']} -- ProdName: ${snapshot['name']} already in cart!"),
               } else {
-                print("Adding product to cart"),
-                _setProductIsSelected(prodID),
+                  print("Adding product to cart"),
+                  _setProductIsSelected(prodID),
               }
               // ds.reference.update({'isSelected': false})
             // },
@@ -132,6 +134,9 @@ class _ProductViewerState extends State<ProductViewer> {
         .update({"isSelected": true})
         .then((_) {
           print("selection done");
+          setState(() {
+            _isOpen = true;
+          });
           _selectServiceProduct();
         });
   }
@@ -270,7 +275,7 @@ class _ProductViewerState extends State<ProductViewer> {
 
   @override
   Widget build(BuildContext context) {
-    bool isSelected = _isSelected ?? false;
+    // bool isSelected = _isSelected!;
     num _price = _prodPrice ?? 0;
     // String _image = _prodImg ?? '';
     // print('isSelected = $isSelected');
@@ -283,25 +288,61 @@ class _ProductViewerState extends State<ProductViewer> {
                 horizontal: 6
             ),
             child: GestureDetector(
-              onTap: () async {
-                // _selectServiceProduct();
-                _isProductSelected(_srvcProdID);
-                setState(() {
-                  isSelected = true;
-                  print("$_prodName is Selected. IMG: $_prodImg");
-                });
-              },
+              onTap: () => {_isProductSelected(_srvcProdID), setState(() {_isOpen = true;})},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    flex: 3,
-                    child: ProdViewDesc(
-                      isSelected: isSelected,
-                      prodDesc: _prodDesc,
-                      prodName: _prodName
-                    )
+                      flex: 3,
+                      child: Container(
+                        // width: 300,
+                        decoration: BoxDecoration(
+                          color: _isOpen! ? Colors.amberAccent : Colors.black12,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        // height: _isSelected ? 300 : 55,
+                        height: _isOpen! ? 200 : 80,
+                        alignment: Alignment.topLeft,
+
+                        margin: const EdgeInsets.all(
+                          3,
+                        ),
+                        padding: EdgeInsets.fromLTRB(
+                            8, 6, 8, 8
+                        ),
+                        // margin: const EdgeInsets.all(0),
+                        child: Column(
+                          children: [
+                            Text(
+                              "${_prodName}",
+                              maxLines: 1,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: _isOpen! ? Colors.black12 : Colors.black45,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              "${_prodDesc}",
+                              maxLines: 3,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                height: 1.1,
+                                color: _isOpen! ? Colors.black12 : Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      /*child: ProdViewDesc(
+                          isOpen: _isOpen,
+                          prodDesc: _prodDesc,
+                          prodName: _prodName
+                      )*/
                   ),
                   Expanded(
                     flex: 1,
@@ -310,6 +351,7 @@ class _ProductViewerState extends State<ProductViewer> {
                       children: [
                         Container(
                           margin: EdgeInsets.only(top: 5),
+                          height: _isOpen ? 200 : 80,
                           child: Text(
                             "\$$_price",
                             style: const TextStyle(
@@ -329,11 +371,11 @@ class _ProductViewerState extends State<ProductViewer> {
                       // width: 65,
                       // future: _firebaseServices.servicesRef.doc(document.id).get(),
                       decoration: BoxDecoration(
-                        color: isSelected ? Colors.amberAccent : Colors.blueGrey,
+                        color: _isOpen ? Colors.amberAccent : Colors.blueGrey,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       // height: _isSelected ? 300 : 55,
-                      height: isSelected ? 350 : 80,
+                      height: _isOpen ? 200 : 80,
                       // width: double.infinity,
                       alignment: Alignment.center,
 
@@ -341,9 +383,9 @@ class _ProductViewerState extends State<ProductViewer> {
                         3,
                       ),
                       child: Image (
-                        image: isSelected
-                            ? NetworkImage("${_prodImg}")
-                            : const AssetImage("assets/images/splashScreenPlaceholder.png") as ImageProvider,
+                        image: _prodImg == "" || _prodImg!.contains('example')
+                            ? const AssetImage("assets/images/splashScreenPlaceholder.png") as ImageProvider
+                            : NetworkImage("${_prodImg}"),
                         // image: AssetImage("assets/images/splashScreenPlaceholder.png"),
                         fit: BoxFit.cover,
                       ),
