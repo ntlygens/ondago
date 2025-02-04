@@ -432,6 +432,7 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
   final FirebaseServices _firebaseServices = FirebaseServices();
   late List _prodData;
   late final String _selectedSellerName = widget.selectedSellerName;
+  late final String _selectedSellerSID = widget.selectedSellerSID;
     // return prod;
     // print("${snapshot.}product unselected!")
   @override
@@ -448,7 +449,7 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
         StreamBuilder<QuerySnapshot>(
         // get all selected documents from SelectedProducts
           stream: _firebaseServices.productsRef
-              .where("retailerID", isEqualTo: widget.selectedSellerSID)
+              .where("retailerID", isEqualTo: _selectedSellerSID)
           // .orderBy("name", descending: true)
               .snapshots(),
           builder: (context, AsyncSnapshot snapshot) {
@@ -480,6 +481,7 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                                 // isSelected: index,
                                 prodPrice: _prodData[index]['price'],
                                 prodPID: _prodData[index]['prodID'],
+                                prodImg: _prodData[index]['images'][0],
                                 prodName: _prodData[index]['name'],
                                 prodDesc: _prodData[index]['desc'],
                                 prodSrvcName: _prodData[index]['srvc'],
