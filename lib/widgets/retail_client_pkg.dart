@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // import 'package:ondago/screens/retail_client_products_lst.dart';
@@ -432,6 +432,7 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
   final FirebaseServices _firebaseServices = FirebaseServices();
   late List _prodData;
   late final String _selectedSellerName = widget.selectedSellerName;
+  late final String _selectedSellerSID = widget.selectedSellerSID;
     // return prod;
     // print("${snapshot.}product unselected!")
   @override
@@ -448,7 +449,7 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
         StreamBuilder<QuerySnapshot>(
         // get all selected documents from SelectedProducts
           stream: _firebaseServices.productsRef
-              .where("retailerID", isEqualTo: widget.selectedSellerSID)
+              .where("retailerID", isEqualTo: _selectedSellerSID)
           // .orderBy("name", descending: true)
               .snapshots(),
           builder: (context, AsyncSnapshot snapshot) {
@@ -473,22 +474,23 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                       itemCount: _prodData.length,
                       itemBuilder: (BuildContext context, int index) {
                         // print("client product name = ${_prodData[index]['name']}");
-                        return Stack (
-                          alignment: AlignmentDirectional.topCenter,
-                          fit: StackFit.loose,
+                        return Column (
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ProductViewer(
-                              // isSelected: index,
-                              prodPrice: _prodData[index]['price'],
-                              prodPID: _prodData[index]['prodID'],
-                              prodName: _prodData[index]['name'],
-                              prodSrvcName: _prodData[index]['srvc'],
-                              isSelected: _prodData[index]['isSelected'],
-                              // prodSellers: [''],
-                              prodSrvcID: _prodData[index]['srvcID'],
-                              srvcProdID: _prodData[index].id,
-                            ),
-                          ],
+                              ProductViewer(
+                                // isSelected: index,
+                                prodPrice: _prodData[index]['price'],
+                                prodPID: _prodData[index]['prodID'],
+                                prodImg: _prodData[index]['images'][0],
+                                prodName: _prodData[index]['name'],
+                                prodDesc: _prodData[index]['desc'],
+                                prodSrvcName: _prodData[index]['srvc'],
+                                isSelected: _prodData[index]['isSelected'],
+                                // prodSellers: [''],
+                                prodSrvcID: _prodData[index]['srvcID'],
+                                srvcProdID: _prodData[index].id,
+                              )
+                          ]
                         );
                       },
 

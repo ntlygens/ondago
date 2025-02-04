@@ -43,9 +43,9 @@ class FirebaseServices {
       // FirebaseFirestore.instanceFor(app: odmPOS).collection("Products");
       firestore.collection("Products");
 
-  late CollectionReference odmPOS_MnChstRef =
+  late CollectionReference odmPOS_ProdChstRef =
       // FirebaseFirestore.instanceFor(app: odmPOS).collection("Products");
-      firestore.collection("MenuChest");
+      firestore.collection("Product-Chest");
 
 
 }

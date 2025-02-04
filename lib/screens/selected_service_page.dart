@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ondago/services/firebase_services.dart';
@@ -30,7 +28,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   late String _odmPOS;
 
   Future _odmPOSDataCheck<String>() async {
-    return await _firebaseServices.odmPOS_MnChstRef
+    return await _firebaseServices.odmPOS_ProdChstRef
         .get()
         .then((posItems) {
         // .then((posItems) => posItems.docs
@@ -62,6 +60,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
         );*/
 
   }
+
 
   Future _removeAllServiceProducts() async {
     return _firebaseServices.usersRef
@@ -108,7 +107,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   // }
 
 
-  /*Future<void> addProducts() async {
+  Future<void> addAProduct() async {
     // Create a reference to the 'products' collection
     // CollectionReference products = FirebaseFirestore.instance.collection('products');
 
@@ -123,8 +122,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
     }).catchError((error) {
       print("Failed to add product: $error");
     });
-  }*/
-
+  }
 
   Future<void> addProducts() async {
     // final CollectionReference productsRef = _firebaseServices.productsRef;
@@ -168,22 +166,22 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
     ];
 
     for (String item in items) {
-      await _firebaseServices.productsRef.add({
+      await _firebaseServices.odmPOS_ProdChstRef.add({
         "desc": "This is a delicious $item, perfect for any occasion.",
         "images": [
           "https://example.com/image1.jpg",
-          "https://example.com/image2.jpg",
-          "https://example.com/image3.jpg"
         ],
         "isSelected": false,
+        "isVisible": true,
         "name": item,
-        "price": 2.00,
-        "prodID": "${item}_001",
-        "retailerID": "sid-001-001",
-        "seller": "seller name",
-        "srvc": "test-menu",
-        "srvcID": "menuID-11032",
-        "type": ["apple", "banana", "cherry"]
+        "price": 2.50,
+        "prodID": "${item}_000",
+        "sellerID": ["sid-000-000"],
+        "service": "menu",
+        "serviceID": "menu-${item}-00000",
+        "serviceType": [""],
+        "category": [""],
+        "date": DateTime.now(),
       }).then((value) {
             print("Product Added $value");
           }).catchError((error) {
@@ -192,7 +190,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
     }
   }
 
-  /*Future<void> addItemsToFirestore() async {
+  Future<void> addItemsToFirestore() async {
     final CollectionReference productsRef = _firebaseServices.productsRef;
 
     List<Map<String, dynamic>> items = [
@@ -228,7 +226,23 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
     for (var item in items) {
       await productsRef.add(item);
     }
-  }*/
+  }
+
+  Future<void> _updateProducts() async {
+    return _firebaseServices.odmPOS_ProdChstRef
+        .where("service", isEqualTo: "menu")
+    // .where("srvc", arrayContains: "")
+        .get()
+        .then((prodItems) {
+          for(DocumentSnapshot prodItem in prodItems.docs) {
+            prodItem.reference.update({"retailerID": "sid-001-201"});
+
+          };
+          print("products updated");
+
+    });
+
+  }
 
 
 
@@ -313,6 +327,12 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                   fit: StackFit.loose,
                   children: [
                     // Text ("${snapshot.data['name']}"),
+                    const Center (
+                      child: const Image (
+                        image: AssetImage("assets/images/mobile_plain_bckgrnd.png"),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                     ListView(
                       padding: const EdgeInsets.only(top:250),
                       children: [
@@ -385,7 +405,10 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () async {
-                                      await addProducts();
+                                      // await addProducts();
+                                      // await _updateProducts();
+                                      print('button clicked');
+
                                       /*if(alreadySelected == false) {
                                         ScaffoldMessenger.of(context).showSnackBar(_snackBar);
                                       }*/
@@ -424,7 +447,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                         ]
                     ),
 
-                    Container(
+                    /*Container(
                       width: screenWidth,
                       height: 135,
                       alignment: Alignment.topCenter,
@@ -451,11 +474,11 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
                         ],
                       ),
                       child: const Text("rhis is he thse"),
-                      /*child: Image.network(
-                              "${_headerImage}",
-                              fit: BoxFit.contain,
-                            ),*/
-                    ),
+                      // child: Image.network(
+                      //         "${_headerImage}",
+                      //         fit: BoxFit.contain,
+                      //       ),
+                    ),*/
                   ],
                 );
               }

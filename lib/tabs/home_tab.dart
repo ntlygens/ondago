@@ -131,7 +131,7 @@ class _HomeTabState extends State<HomeTab> {
                 hasCounter: false,
                 hasTitle: true,
                 hasHdrImg: false,
-                hasBackground: false,
+                hasBackground: true,
                 /*actions: [
                   IconButton(
                       onPressed: () => Navigator.of(context)
@@ -150,8 +150,11 @@ class _HomeTabState extends State<HomeTab> {
               ),
               body: Stack(
                 children: [
-                  const Center(
-                    child: Text("Home Tab"),
+                  const Center (
+                    child: const Image (
+                      image: AssetImage("assets/images/mobile_plain_bckgrnd.png"),
+                      fit: BoxFit.fill,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
@@ -160,7 +163,7 @@ class _HomeTabState extends State<HomeTab> {
                     child: StreamBuilder<QuerySnapshot>(
                         stream: _firebaseServices.servicesRef
                           //.orderBy("btnOrder", descending: false)
-                          .where("isVisible", isEqualTo: true)
+                          // .where("isVisible", isEqualTo: true)
                           .snapshots(),
                         builder: (context, AsyncSnapshot snapshot) {
                           if( snapshot.hasError) {
@@ -179,7 +182,7 @@ class _HomeTabState extends State<HomeTab> {
                                 alignment: Alignment.topCenter,
                                 width: screenWidth,
                                 height: screenHeight,
-                                margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                                 padding: const EdgeInsets.symmetric (
                                     vertical: 0,
                                     horizontal: 0
@@ -196,15 +199,15 @@ class _HomeTabState extends State<HomeTab> {
                                 // crossAxisAlignment: CrossAxisAlignment.start,
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.vertical,
-                                  clipBehavior: Clip.antiAlias,
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
                                   // physics: ScrollPhysics(),
                                   child: GridView.builder(
                                     // padding: EdgeInsets.fromLTRB(0, 70, 0, 320),
                                     shrinkWrap: true,
                                     physics: const ScrollPhysics(),
                                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                        maxCrossAxisExtent: 435,
-                                        childAspectRatio: 3 / 1.375,
+                                        maxCrossAxisExtent: 450,
+                                        childAspectRatio: 2.125 / 1,
                                     ),
                                     itemCount: _srvcDataList.length,
                                     itemBuilder: (BuildContext context, int index) {
@@ -238,8 +241,8 @@ class _HomeTabState extends State<HomeTab> {
                                           elevation: 4,
                                           margin: const EdgeInsets.symmetric(
                                             // 8
-                                            vertical: 11,
-                                            horizontal: 16,
+                                            vertical: 12,
+                                            horizontal: 31,
                                           ),
                                           clipBehavior: Clip.antiAlias,
                                           child: Stack(

@@ -111,87 +111,98 @@ class _LoginPageState extends State<LoginPage> {
       // resolves the renderflex overflow issue
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Center(
-          child: SizedBox(
-            width: isTablet ? 600 : double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  // alignment: Alignment.center,
-                  padding: const EdgeInsets.only(
-                    top: 24,
-                  ),
-                  child: const Text(
-                    "Welcome User \nLogin to your account",
-                    textAlign: TextAlign.center,
-                    style: Constants.boldHeading,
-                  ),
-                ),
-                Column(
+        child: Stack(
+          children: [
+            Center (
+              child: const Image (
+                image: AssetImage("assets/images/mobile_plain_bckgrnd.jpg"),
+                fit: BoxFit.fill,
+              ),
+            ),
+            Center(
+              child: SizedBox(
+                width: isTablet ? 600 : double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomInput(
-                      hintText: "Email@example.com",
-                      onChanged: (value) {
-                        _loginEmail = value;
-                      },
-                      onSubmitted: (value) {
-                        _passwordFocusNode.requestFocus();
-                      },
-                      textInputAction: TextInputAction.next,
+                    Container(
+                      // alignment: Alignment.center,
+                      padding: const EdgeInsets.only(
+                        top: 24,
+                      ),
+                      child: const Text(
+                        "Welcome User \nLogin to your account",
+                        textAlign: TextAlign.center,
+                        style: Constants.boldHeading,
+                      ),
                     ),
-                    CustomInput(
-                      hintText: "Password",
-                      onChanged: (value) {
-                        _loginPassword = value;
-                      },
-                      focusNode: _passwordFocusNode,
-                      isPasswordField: true,
-                      onSubmitted: (value) {
-                        _submitForm();
-                      },
+                    Column(
+                      children: [
+                        CustomInput(
+                          hintText: "Email@example.com",
+                          onChanged: (value) {
+                            _loginEmail = value;
+                          },
+                          onSubmitted: (value) {
+                            _passwordFocusNode.requestFocus();
+                          },
+                          textInputAction: TextInputAction.next,
+                        ),
+                        CustomInput(
+                          hintText: "Password",
+                          onChanged: (value) {
+                            _loginPassword = value;
+                          },
+                          focusNode: _passwordFocusNode,
+                          isPasswordField: true,
+                          onSubmitted: (value) {
+                            _submitForm();
+                          },
+                        ),
+                        CustomBtn(
+                          dText: "Login",
+                          onPressed: () {
+                            // _alertDialogBuilder();
+                            _submitForm();
+                            /*setState(() {
+                            _registerFormLoading = true;
+                          });*/
+                            print("clicked the Login Btn");
+
+                          },
+                          isLoading: _loginFormLoading,
+
+                          outlineBtn: false,
+                        ),
+                      ],
                     ),
-                    CustomBtn(
-                      dText: "Login",
-                      onPressed: () {
-                        // _alertDialogBuilder();
-                        _submitForm();
-                        /*setState(() {
-                          _registerFormLoading = true;
-                        });*/
-                        print("clicked the Login Btn");
-
-                      },
-                      isLoading: _loginFormLoading,
-
-                      outlineBtn: false,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        // top: 6,
+                        bottom: 16,
+                      ),
+                      child: CustomBtn(
+                        dText: "Create New Account",
+                        onPressed: () {
+                          // WidgetsBinding.instance!.addPostFrameCallback((_) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RegisterPage()
+                            ),
+                          );
+                          // });
+                          print ("clicked the create act btn");
+                        },
+                        outlineBtn: true,
+                      ),
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    // top: 6,
-                    bottom: 16,
-                  ),
-                  child: CustomBtn(
-                    dText: "Create New Account",
-                    onPressed: () {
-                      // WidgetsBinding.instance!.addPostFrameCallback((_) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RegisterPage()
-                        ),
-                      );
-                      // });
-                      print ("clicked the create act btn");
-                    },
-                    outlineBtn: true,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
+
         ),
       ),
     );
