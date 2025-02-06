@@ -37,6 +37,7 @@ class _BottomTabsState extends State<BottomTabs> {
         children: [
           BottomTabsBtn(
             imagePath: "assets/images/baseline_home_black_24dp.png",
+            prodActnBtn: false,
             selected: _selectedTab == 0 ? true : false,
             onPressed: () {
               widget.tabClicked(0);
@@ -44,6 +45,7 @@ class _BottomTabsState extends State<BottomTabs> {
           ),
           BottomTabsBtn(
             imagePath: "assets/images/baseline_account_circle_black_18dp@2x.png",
+            prodActnBtn: false,
             selected: _selectedTab == 1 ? true : false,
             onPressed: () {
               widget.tabClicked(1);
@@ -51,6 +53,7 @@ class _BottomTabsState extends State<BottomTabs> {
           ),
           BottomTabsBtn(
             imagePath: "assets/images/baseline_search_black_24dp@2x.png",
+            prodActnBtn: false,
             selected: _selectedTab == 2 ? true : false,
             onPressed: () {
               widget.tabClicked(2);
@@ -58,13 +61,14 @@ class _BottomTabsState extends State<BottomTabs> {
           ),
           BottomTabsBtn(
             imagePath: "assets/images/baseline_shopping_cart_black_24dp@2x.png",
+            prodActnBtn: false,
             selected: _selectedTab == 3 ? true : false,
-            /*onPressed: () {
-              widget.tabClicked(3);
-            },*/
             onPressed: () {
-              FirebaseAuth.instance.signOut();
+              widget.tabClicked(3);
             },
+            /*onPressed: () {
+              FirebaseAuth.instance.signOut();
+            },*/
           ),
 
         ],
@@ -74,29 +78,48 @@ class _BottomTabsState extends State<BottomTabs> {
 }
 
 class BottomTabsBtn extends StatelessWidget {
-  final String? imagePath;
   final bool selected;
+  final bool prodActnBtn;
   final Function() onPressed;
-  const BottomTabsBtn({super.key,  required this.imagePath, required this.selected, required this.onPressed });
+  final String? imagePath;
+  final bool? trashBtn;
+  final bool? isSpicy;
+  final bool? hasDairy;
+  final bool? hasNuts;
+  const BottomTabsBtn({
+    super.key,
+    required this.selected, required this.onPressed,
+    required this.prodActnBtn, this.imagePath,
+    this.isSpicy, this.trashBtn,
+    this.hasDairy, this.hasNuts
+  });
 
 
   @override
   Widget build(BuildContext context) {
-    bool _selected = selected;
+    late bool _prodActnBtn = prodActnBtn;
+    late bool _selected = selected;
+    late bool _trashBtn = trashBtn!;
+    late bool _isSpicy = isSpicy!;
+    late bool _hasDairy = hasDairy!;
+    late bool _hasNuts = hasNuts!;
+
     return GestureDetector(
       onTap: onPressed,
       child: Container(
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: _selected ? Theme.of(context).colorScheme.secondary : Colors.transparent,
+              color: _selected
+                  ? ( _prodActnBtn ? Colors.green : Theme.of(context).colorScheme.secondary )
+                     : Colors.transparent,
               width: 2
             )
           )
         ),
-        padding: const EdgeInsets.symmetric(
-          vertical: 28,
-          horizontal: 16,
+        padding: EdgeInsets.symmetric(
+          vertical: _prodActnBtn ? 4 : 28,
+          horizontal: _prodActnBtn ? 3 : 16,
         ),
         child: Image(
           image: AssetImage(

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ondago/widgets/prod_view_desc.dart';
+import 'package:ondago/widgets/bottom_tabs.dart';
+
+
 
 class ProductViewer extends StatefulWidget {
   final String? prodPID;
@@ -195,10 +198,18 @@ class _ProductViewerState extends State<ProductViewer> {
     return _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
         .collection("Cart")
+        .where('srvcProdID', isEqualTo: '$value')
         // .collection("SelectedProducts")
-        .doc(value)
-        .delete()
-        .then((_) {
+        // .doc(value)
+        .get()
+        // .delete()
+        .then((product) {
+          setState(() {
+            _isOpen = false;
+          });
+          for(DocumentSnapshot ds in product.docs){
+            ds.reference.delete();
+          }
           _resetProductIsSelected(value);
           // _refreshServiceProduct();
           print("product $value removed");
@@ -298,11 +309,11 @@ class _ProductViewerState extends State<ProductViewer> {
                       child: Container(
                         // width: 300,
                         decoration: BoxDecoration(
-                          color: _isOpen! ? Colors.amberAccent : Colors.black12,
+                          color: _isOpen ? Colors.amberAccent : Colors.black12,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         // height: _isSelected ? 300 : 55,
-                        height: _isOpen! ? 200 : 80,
+                        height: _isOpen ? 200 : 80,
                         alignment: Alignment.topLeft,
 
                         margin: const EdgeInsets.all(
@@ -316,22 +327,22 @@ class _ProductViewerState extends State<ProductViewer> {
                           children: [
                             Text(
                               "${_prodName}",
-                              maxLines: 1,
-                              textAlign: TextAlign.left,
+                              maxLines: _isOpen ? 2 : 1,
+                              textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: _isOpen! ? Colors.black12 : Colors.black45,
+                                color: _isOpen ? Colors.black87 : Colors.black54,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                             Text(
                               "${_prodDesc}",
-                              maxLines: 3,
+                              maxLines: _isOpen ? 9 : 3,
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                height: 1.1,
-                                color: _isOpen! ? Colors.black12 : Colors.black,
-                                fontSize: 12,
+                                height: _isOpen ? 1.2 : 1.1,
+                                color: _isOpen ? Colors.black54 : Colors.black45,
+                                fontSize: _isOpen ? 14 : 12,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -350,16 +361,22 @@ class _ProductViewerState extends State<ProductViewer> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 5),
-                          height: _isOpen ? 200 : 80,
+                          margin: EdgeInsets.only(top: 5, bottom: 10),
+                          // height: _isOpen ? 200 : 80,
                           child: Text(
                             "\$$_price",
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 18,
                               color: Color(0xFFFF1E80),
                               letterSpacing: 1.0,
                             ),
                           ),
+                        ),
+                        BottomTabsBtn(
+                          imagePath: "assets/images/baseline_delete_black_24dp@2x.png",
+                          prodActnBtn: true,
+                          selected: _isOpen,
+                          onPressed: () => _removeServiceProduct(_srvcProdID),
                         ),
 
                       ],
