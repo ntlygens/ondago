@@ -107,39 +107,24 @@ class BottomTabsBtn extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        decoration: !_prodActnBtn
-            ? BoxDecoration(
+        decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: _selected ? Theme.of(context).colorScheme.secondary : Colors.transparent,
+                    color: _selected ? Theme.of(context).colorScheme.primary : Colors.transparent,
                     width: 2,
                   )
                 )
-              )
-            : BoxDecoration(
-                border: Border.all(
-                  color: _selected ? Theme.of(context).colorScheme.primary : Colors.transparent,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(4),
             ),
         padding: EdgeInsets.symmetric(
-          vertical: _prodActnBtn ? 4 : 28,
-          horizontal: _prodActnBtn ? 3 : 16,
+          vertical: 28,
+          horizontal: 16,
         ),
-        margin: _prodActnBtn ? EdgeInsets.only(bottom: 4) : EdgeInsets.all(0),
+        // margin: _prodActnBtn ? EdgeInsets.only(bottom: 4) : EdgeInsets.all(0),
         child: Image(
-          // image: AssetImage(imagePath ?? "assets/images/baseline_home_black_24dp.png"),
-          image: AssetImage(
-              _prodActnBtn
-                  ? ( _selected ? imagePath! : "" )
-                  : ( imagePath! )
-          ),
-          width: _prodActnBtn ? 20 : 24,
-          height: _prodActnBtn ? 20 :24,
-          color: _prodActnBtn
-              ? _selected ? Theme.of(context).colorScheme.primary : Colors.transparent
-              : _selected ? Theme.of(context).colorScheme.primary : Colors.black87 ,
+          image: AssetImage(imagePath ?? "assets/images/baseline_home_black_24dp.png"),
+          width: 24,
+          height: 24,
+          color: selected ? Theme.of(context).colorScheme.primary : Colors.black87 ,
         ),
       ),
     );
