@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ondago/widgets/prod_view_desc.dart';
+import 'package:ondago/widgets/product_action_btn.dart';
 import 'package:ondago/widgets/bottom_tabs.dart';
 
 
@@ -341,7 +342,7 @@ class _ProductViewerState extends State<ProductViewer> {
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 height: _isOpen ? 1.2 : 1.1,
-                                color: _isOpen ? Colors.black54 : Colors.black45,
+                                color: _isOpen ? Color(0xEE333333) : Colors.black54,
                                 fontSize: _isOpen ? 14 : 12,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -372,33 +373,32 @@ class _ProductViewerState extends State<ProductViewer> {
                             ),
                           ),
                         ),
-                        _isOpen ? BottomTabsBtn(
+                        _isOpen ? ProductActionBtn(
                           imagePath: "assets/images/baseline_hotnspicy_black_24dp@2x.png",
                           prodActnBtn: true,
-                          // trashBtn: true,
-                          selected: _isOpen,
+                          isSpicy: true,
+                          isSelected: _isOpen,
                           onPressed: () => (),
                         ) : Container(),
-                        _isOpen ? BottomTabsBtn(
+                        _isOpen ? ProductActionBtn(
                           imagePath: "assets/images/baseline_peanut_alrgy_24dp@2x.png",
                           prodActnBtn: true,
-                          // trashBtn: true,
-                          selected: _isOpen,
+                          hasNuts: true,
+                          isSelected: _isOpen,
                           onPressed: () => (),
                         ) : Container(),
-                        _isOpen ? BottomTabsBtn(
+                        _isOpen ? ProductActionBtn(
                           imagePath: "assets/images/baseline_dairy_prods_24dp@2x.png",
                           prodActnBtn: true,
-                          // trashBtn: true,
                           hasDairy: true,
-                          selected: _isOpen,
+                          isSelected: _isOpen,
                           onPressed: () => (),
                         ) : Container(),
-                        _isOpen ? BottomTabsBtn(
+                        _isOpen ? ProductActionBtn(
                           imagePath: "assets/images/baseline_delete_black_24dp@2x.png",
                           prodActnBtn: true,
                           trashBtn: true,
-                          selected: _isOpen,
+                          isSelected: _isOpen,
                           onPressed: () => _removeServiceProduct(_srvcProdID),
                         ) : Container(),
 
