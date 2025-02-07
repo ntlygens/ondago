@@ -372,12 +372,13 @@ class _ProductViewerState extends State<ProductViewer> {
                             ),
                           ),
                         ),
-                        BottomTabsBtn(
+                        _isOpen ? BottomTabsBtn(
                           imagePath: "assets/images/baseline_delete_black_24dp@2x.png",
                           prodActnBtn: true,
+                          // trashBtn: true,
                           selected: _isOpen,
                           onPressed: () => _removeServiceProduct(_srvcProdID),
-                        ),
+                        ) : Container(),
 
                       ],
                     ),
