@@ -368,12 +368,18 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                               // _rcDeliveryLst[index],
                               // _rcHasItemLst[index],
                               // _rcNearByLst[index],
-                              _rcFtHalalLst[index],
-                              _rcFtKosherLst[index],
-                              _rcFtOmnivoreLst[index],
-                              _rcFtPescatarianLst[index],
-                              _rcFtVeganLst[index],
-                              _rcFtVegetarianLst[index],
+                              if (_rcFtHalalLst[index].runtimeType == Icon)
+                                _rcFtHalalLst[index],
+                              if (_rcFtKosherLst[index].runtimeType == Icon)
+                                _rcFtKosherLst[index],
+                              if (_rcFtOmnivoreLst[index].runtimeType == Icon)
+                                _rcFtOmnivoreLst[index],
+                              if (_rcFtPescatarianLst[index].runtimeType == Icon)
+                                _rcFtPescatarianLst[index],
+                              if (_rcFtVeganLst[index].runtimeType == Icon)
+                                _rcFtVeganLst[index],
+                              if (_rcFtVegetarianLst[index].runtimeType == Icon)
+                                _rcFtVegetarianLst[index],
 
                             ],
                           )

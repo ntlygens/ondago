@@ -35,6 +35,9 @@ class FirebaseServices {
   final Query<Map<String, dynamic>> foodTypesGroupRef =
       FirebaseFirestore.instance.collectionGroup('foodType');
 
+  final Query<Map<String, dynamic>> foodAllergyGroupRef =
+      FirebaseFirestore.instance.collectionGroup('allergens');
+
 
 
 

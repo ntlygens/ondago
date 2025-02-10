@@ -37,7 +37,6 @@ class _BottomTabsState extends State<BottomTabs> {
         children: [
           BottomTabsBtn(
             imagePath: "assets/images/baseline_home_black_24dp.png",
-            prodActnBtn: false,
             selected: _selectedTab == 0 ? true : false,
             onPressed: () {
               widget.tabClicked(0);
@@ -45,7 +44,6 @@ class _BottomTabsState extends State<BottomTabs> {
           ),
           BottomTabsBtn(
             imagePath: "assets/images/baseline_account_circle_black_18dp@2x.png",
-            prodActnBtn: false,
             selected: _selectedTab == 1 ? true : false,
             onPressed: () {
               widget.tabClicked(1);
@@ -53,7 +51,6 @@ class _BottomTabsState extends State<BottomTabs> {
           ),
           BottomTabsBtn(
             imagePath: "assets/images/baseline_search_black_24dp@2x.png",
-            prodActnBtn: false,
             selected: _selectedTab == 2 ? true : false,
             onPressed: () {
               widget.tabClicked(2);
@@ -61,7 +58,6 @@ class _BottomTabsState extends State<BottomTabs> {
           ),
           BottomTabsBtn(
             imagePath: "assets/images/baseline_shopping_cart_black_24dp@2x.png",
-            prodActnBtn: false,
             selected: _selectedTab == 3 ? true : false,
             onPressed: () {
               widget.tabClicked(3);
@@ -79,30 +75,20 @@ class _BottomTabsState extends State<BottomTabs> {
 
 class BottomTabsBtn extends StatelessWidget {
   final bool selected;
-  final bool prodActnBtn;
   final Function() onPressed;
   final String? imagePath;
-  final bool? trashBtn;
-  final bool? isSpicy;
-  final bool? hasDairy;
-  final bool? hasNuts;
+
   const BottomTabsBtn({
     super.key,
     required this.selected, required this.onPressed,
-    required this.prodActnBtn, this.imagePath,
-    this.isSpicy, this.trashBtn,
-    this.hasDairy, this.hasNuts
+    this.imagePath,
+
   });
 
 
   @override
   Widget build(BuildContext context) {
-    late bool _prodActnBtn = prodActnBtn;
     late bool _selected = selected;
-    late bool _trashBtn = trashBtn!;
-    late bool _isSpicy = isSpicy!;
-    late bool _hasDairy = hasDairy!;
-    late bool _hasNuts = hasNuts!;
 
     return GestureDetector(
       onTap: onPressed,
@@ -119,12 +105,11 @@ class BottomTabsBtn extends StatelessWidget {
           vertical: 28,
           horizontal: 16,
         ),
-        // margin: _prodActnBtn ? EdgeInsets.only(bottom: 4) : EdgeInsets.all(0),
         child: Image(
           image: AssetImage(imagePath ?? "assets/images/baseline_home_black_24dp.png"),
           width: 24,
           height: 24,
-          color: selected ? Theme.of(context).colorScheme.primary : Colors.black87 ,
+          color: _selected ? Theme.of(context).colorScheme.primary : Colors.black87 ,
         ),
       ),
     );

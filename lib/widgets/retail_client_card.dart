@@ -7,14 +7,14 @@ class RetailClientCard extends StatelessWidget{
   final String retailClientName;
   final String retailClientRating;
   final List retailClientSrvcs;
-  final List? retailClientStatus;
+  final List retailClientStatus;
   const RetailClientCard({super.key, 
     // required this.imageList,
     required this.retailClientBnr,
     required this.retailClientName,
     required this.retailClientRating,
     required this.retailClientSrvcs,
-    this.retailClientStatus
+    required this.retailClientStatus
   });
 
   @override
@@ -23,7 +23,7 @@ class RetailClientCard extends StatelessWidget{
     late String _retailClientName = retailClientName;
     late String _retailClientRating = retailClientRating;
     late List _retailClientSrvcs = retailClientSrvcs;
-    late List? _retailClientStatus = retailClientStatus;
+    late List _retailClientStatus = retailClientStatus;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     // double rcStatW = (40 * 4).toDouble();
@@ -260,7 +260,7 @@ class RetailClientCard extends StatelessWidget{
                       mainAxisSpacing: 6,
                       crossAxisSpacing: 6
                   ),
-                  itemCount: _retailClientStatus?.length,
+                  itemCount: _retailClientStatus.length,
                   itemBuilder: (BuildContext context, int index){
                     return Container(
                       // width: 30,
@@ -280,8 +280,9 @@ class RetailClientCard extends StatelessWidget{
                       child: Stack(
                           children: [
                             // Solid text as fill.
-                            if (_retailClientStatus?[index] != null)
-                              _retailClientStatus?[index]
+                            // if ( _retailClientStatus[index].runtimeType == Icon )
+                              _retailClientStatus[index]
+
                           ]
                       ),
                     );

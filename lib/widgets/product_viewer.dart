@@ -17,11 +17,13 @@ class ProductViewer extends StatefulWidget {
   final String? prodSrvcType;
   final String? srvcProdID;
   final bool? isSelected;
+  final bool? prodIsSpicy;
   final List? prodSellers;
   final String? prodImg;
   const ProductViewer({super.key, 
     this.prodPID,
     this.isSelected,
+    this.prodIsSpicy,
     this.prodName,
     this.prodDesc,
     this.prodPrice,
@@ -46,6 +48,7 @@ class _ProductViewerState extends State<ProductViewer> {
   late final bool? _isSelected = widget.isSelected;
   late final num? _prodPrice = widget.prodPrice;
   late final String? _prodSrvcName = widget.prodSrvcName;
+  late final bool? _prodIsSpicy = widget.prodIsSpicy;
   late final String? _prodSrvcID = widget.prodSrvcID;
   late final String? _srvcProdID = widget.srvcProdID;
 
@@ -289,6 +292,7 @@ class _ProductViewerState extends State<ProductViewer> {
   Widget build(BuildContext context) {
     // bool isSelected = _isSelected!;
     num _price = _prodPrice ?? 0;
+    bool _isSpicy = _prodIsSpicy ?? false;
     // String _image = _prodImg ?? '';
     // print('isSelected = $isSelected');
     return Column(
@@ -350,11 +354,6 @@ class _ProductViewerState extends State<ProductViewer> {
                           ],
                         ),
                       ),
-                      /*child: ProdViewDesc(
-                          isOpen: _isOpen,
-                          prodDesc: _prodDesc,
-                          prodName: _prodName
-                      )*/
                   ),
                   Expanded(
                     flex: 1,
@@ -373,32 +372,33 @@ class _ProductViewerState extends State<ProductViewer> {
                             ),
                           ),
                         ),
-                        _isOpen ? ProductActionBtn(
+                        ProductActionBtn(
                           imagePath: "assets/images/baseline_hotnspicy_black_24dp@2x.png",
-                          prodActnBtn: true,
-                          isSpicy: true,
-                          isSelected: _isOpen,
+                          // isSpicy: true,
+                          isOpen: _isOpen,
+                          iconColor: Colors.redAccent,
                           onPressed: () => (),
-                        ) : Container(),
-                        _isOpen ? ProductActionBtn(
+                        ),
+                        _isSpicy ? ProductActionBtn(
                           imagePath: "assets/images/baseline_peanut_alrgy_24dp@2x.png",
-                          prodActnBtn: true,
                           hasNuts: true,
-                          isSelected: _isOpen,
+                          isOpen: _isOpen,
+                          iconColor: Colors.deepOrangeAccent,
                           onPressed: () => (),
-                        ) : Container(),
-                        _isOpen ? ProductActionBtn(
+                        ): Container(),
+
+                        ProductActionBtn(
                           imagePath: "assets/images/baseline_dairy_prods_24dp@2x.png",
-                          prodActnBtn: true,
                           hasDairy: true,
-                          isSelected: _isOpen,
+                          isOpen: _isOpen,
+                          iconColor: Colors.black87,
                           onPressed: () => (),
-                        ) : Container(),
+                        ),
                         _isOpen ? ProductActionBtn(
                           imagePath: "assets/images/baseline_delete_black_24dp@2x.png",
-                          prodActnBtn: true,
                           trashBtn: true,
-                          isSelected: _isOpen,
+                          isOpen: _isOpen,
+                          iconColor: Colors.teal,
                           onPressed: () => _removeServiceProduct(_srvcProdID),
                         ) : Container(),
 
