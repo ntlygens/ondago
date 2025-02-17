@@ -293,6 +293,7 @@ class _ProductViewerState extends State<ProductViewer> {
     // bool isSelected = _isSelected!;
     num _price = _prodPrice ?? 0;
     bool _isSpicy = _prodIsSpicy ?? false;
+    // print("prod: $_prodName spicyness is $_isSpicy");
     // String _image = _prodImg ?? '';
     // print('isSelected = $isSelected');
     return Column(
@@ -361,7 +362,7 @@ class _ProductViewerState extends State<ProductViewer> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 5, bottom: 10),
+                          margin: EdgeInsets.only(top: 5, bottom: 5),
                           // height: _isOpen ? 200 : 80,
                           child: Text(
                             "\$$_price",
@@ -372,28 +373,27 @@ class _ProductViewerState extends State<ProductViewer> {
                             ),
                           ),
                         ),
-                        ProductActionBtn(
+                        _isSpicy ? ProductActionBtn(
                           imagePath: "assets/images/baseline_hotnspicy_black_24dp@2x.png",
                           // isSpicy: true,
                           isOpen: _isOpen,
                           iconColor: Colors.redAccent,
                           onPressed: () => (),
-                        ),
-                        _isSpicy ? ProductActionBtn(
+                        ) : Container(),
+                        /*ProductActionBtn(
                           imagePath: "assets/images/baseline_peanut_alrgy_24dp@2x.png",
                           hasNuts: true,
                           isOpen: _isOpen,
                           iconColor: Colors.deepOrangeAccent,
                           onPressed: () => (),
-                        ): Container(),
-
+                        ),
                         ProductActionBtn(
                           imagePath: "assets/images/baseline_dairy_prods_24dp@2x.png",
                           hasDairy: true,
                           isOpen: _isOpen,
                           iconColor: Colors.black87,
                           onPressed: () => (),
-                        ),
+                        ),*/
                         _isOpen ? ProductActionBtn(
                           imagePath: "assets/images/baseline_delete_black_24dp@2x.png",
                           trashBtn: true,

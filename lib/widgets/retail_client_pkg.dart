@@ -278,9 +278,9 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 400,
+            maxCrossAxisExtent: 450,
             childAspectRatio: 3 / 1.235,
-            crossAxisSpacing: 20,
+            crossAxisSpacing: 10,
             mainAxisSpacing: 10),
         itemCount: widget.retailClientList.length,
         itemBuilder: (BuildContext ctx, int index) {
@@ -436,7 +436,7 @@ class RetailClientProductsLst extends StatefulWidget {
 
 class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
   final FirebaseServices _firebaseServices = FirebaseServices();
-  late List _prodData;
+  late List? _prodData;
   late final String _selectedSellerName = widget.selectedSellerName;
   late final String _selectedSellerSID = widget.selectedSellerSID;
     // return prod;
@@ -477,24 +477,27 @@ class _RetailClientProductsLstState extends State<RetailClientProductsLst> {
                   children: [
                     ListView.builder (
                       padding: const EdgeInsets.only(top: 200),
-                      itemCount: _prodData.length,
+                      itemCount: _prodData!.length,
                       itemBuilder: (BuildContext context, int index) {
                         // print("client product name = ${_prodData[index]['name']}");
+                        if(!_prodData!.contains('isSpicy'))
+                          print("prodIDName: ${_prodData![0]['name']}");
                         return Column (
                         //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                               ProductViewer(
                                 // isSelected: index,
-                                prodPrice: _prodData[index]['price'],
-                                prodPID: _prodData[index]['prodID'],
-                                prodImg: _prodData[index]['images'][0],
-                                prodName: _prodData[index]['name'],
-                                prodDesc: _prodData[index]['desc'],
-                                prodSrvcName: _prodData[index]['srvc'],
-                                isSelected: _prodData[index]['isSelected'],
+                                prodPrice: _prodData![index]['price'],
+                                prodPID: _prodData![index]['prodID'],
+                                prodImg: _prodData![index]['images'][0],
+                                prodName: _prodData![index]['name'],
+                                prodDesc: _prodData![index]['desc'],
+                                prodSrvcName: _prodData![index]['srvc'],
+                                // prodIsSpicy: _prodData![index]['isSpicy'] ?? false,
+                                isSelected: _prodData![index]['isSelected'],
                                 // prodSellers: [''],
-                                prodSrvcID: _prodData[index]['srvcID'],
-                                srvcProdID: _prodData[index].id,
+                                prodSrvcID: _prodData![index]['srvcID'],
+                                srvcProdID: _prodData![index].id,
                               )
                           ]
                         );

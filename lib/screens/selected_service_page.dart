@@ -35,7 +35,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
           // .forEach((posItems) {
           for(DocumentSnapshot posItem in posItems.docs) {
             _odmPOS = posItem.id;
-            print("odmPosItem: $_odmPOS");
+            // print("odmPosItem: $_odmPOS");
           }
         });
 
