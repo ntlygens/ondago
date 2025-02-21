@@ -1,3 +1,5 @@
+// import 'dart:convert';
+// import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ondago/services/firebase_services.dart';
@@ -61,6 +63,37 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
 
   }
 
+  // late List postList = [] ;
+  // Future<List> getPostApi ()async{
+  //   final resposne = await http.get(Uri.parse('"https://data.cityofnewyork.us/resource/43nn-pn8j.json?zipcode=10036&\$limit=10')) ;
+  //   var data = jsonDecode(resposne.body.toString());
+  //   // print("postList: $postList");
+  //   if(resposne.statusCode == 200){
+  //     postList.clear();
+  //     for(Map i in data){
+  //       postList.add(i);
+  //     }
+  //     print("postList: $postList");
+  //     return postList ;
+  //   }else {
+  //     print(" list didnt compile");
+  //     return postList ;
+  //   }
+  // }
+  // Future dohRating<Array>() async {
+  //   var dData =
+  //       // await http.get(Uri.parse("https://data.cityofnewyork.us/resource/43nn-pn8j.json?zipcode=10036&\$limit=10"));
+  //       await Uri.https("data.cityofnewyork.us", "/resource/43nn-pn8j.json",
+  //         {"zipcode": "10036", "\$limit": "10"}, );
+  //   // print("dData: $dData");
+  //   /*await http.get(Uri(
+  //       scheme: 'https',
+  //       host: 'data.cityofnewyork.us',
+  //       path: '/resource/43nn-pn8j.json/',
+  //       queryParameters: {'zipcode': '$zip', 'limit': '$amt'}));*/
+  //   // var dRslt = json.decode(dData.body)['results'];
+  //   return dData;
+  // }
 
   Future _removeAllServiceProducts() async {
     return _firebaseServices.usersRef
@@ -92,19 +125,6 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
           print(" current product removed!")
         });
   }
-
-  // async function getUserByEmail(email) {
-  //   // Make the initial query
-  //   const query = await db.collection('users').where('email', '==', email).get();
-  //
-  //   if (!query.empty) {
-  //     const snapshot = query.docs[0];
-  //     const data = snapshot.data();
-  //   } else {
-  //     // not found
-  //   }
-  //
-  // }
 
 
   Future<void> addAProduct() async {
@@ -245,10 +265,6 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
   }
 
 
-
-
-
-
   Future _unselectThisIcon(prodID) async {
     return  _firebaseServices.usersRef
         .doc(_firebaseServices.getUserID())
@@ -299,6 +315,7 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
     bool alreadySelected = true;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    // print("testinggg: $dRslt['camis']");
 
     return Scaffold(
         appBar: const ActionBar(
@@ -321,6 +338,8 @@ class _SelectedServicePageState extends State<SelectedServicePage> {
 
               if (snapshot.connectionState == ConnectionState.done) {
                 List docs = snapshot.data['type'];
+                // getPostApi();
+                // print("dData: $getPostApi");
                 // print("headerImg: $_headerImage");
                 return Stack(
                   alignment: AlignmentDirectional.topCenter,

@@ -1,12 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:ondago/models/doh_model.dart';
 // import 'package:ondago/screens/retail_client_products_lst.dart';
 import 'package:ondago/services/firebase_services.dart';
 import 'package:ondago/widgets/product_viewer.dart';
 import 'package:ondago/widgets/action_bar.dart';
 import 'package:ondago/widgets/retail_client_card.dart';
+
+import 'package:http/http.dart' as http;
 
 
 class RetailClientPkg extends StatefulWidget {
@@ -79,6 +83,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
   late bool _pescatarian;
   late bool _vegan;
   late bool _vegetarian;
+
+  late List<DohModel> dohList = [];
 
   final FirebaseServices _firebaseServices = FirebaseServices();
 
@@ -253,6 +259,30 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
 
   }
 
+  Future<List<DohModel>?> getPostApi() async {
+    final resposne = await http.get(Uri.parse('https://data.cityofnewyork.us/resource/43nn-pn8j.json?zipcode=10036&\$limit=10')) ;
+    // var jsonData = jsonDecode(resposne.body.toString());
+    List jsonData = jsonDecode(resposne.body);
+    if(resposne.statusCode == 200){
+      dohList.clear();
+      setState(() {
+        dohList = jsonData.map((data) => DohModel.fromJson(data)).toList();
+      });
+      // for(Map i in dohList){
+      // @JsonKey(required: true)
+      // final String profile_complete;
+      // for(key['grade'] in i)
+      // dohList.add(i);
+      print("dohListt: ${dohList[5].dba}");
+      // }
+      // print("dohList: ${dohList}");
+      return dohList;
+    }else {
+      print("dohList list didnt compile");
+      return dohList ;
+    }
+  }
+
   // Check if service type for product or customer before requesting data
 
   @override
@@ -261,6 +291,7 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
     // _isCustomerService = "AnnNjTT8vmYSAEpT0rPg";
     _getRetailClientSrvcs();
     _getRetailClientOptions();
+    getPostApi();
     super.initState();
   }
 
@@ -355,7 +386,8 @@ class _RetailClientPkgState extends State<RetailClientPkg> {
                           )*/
                           child: RetailClientCard(
                             retailClientBnr: "${_rcRetailers[index]['logo']}",
-                            retailClientName: "${_rcRetailers[index]['name']}",
+                            retailClientName: "${dohList[index].dba}",
+                            // retailClientName: "${_rcRetailers[index]['name']}",
                             retailClientRating: "${_rcRetailers[index]['rating']}",
                             retailClientSrvcs: [
                               _rcOpenNowLst[index],
